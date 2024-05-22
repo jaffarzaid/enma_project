@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('exam_score');
             $table->string('exam_status');
             $table->timestamps();
+
         });
     }
 

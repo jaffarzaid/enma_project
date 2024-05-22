@@ -66,6 +66,7 @@ return new class extends Migration
             $table->string('name_studying_course');
             $table->date('studying_finishing_course_date');
             $table->timestamps();
+
         });
     }
 

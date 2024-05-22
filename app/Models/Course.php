@@ -21,18 +21,14 @@ class Course extends Model
         'expiry_date'
     ];
 
-
     // Inverse Relationship with trainers Entity: 
     public function trainers(){
         return $this->belongsTo(Trainer::class, 'trainer_id', 'id');
     }
-
 
     // Relationship with registered_courses entity: 
     public function registered_courses(){
         return $this->hasMany(RegisteredCourse::class, 'course_id', 'id');
     }
 
-
-    
 }

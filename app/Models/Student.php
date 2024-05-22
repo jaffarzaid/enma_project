@@ -65,15 +65,14 @@ class Student extends Model
         'studying_finishing_course_date'
     ];
 
-
     // Relationship with registered_courses Entity: 
     public function registered_courses(){
         return $this->hasMany(RegisteredCourse::class, 'student_id', 'id');
     }
 
-
     // Relationship with exams Entity: 
     public function exams(){
         return $this->hasMany(Exam::class, 'student_id', 'id');
     }
+
 }

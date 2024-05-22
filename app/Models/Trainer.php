@@ -21,9 +21,9 @@ class Trainer extends Model
         'expiry_date'
     ];
 
-
     // Relationship with courses Entity: 
     public function courses(){
         return $this->hasMany(Course::class, 'trainer_id', 'id');
     }
+
 }

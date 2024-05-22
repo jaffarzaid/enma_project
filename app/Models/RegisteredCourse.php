@@ -9,11 +9,10 @@ class RegisteredCourse extends Model
 {
     use HasFactory;
 
-    protected $fillabled = [
+    protected $fillable  = [
         'student_id', 
         'course_id'
     ];
-
 
     // Inverse Relationship with students Model: 
     public function students(){
@@ -21,15 +20,14 @@ class RegisteredCourse extends Model
     }
 
 
-
     // Inverse Relationship with course entity: 
     public function courses(){
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 
-
     // Relationship with exams Entity: 
     public function exams(){
         return $this->hasMany(Exam::class, 'registered_course_id', 'id');
     }
+
 }

@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('trainers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('trainer_id');
-            $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('cascade')->onUpdate('cascade');
-            $table->string('awarding_body');
-            $table->string('course_code');
-            $table->string('course_name');
+            $table->integer('cpr');
+            $table->string('name');
             $table->string('license_code');
-            $table->integer('num_of_hours');
-            $table->string('level');
+            $table->string('employment_status');
+            $table->string('training_code');
+            $table->string('nationality');
             $table->date('issue_date');
             $table->date('expiry_date');
             $table->timestamps();
+
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('trainers');
     }
 };
