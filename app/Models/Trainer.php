@@ -11,7 +11,6 @@ class Trainer extends Model
 
 
     protected $fillable = [
-        'course_id',
         'cpr',
         'name',
         'license_code',

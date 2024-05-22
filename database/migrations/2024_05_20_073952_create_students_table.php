@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('registered_courses_id');
-            $table->foreign('registered_courses_id')->references('id')->on('registered_courses')->onDelete('cascade')->onUpdate('cascade');
             $table->string('f_name')->nullable();
             $table->string('s_name')->nullable();
             $table->string('l_name')->nullable();
@@ -49,7 +47,7 @@ return new class extends Migration
             $table->integer('request_help');
             $table->string('health_issue_file');
             $table->string('sponsorship_name');
-            $table->text('declaration')->default('');
+            $table->text('declaration')->nullable();
             $table->string('signature')->nullable();
             $table->date('english_assessment_date');
             $table->time('english_assessment_time');
@@ -66,7 +64,7 @@ return new class extends Migration
             $table->string('admission_approved');
             $table->string('studying_status');
             $table->string('name_studying_course');
-            $table->string('studying_finishing_course_date');
+            $table->date('studying_finishing_course_date');
             $table->timestamps();
         });
     }

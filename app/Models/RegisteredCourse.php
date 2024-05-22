@@ -15,8 +15,7 @@ class RegisteredCourse extends Model
     ];
 
 
-
-    // Inverse Relationship with students Entity: 
+    // Inverse Relationship with students Model: 
     public function students(){
         return $this->belongsTo(Student::class, 'student_id', 'id');
     }
@@ -29,8 +28,8 @@ class RegisteredCourse extends Model
     }
 
 
-    // Inverse Relationship with exams Entity: 
+    // Relationship with exams Entity: 
     public function exams(){
-        return $this->belongsTo(Exam::class, 'exam_id', 'id');
+        return $this->hasMany(Exam::class, 'registered_course_id', 'id');
     }
 }

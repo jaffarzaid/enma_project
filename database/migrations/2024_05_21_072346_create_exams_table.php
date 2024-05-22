@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('exams', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
-            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('registered_course_id');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('registered_course_id')->references('id')->on('registered_courses')->onDelete('cascade')->onUpdate('cascade');
             $table->double('exam_score');
             $table->string('exam_status');
             $table->timestamps();

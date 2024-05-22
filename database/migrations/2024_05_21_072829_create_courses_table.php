@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('registered_courses_id');
             $table->unsignedBigInteger('trainer_id');
-            $table->foreign('registered_courses_id')->references('id')->on('registered_courses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('cascade')->onUpdate('cascade');
             $table->string('awarding_body');
             $table->string('course_code');

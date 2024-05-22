@@ -11,7 +11,6 @@ class Student extends Model
 
     // Make Data Protected:
     protected $fillable = [
-        'registered_courses_id', 
         'f_name', 
         's_name', 
         'l_name', 
@@ -60,12 +59,21 @@ class Student extends Model
         'pre_assessment_entered_by', 
         'counselling_by', 
         'counselling_date', 
-        'admission_approved'
+        'admission_approved', 
+        'studying_status',
+        'name_studying_course',
+        'studying_finishing_course_date'
     ];
 
 
     // Relationship with registered_courses Entity: 
     public function registered_courses(){
         return $this->hasMany(RegisteredCourse::class, 'student_id', 'id');
+    }
+
+
+    // Relationship with exams Entity: 
+    public function exams(){
+        return $this->hasMany(Exam::class, 'student_id', 'id');
     }
 }

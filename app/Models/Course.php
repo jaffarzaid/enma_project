@@ -10,11 +10,11 @@ class Course extends Model
     use HasFactory;
 
     protected $fillable = [
-        'registered_courses_id',
         'trainer_id',
         'awarding_body',
         'course_code',
         'course_name',
+        'license_code',
         'num_of_hours',
         'level',
         'issue_date',
@@ -32,4 +32,7 @@ class Course extends Model
     public function registered_courses(){
         return $this->hasMany(RegisteredCourse::class, 'course_id', 'id');
     }
+
+
+    
 }
