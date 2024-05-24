@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route: Home Page: 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('frontend.body.index');
+})->name('home');
+
+
+// Route: Display Home Page: 
+Route::get('/registration', [HomeController::class, 'DisplayRegistrationPage'])->name('display.registration');
