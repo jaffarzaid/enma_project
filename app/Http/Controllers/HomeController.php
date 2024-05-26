@@ -17,6 +17,7 @@ class HomeController extends Controller
     // Method: Store Student Data: 
     public function StoreStudentInfo(StudentDataValidation $request)
     {
+        // Hint: all data is validated into StudentDataValidation class
 
         return redirect()->route('display.registration');
     }
