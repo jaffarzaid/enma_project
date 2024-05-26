@@ -22,3 +22,7 @@ Route::get('/', function () {
 
 // Route: Display Home Page: 
 Route::get('/registration', [HomeController::class, 'DisplayRegistrationPage'])->name('display.registration');
+
+
+// Route: Save student data: 
+Route::post('/store-student-data', [HomeController::class, 'StoreStudentInfo'])->name('store.student.data');
