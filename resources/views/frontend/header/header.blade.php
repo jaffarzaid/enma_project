@@ -22,7 +22,7 @@
                 <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true">
                     <li class="nav-item"><a class="nav-link link text-black display-4" href="{{ route('home') }}">Home</a></li>
                     <li class="nav-item"><a class="nav-link link text-black display-4" href="{{ route('display.registration') }}">Registration</a></li>
-                    <li class="nav-item"><a class="nav-link link text-black display-4" href="{{ route('login') }}">Employee Login</a></li>
+                    <li class="nav-item"><a class="nav-link link text-black display-4" href="{{ route('login') }}" target="_blank">Employee Login</a></li>
                 </ul>  
             </div>
         </div>

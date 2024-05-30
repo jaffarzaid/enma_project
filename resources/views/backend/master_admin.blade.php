@@ -14,6 +14,8 @@
     <link href="{{ asset('backend/assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('backend/assets/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    {{-- font-aowsome CDN --}}
+    <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous"></script>
     <!-- NProgress -->
     <link href="{{ asset('backend/assets/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->

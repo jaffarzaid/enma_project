@@ -29,7 +29,7 @@ Route::get('/registration', [HomeController::class, 'DisplayRegistrationPage'])-
 Route::post('/store-student-data', [HomeController::class, 'StoreStudentInfo'])->name('store.student.data');
 
 
-// Admin Login: 
+// Administration Routes: 
 Route::group(['middleware' => ['prevent-back-history']], function () {
     Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
         Route::get('/dashboard', function () {
