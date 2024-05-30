@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,24 @@ Route::get('/registration', [HomeController::class, 'DisplayRegistrationPage'])-
 
 // Route: Save student data: 
 Route::post('/store-student-data', [HomeController::class, 'StoreStudentInfo'])->name('store.student.data');
+
+
+// Admin Login: 
+Route::group(['middleware' => ['prevent-back-history']], function () {
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
+        Route::get('/dashboard', function () {
+            return view('backend.body.index');
+        })->name('dashboard');
+
+
+        Route::prefix('admin')->group(function () {
+            // Route:: Logout: 
+            Route::post('/logout', [AdminController::class, 'Logout'])->name('logout');
+        });
+    });
+});
+
+
+
+
+

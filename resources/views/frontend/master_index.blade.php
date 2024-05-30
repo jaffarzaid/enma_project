@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=AsmSqY') }}"
         type="text/css">
 
-    <link rel="preload" as="style" href="{{ asset('frontend/assets_home/mobirise/css/mbr-additional.css?v=iCOhHZ') }}">
+    <link rel="preload" as="style" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}" type="text/css">
     <!-- Toaster CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
