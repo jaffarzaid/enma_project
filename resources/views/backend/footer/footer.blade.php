@@ -1,6 +1,4 @@
-<footer>
-    <div class="pull-right">
-        Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-    </div>
-    <div class="clearfix"></div>
+<footer class="text-center">
+    <p><i class="fa fa-paw"></i> Enma Institute ©2024 All Rights Reserved</p>
+
 </footer>
