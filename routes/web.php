@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Global Middleware to limit number of requests to authenticated or none-authenticated: 
-Route::group(['middleware' =>['rate-requests', 'sanitize.input']], function(){
+Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']], function(){
 
     // Route: Home Page: 
     Route::get('/', function () {
