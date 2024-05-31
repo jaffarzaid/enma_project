@@ -22,6 +22,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\RateRequestMiddleware::class, // Applying this middleware globally
+        \App\Http\Middleware\SQLInjectionMiddleware::class, // Applying this middleware globally
     ];
 
     /**
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
         'rate-requests' => \App\Http\Middleware\RateRequestMiddleware::class,
+        'sanitize.input' => \App\Http\Middleware\SQLInjectionMiddleware::class,
     ];
 }
