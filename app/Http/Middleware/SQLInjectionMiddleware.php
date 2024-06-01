@@ -22,8 +22,7 @@ class SQLInjectionMiddleware
         array_walk_recursive($input, function(&$value) {
             
             // Removing HTML tags
-            $value = strip_tags($value); 
-            $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); 
+            $value = strip_tags($value);  
 
             // Removing SQL injection characters
             $value = preg_replace('/[\'";]/', '', $value); 
