@@ -14,7 +14,7 @@
     <link href="{{ asset('backend/assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="{{ asset('backend/assets/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
-    {{-- font-aowsome CDN --}}
+    <!-- font-awesome CDN -->
     <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous"></script>
     <!-- NProgress -->
     <link href="{{ asset('backend/assets/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
@@ -23,22 +23,25 @@
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('backend/assets/build/css/custom.min.css') }}" rel="stylesheet">
+    <!-- Toaster CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 </head>
 
 <body class="nav-md">
     <div class="container body">
         <div class="main_container">
             <div class="col-md-3 left_col">
-                {{-- Sidebar Menu --}}
+                <!-- Sidebar Menu -->
                 @include('backend.sidebar.sidebar')
-
             </div>
 
             <!-- top navigation -->
             @include('backend.header.header')
 
             <!-- page content - Dynamic Part -->
-            @yield('dynamic')
+            <div class="right_col" role="main">
+                @yield('dynamic')
+            </div>
 
             <!-- footer content -->
             @include('backend.footer.footer')
@@ -63,6 +66,34 @@
     <script src="{{ asset('backend/assets/vendors/moment/min/moment.min.js') }}"></script>
     <script src="{{ asset('backend/assets/vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('backend/assets/build/js/custom.min.js') }}"></script>
+
+
+
+    {{-- Toaster JS --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    {{-- Toaster Message --}}
+    @if (Session::has('message'))
+        <script>
+            var type = "{{ Session::get('alert-type', 'info') }}"
+            switch (type) {
+                case 'info':
+                    toastr.info(" {{ Session::get('message') }} ");
+                    break;
+
+                case 'success':
+                    toastr.success(" {{ Session::get('message') }} ");
+                    break;
+
+                case 'warning':
+                    toastr.warning(" {{ Session::get('message') }} ");
+                    break;
+
+                case 'error':
+                    toastr.error(" {{ Session::get('message') }} ");
+                    break;
+            }
+        </script>
+    @endif
 </body>
 
 </html>

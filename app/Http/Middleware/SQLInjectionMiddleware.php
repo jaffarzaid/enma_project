@@ -21,10 +21,10 @@ class SQLInjectionMiddleware
         // Clearing user's input from any character: 
         array_walk_recursive($input, function(&$value) {
             
-            // Removing HTML tags
+            // Removing HTML tags: 
             $value = strip_tags($value);  
 
-            // Removing SQL injection characters
+            // Removing any special characters: 
             $value = preg_replace('/[\'";]/', '', $value); 
         });
 
