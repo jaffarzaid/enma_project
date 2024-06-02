@@ -24,7 +24,9 @@ class AdminController extends Controller
     {
         Auth::guard('web')->logout();
         // Clearing User Session: 
-        Session::flush();
+        Session::invalidate();
+        // Regenerate CSRF: 
+        Session::regenerateToken();
 
         return redirect()->route('login');
     }
