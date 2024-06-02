@@ -12,6 +12,13 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    // function to ensure a user is authenticated before executing any function: 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    
     //Method: Admin logout: 
     public function Logout()
     {
@@ -23,12 +30,14 @@ class AdminController extends Controller
     }
 
     // Method: Display Add Tutor Page: 
-    public function AddTrainer(){
+    public function AddTrainer()
+    {
         return view('backend.trainers.add_trainer');
     }
 
     // Method: Store Trainer Data: 
-    public function StoreTrainer(BackendValidation $request){
+    public function StoreTrainer(BackendValidation $request)
+    {
 
         // All Trainer data is validated at BackendValidation Class.
 
@@ -51,7 +60,7 @@ class AdminController extends Controller
             'alert-type' => 'success',
         );
 
-        return redirect()->back()->with($notification); 
+        return redirect()->back()->with($notification);
 
     }
 
