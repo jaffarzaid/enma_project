@@ -43,6 +43,7 @@
                                 *</span></label>
                         <select class="form-control" name="training_fields" id="trainer_field">
                             <option value="Full Time">Cybersecurity</option>
+                            <option value="Insurance">Insurance</option>
                             <option value="Big Data Science">Big Data Science</option>
                             <option value="Artificial Intelligence">Artificial Intelligence</option>
                             <option value="Tallent Management">Tallent Management</option>
@@ -59,7 +60,7 @@
 
                     {{-- Nationality --}}
                     <div class="col-md-4 mt-3">
-                        <label for="trainer_license_code" class="form-label">Nationality <span class="text-danger">
+                        <label for="nationality" class="form-label">Nationality <span class="text-danger">
                                 *</span></label>
                         <div class="form-check">
                             <input type="radio" name="nationality" class="form-check-input" value="Bahraini" id="nationality">
@@ -80,12 +81,12 @@
 
                     {{-- Employment Status --}}
                     <div class="col-md-4 mt-3">
-                        <label for="trainer_license_code" class="form-label">Employement Status <span class="text-danger">
+                        <label for="employment_status" class="form-label">Employement Status <span class="text-danger">
                                 *</span></label>
-                        <select class="form-control" name="employment_status">
+                        <select class="form-control" name="employment_status" id="employment_status">
                             <option value="Full Time">Full Time</option>
                             <option value="Part Time">Part Time</option>
-                            <option value="Part Time">Visitor</option>
+                            <option value="Visitor">Visitor</option>
                         </select>
                         @error('employment_status')
                             <span style="color: red;">{{ $message }}</span>
@@ -113,7 +114,7 @@
 
 
                     <div class="col-md-12 mt-3 text-center">
-                        <button type="submit" class="btn btn-round btn-success">Add</button>
+                        <button type="submit" class="btn btn-primary">Add</button>
                     </div>
                 </div>
             </form>

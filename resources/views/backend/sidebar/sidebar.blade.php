@@ -2,7 +2,7 @@
                     
     <!-- sidebar menu -->
     <div class="navbar nav_title" style="border: 0;">
-        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Enma Institute</span></a>
+        <a href="{{ route('dashboard') }}" class="site_title"><i class="fa fa-paw"></i> <span>Enma Institute</span></a>
     </div>
     
     <div class="clearfix"></div>
@@ -10,7 +10,7 @@
     <!-- menu profile quick info -->
     <div class="profile clearfix">
         <div class="profile_pic">
-            <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+            <img src="{{ asset('backend/assets/production/images/img.jpg') }}" alt="..." class="img-circle profile_img">
         </div>
         <div class="profile_info">
             <h2>Welcome {{ Auth::user()->name }}</h2>
@@ -45,7 +45,7 @@
                 {{-- Trainers --}}
                 <li><a><i class="fa fa-mortar-board"></i> List of Trainers <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="#">List of Trainers</a></li>
+                        <li><a href="{{ route('all.trainers') }}">List of Trainers</a></li>
                         <li><a href="{{ route('add.trainer') }}">Add Trainer</a></li>
                     </ul>
                 </li>

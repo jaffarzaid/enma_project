@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackendValidation;
+use App\Http\Requests\NewTrainerValidation;
+use App\Http\Requests\TrainerUpdateValidation;
 use App\Models\Trainer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -18,7 +19,7 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    
+
     //Method: Admin logout: 
     public function Logout()
     {
@@ -38,7 +39,7 @@ class AdminController extends Controller
     }
 
     // Method: Store Trainer Data: 
-    public function StoreTrainer(BackendValidation $request)
+    public function StoreTrainer(NewTrainerValidation $request)
     {
 
         // All Trainer data is validated at BackendValidation Class.
@@ -63,7 +64,49 @@ class AdminController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    }
 
+    // Method: display all trainers page: 
+    public function DisplayAllTrainer()
+    {
+        // Variable to get all added trainers: 
+        $trainers = Trainer::orderBy('id', 'DESC')->paginate(10);
+
+        return view('backend.trainers.all_trainers', compact('trainers'));
+    }
+
+    //  Method: Display trainer edit page: 
+    public function EditTrainer($id)
+    {
+        // Get requested trainer: 
+        $current_trainer = Trainer::where('id', $id)->first();
+
+        return view('backend.trainers.edit_trainer', compact('current_trainer'));
+    }
+
+    // Method: update trainer data: 
+    public function UpdateTrainer(TrainerUpdateValidation $request, $id)
+    {
+        // Validation is through BackendValidation class: 
+        // Updating current trainer: 
+        Trainer::where('id', $id)->update([
+            'cpr' => $request->updated_trainer_cpr,
+            'name' => $request->updated_trainer_name,
+            'license_code' => $request->updated_license_code,
+            'employment_status' => $request->updated_employment_status,
+            'training_code' => $request->updated_training_fields,
+            'nationality' => $request->updated_nationality,
+            'issue_date' => $request->updated_issue_date,
+            'expiry_date' => $request->updated_expiry_date,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $notification = array(
+            'message' => 'Trainer Data Updated Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('all.trainers')->with($notification);
     }
 
 
