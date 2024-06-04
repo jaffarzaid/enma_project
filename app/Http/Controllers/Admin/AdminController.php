@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\NewCourseValidation;
 use App\Http\Requests\NewTrainerValidation;
 use App\Http\Requests\TrainerUpdateValidation;
+use App\Models\Course;
 use App\Models\Trainer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -113,6 +115,45 @@ class AdminController extends Controller
     // Method: Display Add Courses Page: 
     public function AddCourses()
     {
-        return view('backend.courses.add_course');
+        // Variable to get all trainers: 
+        $trainers = Trainer::orderBy('name', 'ASC')->get();
+        return view('backend.courses.add_course', compact('trainers'));
+    }
+
+    // Method: Store Courses: 
+    public function StoreCourse(NewCourseValidation $request){
+        // All validation based on NewCourseValidation class: 
+
+        // Adding a course to database: 
+        Course::insert([
+            'trainer_id' => $request->trainer_name,
+            'awarding_body' => $request->awarding_body,
+            'course_code' => $request->course_code,
+            'course_name' => $request->course_name,
+            'license_code' => $request->license_code,
+            'num_of_hours' => $request->num_of_hours,
+            'level' => $request->mol_approval,
+            'issue_date' => $request->issue_date,
+            'expiry_date' => $request->expiry_date,
+            'created_at' => Carbon::now()
+        ]);
+
+
+        $notification = array(
+            'message' => 'Course Added Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+
+    // Method: Display All Courses: 
+    public function DisplayAllCourses(){
+
+        // Variable to get Courses: 
+        $courses = Course::orderBy('id', 'DESC')->paginate();
+
+        return view('backend.courses.view_courses', compact('courses'));
     }
 }

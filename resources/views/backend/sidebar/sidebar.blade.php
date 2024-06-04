@@ -35,9 +35,10 @@
                 {{-- Courses --}}
                 <li><a><i class="fa fa-book"></i></i> Course <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="#">All Courses</a></li>
+                        <li><a href="#">Tamkeen Registered Courses</a></li>
+                        <li><a href="#">Preparatory Registered Courses</a></li>
                         <li><a href="{{ route('add.course') }}">Add Course</a></li>
-                        <li><a href="#">Registered Courses</a></li>
+                        <li><a href="{{ route('view.courses') }}">All Courses</a></li>
                     </ul>
                 </li>
 

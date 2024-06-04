@@ -7,7 +7,7 @@
     <div class="card mt-3">
         <div class="card-body">
             <div class="row">
-                <table class="table table-bordered table-hover">
+                <table class="table table-bordered table-hover text-center">
                     <thead>
                         <tr>
                           <th scope="col">No</th>
@@ -33,7 +33,17 @@
                             <td>{{ $trainer->training_code }}</td>
                             <td>{{ $trainer->nationality }}</td>
                             <td>{{ $trainer->issue_date }}</td>
-                            <td>{{ $trainer->expiry_date }}</td>
+                            <td>
+                                @if ($trainer->expiry_date < Carbon\Carbon::now())
+                                    {{-- <span class="text-danger"><b>{{ $trainer->expiry_date }}</b></span> --}}
+                                    <span class="badge badge-danger" style="font-size: 13px;"> {{ $trainer->expiry_date }}</span>
+
+                                @else
+                                    {{ $trainer->expiry_date  }}
+                                    
+                                @endif
+                               
+                              </td>
                             <td>
                                 <a href="{{ route('edit.trainer', $trainer->id) }}" title="Edit"><i class="fa fa-edit"></i></a>
                             </td>

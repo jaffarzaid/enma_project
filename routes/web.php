@@ -61,6 +61,12 @@ Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']
 
                 // Route: Display Adding courses page: 
                 Route::get('/add-courses', [AdminController::class, 'AddCourses'])->name('add.course');
+
+                // Route: Store Courses: 
+                Route::post('/store/course', [AdminController::class, 'StoreCourse'])->name('store.course');
+
+                // Route: Display All Added Courses: 
+                Route::get('/all-courses', [AdminController::class, 'DisplayAllCourses'])->name('view.courses');
             });
         });
     });
