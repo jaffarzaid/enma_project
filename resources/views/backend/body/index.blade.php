@@ -1,44 +1,36 @@
 @extends('backend.master_admin')
 
 @section('dynamic')
-    <div class="right_col" role="main">
-        <div class="">
-            <div class="row" style="display: inline-block;">
-                <div class="top_tiles">
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
-                            <div class="count">179</div>
-                            <h3>New Sign ups</h3>
-                            <p>Lorem ipsum psdea itgum rixt.</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-comments-o"></i></div>
-                            <div class="count">179</div>
-                            <h3>New Sign ups</h3>
-                            <p>Lorem ipsum psdea itgum rixt.</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
-                            <div class="count">179</div>
-                            <h3>New Sign ups</h3>
-                            <p>Lorem ipsum psdea itgum rixt.</p>
-                        </div>
-                    </div>
-                    <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 ">
-                        <div class="tile-stats">
-                            <div class="icon"><i class="fa fa-check-square-o"></i></div>
-                            <div class="count">179</div>
-                            <h3>New Sign ups</h3>
-                            <p>Lorem ipsum psdea itgum rixt.</p>
-                        </div>
-                    </div>
-                </div>
+    <span class="count_top"><i class="fa fa-home"></i> <span class="green"> / Dashboard</span></span>
+    <br>
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <div class="tile-stats">
+                <h4 class="p-3">Total Students Number</h4>
+                <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
             </div>
         </div>
+
+        <div class="col-md-3">
+            <div class="tile-stats">
+                <h4 class="p-3">Total Students Number</h4>
+                <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="tile-stats bg-success">
+                <h4 class="p-3" style="color: whitesmoke;">Total Passed Student</h4>
+                <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="tile-stats bg-danger">
+                <h4 class="p-3" style="color: whitesmoke;">Total Rejected Student</h4>
+                <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+            </div>
+        </div>
+        
     </div>
 @endsection

@@ -73,17 +73,17 @@
             <ul class="nav side-menu">
                 <li><a><i class="fa fa-child"></i> Child Admin <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                        <li><a href="e_commerce.html">All Child Admins</a></li>
-                        <li><a href="projects.html">Add User</a></li>
+                        <li><a href="#">All Child Admins</a></li>
+                        <li><a href="#">Add User</a></li>
                     </ul>
                 </li>
-                <li><a><i class="fa fa-solid fa-fire"></i> Firewall <span class="fa fa-chevron-down"></span></a>
+                {{-- <li><a><i class="fa fa-solid fa-fire"></i> Firewall <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="page_403.html">403 Error</a></li>
                         <li><a href="page_404.html">404 Error</a></li>
                         <li><a href="page_500.html">500 Error</a></li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
         </div>
     </div>

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('list_of_trainers')->default(0);
             $table->integer('examination')->default(0);
             $table->integer('child_admin')->default(0);
+            $table->integer('is_viewer')->default(0);
             $table->timestamps();
         });
     }
