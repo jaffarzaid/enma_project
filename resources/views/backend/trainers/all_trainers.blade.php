@@ -46,6 +46,7 @@
                               </td>
                             <td>
                                 <a href="{{ route('edit.trainer', $trainer->id) }}" title="Edit"><i class="fa fa-edit"></i></a>
+                                <a href="#" title="View"><i class="fa fa-eye p-1"></i></a>
                             </td>
                         </tr>
                         @endforeach

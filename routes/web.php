@@ -51,7 +51,7 @@ Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']
                 Route::post('/store-trainer-data', [AdminController::class, 'StoreTrainer'])->name('store.trainer');
 
                 // Route: Display all trainers: 
-                Route::get('/all-trainer', [AdminController::class, 'DisplayAllTrainer'])->name('all.trainers');
+                Route::get('/all-trainers', [AdminController::class, 'DisplayAllTrainer'])->name('all.trainers');
 
                 // Route:: Edit a specific trainer: 
                 Route::get('/edit/trainer/{id}', [AdminController::class, 'EditTrainer'])->name('edit.trainer');
@@ -67,6 +67,15 @@ Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']
 
                 // Route: Display All Added Courses: 
                 Route::get('/all-courses', [AdminController::class, 'DisplayAllCourses'])->name('view.courses');
+
+                // Route: Display Edit Course Page: 
+                Route::get('/edit/course/{id}', [AdminController::class, 'EditCourse'])->name('edit.course'); 
+
+                // Route: Update Course data: 
+                Route::post('/update/course/{id}', [AdminController::class, 'UpdateCourse'])->name('update.course');
+
+                // Route: View Course data: 
+                Route::get('/view/course/{id}', [AdminController::class, 'ViewCourse'])->name('view.course');
             });
         });
     });

@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseUpdateValidation;
 use App\Http\Requests\NewCourseValidation;
 use App\Http\Requests\NewTrainerValidation;
 use App\Http\Requests\TrainerUpdateValidation;
 use App\Models\Course;
+use App\Models\Trainee;
 use App\Models\Trainer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -52,10 +55,11 @@ class AdminController extends Controller
             'name' => $request->trainer_name,
             'license_code' => $request->license_code,
             'employment_status' => $request->employment_status,
-            'training_code' => $request->training_fields,
+            'training_field' => $request->training_fields,
             'nationality' => $request->nationality,
             'issue_date' => $request->issue_date,
             'expiry_date' => $request->expiry_date,
+            'entered_by' => Auth::user()->name,
             'created_at' => Carbon::now()
         ]);
 
@@ -96,10 +100,11 @@ class AdminController extends Controller
             'name' => $request->updated_trainer_name,
             'license_code' => $request->updated_license_code,
             'employment_status' => $request->updated_employment_status,
-            'training_code' => $request->updated_training_fields,
+            'training_field' => $request->updated_training_fields,
             'nationality' => $request->updated_nationality,
             'issue_date' => $request->updated_issue_date,
             'expiry_date' => $request->updated_expiry_date,
+            'edited_by' => Auth::user()->name,
             'updated_at' => Carbon::now()
         ]);
 
@@ -132,9 +137,10 @@ class AdminController extends Controller
             'course_name' => $request->course_name,
             'license_code' => $request->license_code,
             'num_of_hours' => $request->num_of_hours,
-            'level' => $request->mol_approval,
+            'mol_level' => $request->mol_approval,
             'issue_date' => $request->issue_date,
             'expiry_date' => $request->expiry_date,
+            'entered_by' => Auth::user()->name,
             'created_at' => Carbon::now()
         ]);
 
@@ -154,6 +160,63 @@ class AdminController extends Controller
         // Variable to get Courses: 
         $courses = Course::orderBy('id', 'DESC')->paginate();
 
-        return view('backend.courses.view_courses', compact('courses'));
+        return view('backend.courses.all_courses', compact('courses'));
+    }
+
+    // Method: Display Edit Course Page: 
+    public function EditCourse($id){
+
+        // Variable to get specific course: 
+        $current_course = DB::table('trainers')
+        ->join('courses', 'trainers.id', '=', 'courses.trainer_id')
+        ->where('courses.id', $id)
+        ->select('courses.*', 'trainers.name as trainer_name') 
+        ->first();
+
+        // Variable to get trainers" 
+        $trainers = Trainee::orderBy('name', 'ASC')->get();
+
+        return view('backend.courses.edit_course', compact('current_course', 'trainers'));
+    }
+
+
+    // Method: Update Course data: 
+    public function UpdateCourse(CourseUpdateValidation $request, $id){
+
+        // Validation of course data is available into CourseUpdateValidation class: 
+
+        // updating data into database: 
+        Course::where('id', $id)->update([
+            'trainer_id' => $request->trainer_name,
+            'awarding_body' => $request->awarding_body,
+            'course_code' => $request->course_code,
+            'course_name' => $request->course_name,
+            'license_code' => $request->license_code,
+            'num_of_hours' => $request->num_of_hours,
+            'level' => $request->mol_approval,
+            'issue_date' => $request->issue_date,
+            'expiry_date' => $request->expiry_date,
+            'updated_at' => Carbon::now()
+        ]);
+
+
+        $notification = array(
+            'message' => 'Course Added Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('view.courses')->with($notification);
+    }
+
+    // Method: View Course data Page:
+    public function ViewCourse($id){
+        // Variable to get specific course: 
+        $current_course = DB::table('trainers')
+        ->join('courses', 'trainers.id', '=', 'courses.trainer_id')
+        ->where('courses.id', $id)
+        ->select('courses.*', 'trainers.name as trainer_name') 
+        ->first();
+
+        return view('backend.courses.view_course', compact('current_course'));
     }
 }

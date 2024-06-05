@@ -20,11 +20,12 @@ return new class extends Migration
             $table->string('course_name');
             $table->string('license_code');
             $table->integer('num_of_hours');
-            $table->string('level');
+            $table->string('mol_level');
             $table->date('issue_date');
             $table->date('expiry_date');
+            $table->string('entered_by');
+            $table->string('edited_by')->nullable();
             $table->timestamps();
-
         });
     }
 

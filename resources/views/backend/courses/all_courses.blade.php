@@ -31,20 +31,21 @@
                                 <td>{{ $course->course_name }}</td>
                                 <td>{{ $course->license_code }}</td>
                                 <td>{{ $course->num_of_hours }}</td>
-                                <td>{{ $course->level }}</td>
+                                <td>{{ $course->mol_level }}</td>
                                 <td>{{ $course->issue_date }}</td>
                                 <td>
                                     @if ($course->expiry_date < Carbon\Carbon::now())
                                         {{-- <span class="text-danger"><b>{{ $trainer->expiry_date }}</b></span> --}}
-                                        <span class="badge badge-danger" style="font-size: 13px;">
-                                            {{ $course->expiry_date }}</span>
+                                        <span class="badge badge-danger" style="font-size: 13px;">{{ $course->expiry_date }}</span>
                                     @else
                                         {{ $course->expiry_date }}
                                     @endif
-
                                 </td>
+
+                                {{-- Action --}}
                                 <td>
-                                    <a href="#" title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a href="{{ route('edit.course', $course->id) }}" title="Edit"><i class="fa fa-edit p-1"></i></a>
+                                    <a href="{{ route('view.course', $course->id) }}" title="View"><i class="fa fa-eye p-1"></i></a>
                                 </td>
                             </tr>
                         @endforeach

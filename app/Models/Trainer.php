@@ -9,7 +9,6 @@ class Trainer extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'cpr',
         'name',
@@ -22,7 +21,8 @@ class Trainer extends Model
     ];
 
     // Relationship with courses Entity: 
-    public function courses(){
+    public function courses()
+    {
         return $this->hasMany(Course::class, 'trainer_id', 'id');
     }
 

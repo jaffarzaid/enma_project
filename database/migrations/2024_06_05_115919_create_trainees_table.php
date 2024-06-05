@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('trainees', function (Blueprint $table) {
             $table->id();
             $table->string('f_name')->nullable();
             $table->string('s_name')->nullable();
@@ -46,6 +46,7 @@ return new class extends Migration
             $table->integer('health_injury_disability');
             $table->integer('request_help');
             $table->string('health_issue_file');
+            $table->string('pm_of_interest');
             $table->string('sponsorship_name');
             $table->text('declaration')->nullable();
             $table->string('signature')->nullable();
@@ -65,6 +66,7 @@ return new class extends Migration
             $table->string('studying_status');
             $table->string('name_studying_course');
             $table->date('studying_finishing_course_date');
+            $table->string('registration_status');
             $table->timestamps();
 
         });
@@ -75,6 +77,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('trainees');
     }
 };

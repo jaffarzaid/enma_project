@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class NewCourseValidation extends FormRequest
+class CourseUpdateValidation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,9 @@ class NewCourseValidation extends FormRequest
     {
         return [
             'awarding_body' => 'required|max:90',
-            'course_code' => 'required|max:10|unique:courses,course_code',
-            'course_name' => 'required|max:90|unique:courses,course_name',
-            'license_code' => 'required|max:90|unique:courses,license_code',
+            'course_code' => 'required|max:10',
+            'course_name' => 'required|max:90',
+            'license_code' => 'required|max:90',
             'num_of_hours' => 'required|numeric',
             'mol_approval' => 'required|string',
             'issue_date' => 'required|date',

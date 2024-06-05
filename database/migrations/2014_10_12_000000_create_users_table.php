@@ -20,6 +20,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->integer('list_of_trainees')->default(0);
+            $table->integer('courses')->default(0);
+            $table->integer('list_of_trainers')->default(0);
+            $table->integer('examination')->default(0);
+            $table->integer('child_admin')->default(0);
             $table->timestamps();
         });
     }

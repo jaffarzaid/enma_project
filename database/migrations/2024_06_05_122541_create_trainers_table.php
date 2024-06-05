@@ -17,12 +17,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('license_code');
             $table->string('employment_status');
-            $table->string('training_code');
+            $table->string('training_field');
             $table->string('nationality');
             $table->date('issue_date');
             $table->date('expiry_date');
+            $table->string('entered_by');
+            $table->string('edited_by')->nullable();
             $table->timestamps();
-
         });
     }
 

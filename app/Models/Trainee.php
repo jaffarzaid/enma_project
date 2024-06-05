@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Student extends Model
+class Trainee extends Model
 {
     use HasFactory;
 
@@ -66,13 +66,23 @@ class Student extends Model
     ];
 
     // Relationship with registered_courses Entity: 
-    public function registered_courses(){
-        return $this->hasMany(RegisteredCourse::class, 'student_id', 'id');
+    // public function registered_courses(){
+    //     return $this->hasMany(RegisteredCourse::class, 'trainee_id', 'id');
+    // }
+
+    // Relationship with preparatory_registered_courses Entity: 
+    public function preparatory_registered_courses(){
+        return $this->hasMany(ProPreparatoryRegisteredCourses::class, 'trainee_id', 'id');
+    }
+
+    // Relationship with tamkeen_registered_courses Entity: 
+    public function tamkeen_registered_courses(){
+        return $this->hasMany(TamkeenRegisteredCourses::class, 'trainee_id', 'id');
     }
 
     // Relationship with exams Entity: 
     public function exams(){
-        return $this->hasMany(Exam::class, 'student_id', 'id');
+        return $this->hasMany(Exam::class, 'trainee_id', 'id');
     }
 
 }
