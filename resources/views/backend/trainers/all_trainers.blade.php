@@ -30,7 +30,7 @@
                             <td>{{ $trainer->name }}</td>
                             <td>{{ $trainer->license_code }}</td>
                             <td>{{ $trainer->employment_status }}</td>
-                            <td>{{ $trainer->training_code }}</td>
+                            <td>{{ $trainer->training_field }}</td>
                             <td>{{ $trainer->nationality }}</td>
                             <td>{{ $trainer->issue_date }}</td>
                             <td>

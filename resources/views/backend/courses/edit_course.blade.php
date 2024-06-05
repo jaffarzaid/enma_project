@@ -111,7 +111,7 @@
                 {{-- MOL Approval --}}
                 <div class="col-md-4 mt-3">
                     <label for="mol_approval" class="form-label">MOL Approval <span class="text-danger"> *</span></label>
-                    <input type="text" name="mol_approval" id="mol_approval" value="Achieved" class="form-control" readonly value="{{ $current_course->level }}">
+                    <input type="text" name="mol_approval" id="mol_approval" value="Achieved" class="form-control" readonly value="{{ $current_course->mol_level }}">
                     @error('mol_approval')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror

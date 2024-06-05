@@ -174,7 +174,7 @@ class AdminController extends Controller
         ->first();
 
         // Variable to get trainers" 
-        $trainers = Trainee::orderBy('name', 'ASC')->get();
+        $trainers = Trainer::orderBy('name', 'ASC')->get();
 
         return view('backend.courses.edit_course', compact('current_course', 'trainers'));
     }
@@ -193,9 +193,10 @@ class AdminController extends Controller
             'course_name' => $request->course_name,
             'license_code' => $request->license_code,
             'num_of_hours' => $request->num_of_hours,
-            'level' => $request->mol_approval,
+            'mol_level' => $request->mol_approval,
             'issue_date' => $request->issue_date,
             'expiry_date' => $request->expiry_date,
+            'edited_by' => Auth::user()->name,
             'updated_at' => Carbon::now()
         ]);
 
