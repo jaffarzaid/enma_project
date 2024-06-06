@@ -33,7 +33,7 @@
                 </li>
 
                 {{-- Courses --}}
-                <li><a><i class="fa fa-book"></i></i> Course <span class="fa fa-chevron-down"></span></a>
+                <li><a><i class="fa fa-book"></i></i> Courses <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="#">Tamkeen Registered Courses</a></li>
                         <li><a href="#">Preparatory Registered Courses</a></li>
@@ -74,7 +74,7 @@
                 <li><a><i class="fa fa-child"></i> Child Admin <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                         <li><a href="#">All Child Admins</a></li>
-                        <li><a href="#">Add User</a></li>
+                        <li><a href="{{ route('create.child_admin') }}">Create Child Admin</a></li>
                     </ul>
                 </li>
                 {{-- <li><a><i class="fa fa-solid fa-fire"></i> Firewall <span class="fa fa-chevron-down"></span></a>

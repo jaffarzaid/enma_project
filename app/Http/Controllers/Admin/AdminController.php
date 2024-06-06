@@ -81,6 +81,15 @@ class AdminController extends Controller
         return view('backend.trainers.all_trainers', compact('trainers'));
     }
 
+    // Method: View All Trainer: 
+    public function ViewTrainer($id){
+
+        // Variable To get specific trainer details: 
+        $current_trainer = Trainer::where('id', $id)->first();
+
+        return view('backend.trainers.view_trainer_details', compact('current_trainer'));
+    }
+
     //  Method: Display trainer edit page: 
     public function EditTrainer($id)
     {
@@ -219,5 +228,10 @@ class AdminController extends Controller
         ->first();
 
         return view('backend.courses.view_course', compact('current_course'));
+    }
+
+    // Method: Display page to create child admin: 
+    public function CreateChildAdmin(){
+        return view('backend.child_admins.create_child_admin');
     }
 }

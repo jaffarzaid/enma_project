@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +24,7 @@ Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']
     Route::get('/', function () {
         return view('frontend.body.index');
     })->name('home');
+
 
     // Route: Display Home Page: 
     Route::get('/registration', [HomeController::class, 'DisplayRegistrationPage'])->name('display.registration');
@@ -53,6 +56,9 @@ Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']
                 // Route: Display all trainers: 
                 Route::get('/all-trainers', [AdminController::class, 'DisplayAllTrainer'])->name('all.trainers');
 
+                // Route: View Current Trainer Detail: 
+                Route::get('/view/trainer/{id}', [AdminController::class, 'ViewTrainer'])->name('view.trainer.details');
+
                 // Route:: Edit a specific trainer: 
                 Route::get('/edit/trainer/{id}', [AdminController::class, 'EditTrainer'])->name('edit.trainer');
 
@@ -76,13 +82,17 @@ Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']
 
                 // Route: View Course data: 
                 Route::get('/view/course/{id}', [AdminController::class, 'ViewCourse'])->name('view.course');
+
+                // Route: Display Create Child Admin: 
+                Route::get('/create/child-admin', [AdminController::class, 'CreateChildAdmin'])->name('create.child_admin');
             });
         });
     });
 });
 
 
+Auth::routes();
 
 
-
+Auth::routes(['register' => false]);
 
