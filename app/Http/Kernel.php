@@ -71,5 +71,9 @@ class Kernel extends HttpKernel
         'rate-requests' => \App\Http\Middleware\RateRequestMiddleware::class,
         'sanitize.input' => \App\Http\Middleware\SQLInjectionMiddleware::class,
         'http.headers' => \App\Http\Middleware\HttpHeaderMiddleware::class,
+        'check.userStatus' => \App\Http\Middleware\CheckUserStatus::class,
+        'check.trainerSection' => \App\Http\Middleware\TrainersSectionMiddleware::class,
+        'check.coursesSection' => \App\Http\Middleware\CoursesSectionMiddleware::class,
+        'check.childAdminSection' => \App\Http\Middleware\ChildAdminSectionMiddleware::class,
     ];
 }

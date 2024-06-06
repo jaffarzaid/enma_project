@@ -18,90 +18,70 @@
     <link href="{{ asset('backend/assets/vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <!-- Animate.css -->
     <link href="{{ asset('backend/assets/vendors/animate.css/animate.min.css') }}" rel="stylesheet">
-
     <!-- Custom Theme Style -->
     <link href="{{ asset('backend/assets/build/css/custom.min.css') }}" rel="stylesheet">
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 </head>
 
 <body class="login">
-    <div>
-        <a class="hiddenanchor" id="signup"></a>
-        <a class="hiddenanchor" id="signin"></a>
-
-        <div class="login_wrapper">
-            <div class="animate form login_form">
-                <section class="login_content">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-                        <h1>Login Form</h1>
-                        <div>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Email"
-                                required="" />
-                            @error('email')
-                                <span class="text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div>
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="" />
-                        </div>
-                        <div>
-                            <button type="submit" class="btn btn-primary">Log in</button>
-                        </div>
-
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            <section class="login_content">
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <h1>Login Form</h1>
+                    <div>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required="" />
+                        @error('email')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="" />
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
                         <div class="clearfix"></div>
-
-                        <div class="separator">
-
-
-                            <div class="clearfix"></div>
-                            <br />
-
-                            <div>
-                                <h1><i class="fa fa-paw"></i> Enma Institute</h1>
-                                <p>©2024 All Rights Reserved.</p>
-                            </div>
-                        </div>
-                    </form>
-                </section>
-            </div>
-
-            <div id="register" class="animate form registration_form">
-                <section class="login_content">
-                    <form>
-                        <h1>Create Account</h1>
+                        <br />
                         <div>
-                            <input type="text" class="form-control" placeholder="Username" required="" />
+                            <h1><i class="fa fa-paw"></i> Enma Institute</h1>
+                            <p>©2024 All Rights Reserved.</p>
                         </div>
-                        <div>
-                            <input type="email" class="form-control" placeholder="Email" required="" />
-                        </div>
-                        <div>
-                            <input type="password" class="form-control" placeholder="Password" required="" />
-                        </div>
-                        <div>
-                            <a class="btn btn-default submit" href="index.html">Submit</a>
-                        </div>
-
-                        <div class="clearfix"></div>
-
-                        <div class="separator">
-                            <p class="change_link">Already a member ?
-                                <a href="#signin" class="to_register"> Log in </a>
-                            </p>
-
-                            <div class="clearfix"></div>
-                            <br />
-
-                            <div>
-                                <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                                <p>©2024 All Rights Reserved. Enma Institute</p>
-                            </div>
-                        </div>
-                    </form>
-                </section>
-            </div>
+                    </div>
+                </form>
+            </section>
         </div>
     </div>
-</body>
 
+    <!-- jQuery (necessary for Toastr) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Toastr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    @if (Session::has('message'))
+        <script>
+            $(document).ready(function() {
+                var type = "{{ Session::get('alert-type', 'info') }}";
+                switch (type) {
+                    case 'info':
+                        toastr.info("{{ Session::get('message') }}");
+                        break;
+                    case 'success':
+                        toastr.success("{{ Session::get('message') }}");
+                        break;
+                    case 'warning':
+                        toastr.warning("{{ Session::get('message') }}");
+                        break;
+                    case 'error':
+                        toastr.error("{{ Session::get('message') }}");
+                        break;
+                }
+            });
+        </script>
+    @endif
+</body>
 </html>
