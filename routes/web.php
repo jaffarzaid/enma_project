@@ -85,14 +85,24 @@ Route::group(['middleware' =>['rate-requests', 'sanitize.input', 'http.headers']
 
                 // Route: Display Create Child Admin: 
                 Route::get('/create/child-admin', [AdminController::class, 'CreateChildAdmin'])->name('create.child_admin');
+
+                // Route: Store new child Admin: 
+                Route::post('/store/child-admin', [AdminController::class, 'StoreChildAdmin'])->name('store.child.admin');
+
+                // Route: Display All child admins: 
+                Route::get('/all/child-admins', [AdminController::class, 'ViewChildAdmins'])->name('all.child_admins');
             });
         });
     });
 });
 
 
-Auth::routes();
+// Disabling some of Jetstream Feature
+Auth::routes([
+    'register' => false, // Registration Routes...
+    'reset' => false, // Password Reset Routes...
+    'verify' => false, // Email Verification Routes...
+  ]);
 
 
-Auth::routes(['register' => false]);
 

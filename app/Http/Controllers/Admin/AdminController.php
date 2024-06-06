@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChildAdminValidation;
 use App\Http\Requests\CourseUpdateValidation;
 use App\Http\Requests\NewCourseValidation;
 use App\Http\Requests\NewTrainerValidation;
@@ -10,11 +11,13 @@ use App\Http\Requests\TrainerUpdateValidation;
 use App\Models\Course;
 use App\Models\Trainee;
 use App\Models\Trainer;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -233,5 +236,40 @@ class AdminController extends Controller
     // Method: Display page to create child admin: 
     public function CreateChildAdmin(){
         return view('backend.child_admins.create_child_admin');
+    }
+
+    // Method: Store child Admin into User Model: 
+    public function StoreChildAdmin(ChildAdminValidation $request){
+        // all Child Admin is validated into ChildAdminValidation class: 
+
+        // Inserting child admin in User Model: 
+        User::insert([
+            'name' => $request->emp_name,
+            'email' => $request->emp_email,
+            'password' => Hash::make($request->password),
+            'list_of_trainees' => isset($request->list_of_trainees) ? 1 : 0,
+            'courses' => isset($request->courses) ? 1 : 0,
+            'list_of_trainers' => isset($request->list_of_trainers) ? 1 : 0,
+            'examination' => isset($request->examination) ? 1 : 0,
+            'child_admin' => isset($request->child_admin) ? 1 : 0,
+            'is_viewer' => isset($request->viewer_account) ? 1 : 0,
+            'created_at' => Carbon::now()           
+        ]);
+
+        $notification = array(
+            'message' => 'Child Admin created Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->back()->with($notification);
+    } 
+
+    // Method: Display All Child Admin: 
+    public function ViewChildAdmins(){
+
+        // variable to get all child Admin: 
+        $child_admins = User::orderBy('id', 'DESC')->select('id','name', 'email')->where('is_child_admin', 1)->paginate(10);
+
+        return view('backend.child_admins.all_child_admins', compact('child_admins')); 
     }
 }

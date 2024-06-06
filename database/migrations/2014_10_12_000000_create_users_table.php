@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('examination')->default(0);
             $table->integer('child_admin')->default(0);
             $table->integer('is_viewer')->default(0);
+            $table->integer('is_child_admin')->default(1);
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
