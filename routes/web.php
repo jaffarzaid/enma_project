@@ -104,6 +104,9 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
 
                     // Route: Display All child admins: 
                     Route::get('/all/child-admins', [AdminController::class, 'ViewChildAdmins'])->name('all.child_admins');
+
+                    // Route: To Display Edit Child Admin: 
+                    Route::get('/edit/child-admin/{id}', [AdminController::class, 'EditChildAdmin'])->name('edit.childAdmin');
                 });
                 // ============= End of Child Admin Section =============
             });

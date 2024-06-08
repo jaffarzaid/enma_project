@@ -11,7 +11,7 @@
                     {{-- Trainer Name --}}
                     <div class="col-md-6">
                         <label for="emp_name" class="form-label">Employee Name <span class="text-danger"> *</span></label>
-                        <input type="text" name="emp_name" id="emp_name" class="form-control" placeholder="Name" required>
+                        <input type="text" name="emp_name" id="emp_name" class="form-control" value="{{ $curr_child_admin->name }}" placeholder="Name" required>
                         @error('emp_name')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -21,8 +21,7 @@
                     <div class="col-md-6">
                         <label for="email" class="form-label">Employess Email <span class="text-danger">
                                 *</span></label>
-                        <input type="emp_email" name="emp_email" id="emp_email" class="form-control"
-                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" placeholder="Email" required>
+                        <input type="emp_email" name="emp_email" id="emp_email" class="form-control" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" value="{{ $curr_child_admin->email }}" required>
                         @error('emp_email')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -30,8 +29,8 @@
 
                     {{-- Employee Password --}}
                     <div class="col-md-6 mt-3">
-                        <label for="password" class="form-label">Password <span class="text-danger"> *</span></label>
-                        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                         @error('password')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -39,9 +38,8 @@
 
                     {{-- Employee Password Confirmation --}}
                     <div class="col-md-6 mt-3">
-                        <label for="password_confirmation" class="form-label">Confirm Password <span class="text-danger">
-                                *</span></label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Confirm Password" required>
+                        <label for="password_confirmation" class="form-label">Confirm Password</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control" placeholder="Confirm Password">
                         @error('password_confirmation')
                             <span style="color: red;">{{ $message }}</span>
                         @enderror
@@ -51,29 +49,28 @@
                     <div class="col-md-6 mt-3">
                         <h2>Access Type</h2>
                         <p style="padding: 5px;">
-                            <input type="checkbox" name="viewer_account" id="viewer_account" class="flat" /> Veiwer
+                            <input type="checkbox" name="viewer_account" id="viewer_account" class="flat" {{ $curr_child_admin->is_viewer == 1 ? 'checked' : '' }} /> Veiwer
                         </p>
-
                     </div>
 
                     {{-- Access to Sections --}}
                     <div class="col-md-6 mt-3">
                         <h2>Sections</h2>
                         <p style="padding: 5px;">
-                            <input type="checkbox" name="list_of_trainees" value="ski" class="flat" /> List of Trainees
+                            <input type="checkbox" name="list_of_trainees" {{ $curr_child_admin->list_of_trainees == 1 ? 'checked' : '' }} class="flat" /> List of Trainees
                             <br />
-                            <input type="checkbox" name="courses" value="run" class="flat" /> Courses
+                            <input type="checkbox" name="courses" {{ $curr_child_admin->courses == 1 ? 'checked' : '' }} class="flat" /> Courses
                             <br />
-                            <input type="checkbox" name="list_of_trainers" value="eat" class="flat" /> List of Trainers
+                            <input type="checkbox" name="list_of_trainers" {{ $curr_child_admin->list_of_trainers == 1 ? 'checked' : '' }} class="flat" /> List of Trainers
                             <br />
-                            <input type="checkbox" name="examination" value="sleep" class="flat" /> Examination
+                            <input type="checkbox" name="examination" {{ $curr_child_admin->examination == 1 ? 'checked' : '' }} class="flat" /> Examination
                             <br />
-                            {{-- <input type="checkbox" name="child_admin" value="sleep" class="flat" /> child_admin --}}
+                            {{-- <input type="checkbox" name="child_admin" {{ $curr_child_admin->child_admin == 1 ? 'checked' : '' }} class="flat" /> child_admin --}}
                             <br />
                         </p>
                     </div>
                     <div class="col-md-12 mt-3 text-center">
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </div>
             </form>

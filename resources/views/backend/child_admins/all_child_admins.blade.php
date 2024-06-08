@@ -24,7 +24,7 @@
                                 <td>{{ $item->email }}</td>
                                 {{-- Action --}}
                                 <td>
-                                    <a href="{{ route('edit.course', $item->id) }}" title="Edit"><i class="fa fa-edit p-1"></i></a>
+                                    <a href="{{ route('edit.childAdmin', $item->id) }}" title="Edit"><i class="fa fa-edit p-1"></i></a>
                                     <a href="{{ route('view.course', $item->id) }}" title="View"><i class="fa fa-eye p-1"></i></a>
 
                                     

@@ -272,4 +272,14 @@ class AdminController extends Controller
 
         return view('backend.child_admins.all_child_admins', compact('child_admins')); 
     }
+
+    // Method: Display Edit Child Admin Page: 
+    public function EditChildAdmin($id){
+
+        // Variable to get specific child admin:
+        $curr_child_admin = User::where('id', $id)->first();
+
+        return view('backend.child_admins.edit_child_admin', compact('curr_child_admin'));
+
+    }
 }
