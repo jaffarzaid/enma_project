@@ -75,5 +75,6 @@ class Kernel extends HttpKernel
         'check.trainerSection' => \App\Http\Middleware\TrainersSectionMiddleware::class,
         'check.coursesSection' => \App\Http\Middleware\CoursesSectionMiddleware::class,
         'check.childAdminSection' => \App\Http\Middleware\ChildAdminSectionMiddleware::class,
+        'prevent.edit' => \App\Http\Middleware\ViewUserMiddleware::class,
     ];
 }

@@ -35,7 +35,8 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
 
 
 
-    Route::group(['middleware' => ['prevent-back-history', 'check.userStatus']], function () {
+    // Admin Routes
+    Route::group(['middleware' => ['prevent-back-history', 'check.userStatus', 'prevent.edit']], function () {
         Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
             Route::get('/dashboard', function () {
                 return view('backend.body.index');
