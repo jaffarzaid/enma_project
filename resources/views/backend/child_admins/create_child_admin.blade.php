@@ -60,13 +60,19 @@
                     <div class="col-md-6 mt-3">
                         <h2>Sections</h2>
                         <p style="padding: 5px;">
-                            <input type="checkbox" name="list_of_trainees" value="ski" class="flat" /> List of Trainees
+                            <input type="checkbox" name="list_of_trainees" value="ski" class="flat" /> Trainees
+                            <br />
+                            <input type="checkbox" name="list_of_trainers" value="eat" class="flat" /> Trainers
                             <br />
                             <input type="checkbox" name="courses" value="run" class="flat" /> Courses
                             <br />
-                            <input type="checkbox" name="list_of_trainers" value="eat" class="flat" /> List of Trainers
-                            <br />
                             <input type="checkbox" name="examination" value="sleep" class="flat" /> Examination
+                            <br />
+
+                            <input type="checkbox" name="learning_support" value="sleep" class="flat" /> Learning Support
+                            <br />
+
+                            <input type="checkbox" name="reading_materials" value="sleep" class="flat" /> Reading Materials
                             <br />
                             {{-- <input type="checkbox" name="child_admin" value="sleep" class="flat" /> child_admin --}}
                             <br />

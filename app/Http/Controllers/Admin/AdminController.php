@@ -252,8 +252,10 @@ class AdminController extends Controller
             'courses' => isset($request->courses) ? 1 : 0,
             'list_of_trainers' => isset($request->list_of_trainers) ? 1 : 0,
             'examination' => isset($request->examination) ? 1 : 0,
-            'child_admin' => isset($request->child_admin) ? 1 : 0,
+            // 'child_admin' => isset($request->child_admin) ? 1 : 0,
             'is_viewer' => isset($request->viewer_account) ? 1 : 0,
+            'learning_support' => isset($request->learning_support) ? 1 : 0,
+            'reading_materials' => isset($request->reading_materials) ? 1 : 0,
             'created_at' => Carbon::now()           
         ]);
 
@@ -298,8 +300,9 @@ class AdminController extends Controller
             'examination' => isset($request->examination) ? 1 : 0,
             // 'child_admin' => isset($request->viewer_account) ? 1 : 0,
             'is_viewer' => isset($request->viewer_account) ? 1 : 0,
+            'learning_support' => isset($request->learning_support) ? 1 : 0,
+            'reading_materials' => isset($request->reading_materials) ? 1 : 0,
             'updated_at' => Carbon::now()
-
         ];
 
         // Condition to check if a user want to change his password: 

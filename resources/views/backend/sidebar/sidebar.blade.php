@@ -29,9 +29,20 @@
 
                 {{-- List of Trainees --}}
                 @if (Auth::user()->list_of_trainees == 1)
-                    <li><a><i class="fa fa-group"></i></i> List of Trainees <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-group"></i></i> Trainees <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="#">All Trainees</a></li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{-- Trainers --}}
+                @if (Auth::user()->list_of_trainees == 1)
+                    <li><a><i class="fa fa-mortar-board"></i> Trainers <span
+                                class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{ route('all.trainers') }}">List of Trainers</a></li>
+                            <li><a href="{{ route('add.trainer') }}">Add Trainer</a></li>
                         </ul>
                     </li>
                 @endif
@@ -48,19 +59,6 @@
                     </li>
                 @endif
 
-
-                {{-- Trainers --}}
-                @if (Auth::user()->list_of_trainees == 1)
-                    <li><a><i class="fa fa-mortar-board"></i> List of Trainers <span
-                                class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu">
-                            <li><a href="{{ route('all.trainers') }}">List of Trainers</a></li>
-                            <li><a href="{{ route('add.trainer') }}">Add Trainer</a></li>
-                        </ul>
-                    </li>
-                @endif
-
-
                 {{-- Examamination --}}
                 @if (Auth::user()->examination == 1)
                     <li><a><i class="fa fa-solid fa-question"></i> Examination <span
@@ -75,7 +73,27 @@
                     </li>
                 @endif
 
+                {{-- Learning Support --}}
+                @if (Auth::user()->learning_support == 1)
+                    <li><a><i class="fa fa-solid fa-chalkboard-user"></i> Learning Support <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="#">Test 1</a></li>
+                            <li><a href="#">Test 2</a></li>
+                            <li><a href="#">Test 3</a></li>
+                        </ul>
+                    </li>
+                @endif
 
+                {{-- Reading Material --}}
+                @if (Auth::user()->reading_materials == 1)
+                    <li><a><i class="fa fa-solid fa-book-open-reader"></i> Reading Material <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="#">Test 1</a></li>
+                            <li><a href="#">Test 2</a></li>
+                            <li><a href="#">Test 3</a></li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </div>
 

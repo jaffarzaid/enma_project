@@ -57,13 +57,17 @@
                     <div class="col-md-6 mt-3">
                         <h2>Sections</h2>
                         <p style="padding: 5px;">
-                            <input type="checkbox" name="list_of_trainees" {{ $curr_child_admin->list_of_trainees == 1 ? 'checked' : '' }} class="flat" /> List of Trainees
+                            <input type="checkbox" name="list_of_trainees" {{ $curr_child_admin->list_of_trainees == 1 ? 'checked' : '' }} class="flat" /> Trainees
+                            <br />
+                            <input type="checkbox" name="list_of_trainers" {{ $curr_child_admin->list_of_trainers == 1 ? 'checked' : '' }} class="flat" /> Trainers
                             <br />
                             <input type="checkbox" name="courses" {{ $curr_child_admin->courses == 1 ? 'checked' : '' }} class="flat" /> Courses
                             <br />
-                            <input type="checkbox" name="list_of_trainers" {{ $curr_child_admin->list_of_trainers == 1 ? 'checked' : '' }} class="flat" /> List of Trainers
-                            <br />
                             <input type="checkbox" name="examination" {{ $curr_child_admin->examination == 1 ? 'checked' : '' }} class="flat" /> Examination
+                            <br />
+                            <input type="checkbox" name="learning_support" {{ $curr_child_admin->learning_support == 1 ? 'checked' : '' }} class="flat" /> Learning Support
+                            <br />
+                            <input type="checkbox" name="reading_materials" {{ $curr_child_admin->reading_materials == 1 ? 'checked' : '' }} class="flat" /> Reading Materials
                             <br />
                             {{-- <input type="checkbox" name="child_admin" {{ $curr_child_admin->child_admin == 1 ? 'checked' : '' }} class="flat" /> child_admin --}}
                             <br />

@@ -1,7 +1,7 @@
 @extends('backend.master_admin')
 
 @section('dynamic')
-    <span class="count_top"><i class="fa fa-home"></i> <span class="green"> / All Courses</span></span>
+    <span class="count_top"><i class="fa fa-home"></i> <span class="green"> / All Child Admins</span></span>
     <br>
 
     <div class="card mt-3">
