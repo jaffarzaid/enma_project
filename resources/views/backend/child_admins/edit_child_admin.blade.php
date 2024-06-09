@@ -5,7 +5,7 @@
     <br>
     <div class="card mt-3">
         <div class="card-body">
-            <form method="POST" action="{{ route('store.child.admin') }}">
+            <form method="POST" action="{{ route('update.child.admin', $curr_child_admin->id) }}">
                 @csrf
                 <div class="row">
                     {{-- Trainer Name --}}

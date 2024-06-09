@@ -108,6 +108,15 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
 
                     // Route: To Display Edit Child Admin: 
                     Route::get('/edit/child-admin/{id}', [AdminController::class, 'EditChildAdmin'])->name('edit.childAdmin');
+
+                    // Route: Update Child Admin Data: 
+                    Route::post('/update/child-admin/{id}', [AdminController::class, 'UpdateChildAdmin'])->name('update.child.admin');
+
+                    // Route: Deactivate Child Admin:
+                    Route::post('/deactivate/child-admin/{id}', [AdminController::class, 'DeactivateChildAdmin'])->name('deactivate.child_admin');
+
+                    // Route: Activate Child Admin: 
+                    Route::post('/activate/child-admin/{id}', [AdminController::class, 'ActivateChildAdmin'])->name('activate.child_admin');
                 });
                 // ============= End of Child Admin Section =============
             });

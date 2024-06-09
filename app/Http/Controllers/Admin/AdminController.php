@@ -8,6 +8,7 @@ use App\Http\Requests\CourseUpdateValidation;
 use App\Http\Requests\NewCourseValidation;
 use App\Http\Requests\NewTrainerValidation;
 use App\Http\Requests\TrainerUpdateValidation;
+use App\Http\Requests\UpdateChildAdminValidation;
 use App\Models\Course;
 use App\Models\Trainee;
 use App\Models\Trainer;
@@ -268,7 +269,8 @@ class AdminController extends Controller
     public function ViewChildAdmins(){
 
         // variable to get all child Admin: 
-        $child_admins = User::orderBy('id', 'DESC')->select('id','name', 'email')->where('is_child_admin', 1)->paginate(10);
+        $child_admins = User::orderBy('id', 'DESC')->select('id','name', 'email', 'status')
+        ->where('is_child_admin', 1)->paginate(10);
 
         return view('backend.child_admins.all_child_admins', compact('child_admins')); 
     }
@@ -280,6 +282,71 @@ class AdminController extends Controller
         $curr_child_admin = User::where('id', $id)->first();
 
         return view('backend.child_admins.edit_child_admin', compact('curr_child_admin'));
+    }
 
+    // Method: Update Child Admin Data: 
+    public function UpdateChildAdmin(UpdateChildAdminValidation $request, $id){
+        // Validation in on class: 
+
+        // Storing Updated data into array:
+        $updated_data = [
+            'name' => $request->emp_name,
+            'email' => $request->emp_email,
+            'list_of_trainees' => isset($request->list_of_trainees) ? 1 : 0,
+            'courses' => isset($request->courses) ? 1 : 0,
+            'list_of_trainers' => isset($request->list_of_trainers) ? 1 : 0,
+            'examination' => isset($request->examination) ? 1 : 0,
+            // 'child_admin' => isset($request->viewer_account) ? 1 : 0,
+            'is_viewer' => isset($request->viewer_account) ? 1 : 0,
+            'updated_at' => Carbon::now()
+
+        ];
+
+        // Condition to check if a user want to change his password: 
+        if($request->filled('password')){
+            $updated_data['password'] = Hash::make($request->password);
+        }
+
+        // Updating Child Admin: 
+        User::where('id', $id)->update($updated_data);
+
+        $notification = array(
+            'message' => 'Child Admin Updated Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('all.child_admins')->with($notification);
+    }
+
+    // Method: Deactivate Child Admin: 
+    public function DeactivateChildAdmin($id){
+        // Change Child Admin Status: 
+        User::where('id', $id)->update([
+            'status' => 0,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $notification = array(
+            'message' => 'Account Deactivated Successfully',
+            'alert-type' => 'warning',
+        );
+
+        return redirect()->back()->with($notification);
+    }
+
+    // Method: Activate Child Admin: 
+    public function ActivateChildAdmin($id){
+        // Change Child Admin Status to active: 
+        User::where('id', $id)->update([
+            'status' => 1,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $notification = array(
+            'message' => 'Child Admin Activated Successfully',
+            'alert-type' => 'info',
+        );
+
+        return redirect()->back()->with($notification);
     }
 }
