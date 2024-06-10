@@ -795,17 +795,18 @@ body {
 }
 
 .form-control {
-  background-color: #ffffff;
+  background-color: #E5E7E9;
   background-clip: border-box;
   color: #232323;
   line-height: 1rem !important;
-  height: auto;
+  height: 15px;;
   padding: 1.2rem 2rem;
   transition: border-color 0.25s ease 0s;
   border: 1px solid transparent !important;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px 0px, rgba(0, 0, 0, 0.07) 0px 1px 3px 0px, rgba(0, 0, 0, 0.03) 0px 0px 0px 1px;
 }
+
 .form-active .form-control:invalid {
   border-color: red;
 }
@@ -963,4 +964,28 @@ blockquote {
 	padding: 0;
 	top: 0;
 	left: -2400px;
+}
+/* Modifying font size o */
+select.form-control {
+  /* Adjust styles as needed */
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem; /* Adjust font size based on your display-7 class */
+  color: #333; /* Text color */
+}
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+input[type="email"]::placeholder,
+input[type="date"]::placeholder,
+input[type="file"]::placeholder{
+  font-size: 14px;
+  color: #999;
+}
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="file"]{
+  font-size: 14px;
 }

@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/socicon/css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/theme/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/recaptcha.css') }}">
-    <link rel="preload" href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap"
         as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
         <link rel="stylesheet"
@@ -30,11 +31,13 @@
         type="text/css">
 
     <link rel="preload" as="style" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}"
+        type="text/css">
     <!-- Toaster CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
-     <!-- font-awesome CDN -->
-     <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous" async></script>
+    <!-- font-awesome CDN -->
+    <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous" async></script>
+
 </head>
 
 <body>
@@ -80,6 +83,7 @@
             }
         </script>
     @endif
+    <script src="{{ asset('JS/trainee_input_validation.js') }}"></script>
 </body>
 
 </html>

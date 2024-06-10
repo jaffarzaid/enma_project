@@ -41,7 +41,6 @@
                                         {{ $course->expiry_date }}
                                     @endif
                                 </td>
-
                                 {{-- Action --}}
                                 <td>
                                     <a href="{{ route('edit.course', $course->id) }}" title="Edit"><i class="fa fa-edit p-1"></i></a>
@@ -50,8 +49,8 @@
                             </tr>
                         @endforeach
                     </tbody>
-                    {{ $courses->links() }}
                 </table>
+                {{ $courses->links() }}
             </div>
         </div>
     </div>

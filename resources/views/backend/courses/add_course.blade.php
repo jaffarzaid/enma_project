@@ -60,12 +60,24 @@
                 <div class="col-md-4">
                     <label for="course_name" class="form-label">Course Name <span class="text-danger"> *</span></label>
                     <select class="form-control" name="course_name" id="course_name">
-                        <option value="Level 3 Certificate in Occupational Safety and Health">Level 3 Certificate in Occupational Safety and Health</option>
-                        <option value="Award in General Insurance">Award in General Insurance</option>
+                        <option value="Accounting and Financial Reporting in Life Insurance Companies">Accounting and Financial Reporting in Life Insurance Companies</option>
+                        <option value="Artificial Intelligence of Engineer">Artificial Intelligence of Engineer</option>
                         <option value="Associate Big Data Engineer">Associate Big Data Engineer</option>
                         <option value="Associate Big Data Analyst">Associate Big Data Analyst</option>
+                        <option value="Award in General Insurance">Award in General Insurance</option>
+                        <option value="Business Law for Financial Services Professional">Business Law for Financial Services Professional</option>
+                        <option value="Business and Financial Concepts for Insurance Professionals">Business and Financial Concepts for Insurance Professionals</option>
+                        <option value="Insurance Company Operations">Insurance Company Operations</option>
+                        <option value="Principle of Insurance">Principle of Insurance</option>
+                        <option value="Foundations of Customer Service">Foundations of Customer Service</option>
+                        <option value="Insurance Administration">Insurance Administration</option>
+                        <option value="Insurance Marketing">Insurance Marketing</option>
+                        <option value="Institutional Investing: Principles and Practices">Institutional Investing: Principles and Practices</option>
+                        <option value="Level 3 Certificate in Occupational Safety and Health">Level 3 Certificate in Occupational Safety and Health</option>
+                        <option value="Operational Excellence in Financial Services">Operational Excellence in Financial Services</option>
+                        <option value="Risk Management and Product Design for Insurance Companies">Risk Management and Product Design for Insurance Companies</option>
+                        <option value="Risk Management and Product Design for Insurance Companies">Risk Management and Product Design for Insurance Companies</option>
                         <option value="Senior Big Data Analyst">Senior Big Data Analyst</option>
-                        <option value="Artificial Intelligence of Engineer">Artificial Intelligence of Engineer</option>
                         <option value="Senior Data Scientist">Senior Data Scientist</option>
                         <option value="Senior Big Data Engineer">Senior Big Data Engineer</option>
                         <option value="Senior Talent Management Practitioner">Senior Talent Management Practitioner</option>
@@ -73,17 +85,11 @@
                         <option value="Associate Business Strategy Professional">Associate Business Strategy Professional</option>
                         <option value="Senior Business Strategy Professional">Senior Business Strategy Professional</option>
                         {{-- LOMA --}}
-                        <option value="Foundations of Customer Service">Foundations of Customer Service</option>
-                        <option value="Insurance Company Operations">Insurance Company Operations</option>
-                        <option value="Principle of Insurance">Principle of Insurance</option>
-                        <option value="Insurance Administration">Insurance Administration</option>
-                        <option value="Business and Financial Concepts for Insurance Professionals">Business and Financial Concepts for Insurance Professionals</option>
-                        <option value="Insurance Marketing">Insurance Marketing</option>
-                        <option value="Business Law for Financial Services Professional">Business Law for Financial Services Professional</option>
-                        <option value="Operational Excellence in Financial Services">Operational Excellence in Financial Services</option>
-                        <option value="Institutional Investing: Principles and Practices">Institutional Investing: Principles and Practices</option>
-                        <option value="Risk Management and Product Design for Insurance Companies">Risk Management and Product Design for Insurance Companies</option>
-                        <option value="Risk Management and Product Design for Insurance Companies">Risk Management and Product Design for Insurance Companies</option>
+                       
+                        
+                        
+                       
+                        
                     </select>
                     @error('course_name')
                         <span style="color: red;">{{ $message }}</span>

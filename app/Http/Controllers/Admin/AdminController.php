@@ -171,7 +171,7 @@ class AdminController extends Controller
     public function DisplayAllCourses(){
 
         // Variable to get Courses: 
-        $courses = Course::orderBy('id', 'DESC')->paginate();
+        $courses = Course::orderBy('id', 'DESC')->paginate(10);
 
         return view('backend.courses.all_courses', compact('courses'));
     }

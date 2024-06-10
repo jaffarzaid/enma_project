@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\TraineeDataValidation;
-
+use App\Models\Course;
 
 class HomeController extends Controller
 {
@@ -23,7 +23,11 @@ class HomeController extends Controller
     // Method: Display Registration Page: 
     public function DisplayRegistrationPage()
     {
-        return view('frontend.body.registration');
+        // Variable to get all courses: 
+        $all_courses = Course::orderBy('course_name', 'ASC')
+        ->select('id', 'course_name')->get();
+
+        return view('frontend.body.registration', compact('all_courses'));
     }
 
 
