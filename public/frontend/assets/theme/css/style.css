@@ -265,6 +265,7 @@ iframe {
   text-align: center;
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
+  margin: auto;
 }
 
 .media {

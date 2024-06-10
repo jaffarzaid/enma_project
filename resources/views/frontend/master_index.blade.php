@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}" type="text/css">
     <!-- Toaster CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+     <!-- font-awesome CDN -->
+     <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous" async></script>
 </head>
 
 <body>
