@@ -153,16 +153,18 @@ class AdminController extends Controller
             'mol_level' => $request->mol_approval,
             'issue_date' => $request->issue_date,
             'expiry_date' => $request->expiry_date,
+            'is_job_seeker' => isset($request->job_seeker) ? 1 : 0,
+            'is_employee' =>  isset($request->employee) ? 1 : 0,
+            'is_univ_student' => isset($request->univ_student) ? 1 : 0,
+            'is_expat' => isset($request->expat) ? 1 : 0,
             'entered_by' => Auth::user()->name,
             'created_at' => Carbon::now()
         ]);
-
 
         $notification = array(
             'message' => 'Course Added Successfully',
             'alert-type' => 'success',
         );
-
         return redirect()->back()->with($notification);
     }
 
@@ -209,6 +211,10 @@ class AdminController extends Controller
             'mol_level' => $request->mol_approval,
             'issue_date' => $request->issue_date,
             'expiry_date' => $request->expiry_date,
+            'is_job_seeker' => isset($request->job_seeker) ? 1 : 0,
+            'is_employee' =>  isset($request->employee) ? 1 : 0,
+            'is_univ_student' => isset($request->univ_student) ? 1 : 0,
+            'is_expat' => isset($request->expat) ? 1 : 0,
             'edited_by' => Auth::user()->name,
             'updated_at' => Carbon::now()
         ]);

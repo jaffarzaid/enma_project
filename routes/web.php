@@ -26,9 +26,19 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
     })->name('home');
 
 
-    // Route: Display Home Page: 
-    Route::get('/registration', [HomeController::class, 'DisplayRegistrationPage'])->name('display.registration');
+    // Route: Display Job Seeker Page: 
+    Route::get('/registration/job-seeker', [HomeController::class, 'DisplayJobSeekerRegistrationPage'])->name('display.job_seeker.registration');
 
+    
+    // Route: Display Employee Page Registration: 
+    Route::get('/registration/employee', [HomeController::class, 'DisplayEmployeeRegistrationPage'])->name('display.employee.registration');
+
+    
+    // Route: Display University Student Page Registration: 
+    Route::get('/registration/university-student', [HomeController::class, 'DisplayStudentRegistrationPage'])->name('display.student.registration');
+
+    // Route: Display Expat Registration Page: 
+    Route::get('/registration/expat', [HomeController::class, 'DisplayExpatRegistrationPage'])->name('display.expat.registration');
 
     // Route: Save student data: 
     Route::post('/store-student-data', [HomeController::class, 'StoreStudentInfo'])->name('store.student.data');

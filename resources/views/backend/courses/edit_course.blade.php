@@ -118,7 +118,7 @@
                 </div>
 
                 {{-- Issue Date --}}
-                <div class="col-md-4 mt-3">
+                <div class="col-md-2 mt-3">
                     <label for="issue_date" class="form-label">Issue Date <span class="text-danger"> *</span></label>
                     <input type="date" name="issue_date" id="issue_date" class="form-control" value="{{ $current_course->issue_date }}">
                     @error('issue_date')
@@ -127,7 +127,7 @@
                 </div>
 
                 {{-- Expiry Date --}}
-                <div class="col-md-4 mt-3">
+                <div class="col-md-2 mt-3">
                     <label for="expiry_date" class="form-label">Expiry Date <span class="text-danger"> *</span></label>
                     <input type="date" name="expiry_date" id="expiry_date" class="form-control" value="{{ $current_course->expiry_date }}">
                     @error('expiry_date')
@@ -136,7 +136,7 @@
                 </div>
 
                 {{-- Trainer --}}
-                <div class="col-md-4 mt-3">
+                <div class="col-md-3 mt-3">
                     <label for="trainer_name" class="form-label">Trainer Name <span class="text-danger">
                             *</span></label>
                     <select class="form-control" name="trainer_name" id="trainer_name">
@@ -147,6 +147,32 @@
                     @error('trainer_name')
                         <span style="color: red;">{{ $message }}</span>
                     @enderror
+                </div>
+
+                {{-- Course Type --}}
+                <div class="col-md-5 mt-3">
+                    <label for="trainer-type" class="form-control-label mbr-fonts-style display-8">Course Type </label>
+                    <div style="display: flex;">
+                        <div data-for="job_seeker" class="form-check mr-1" style="margin-right: 10px;">
+                            <input type="checkbox" name="job_seeker" {{ $current_course->is_job_seeker == 1 ? 'checked' : '' }} class="form-check-input" id="job_seeker">
+                            <label for="job_seeker" class="form-check-label">Job Seeker</label>
+                        </div>
+
+                        <div data-for="employee" class="form-check mr-1">
+                            <input type="checkbox" name="employee" {{ $current_course->is_employee == 1 ? 'checked' : '' }} class="form-check-input" id="employee">
+                            <label for="employee" class="form-check-label">Employee</label>
+                        </div>
+
+                        <div data-for="univ_student" class="form-check mr-1">
+                            <input type="checkbox" name="univ_student" {{ $current_course->is_univ_student == 1 ? 'checked' : '' }} class="form-check-input" id="univ_student">
+                            <label for="univ_student" class="form-check-label">University Student</label>
+                        </div>
+
+                        <div data-for="expat" class="form-check">
+                            <input type="checkbox" name="expat" {{ $current_course->is_expat == 1 ? 'checked' : '' }} class="form-check-input" id="expat">
+                            <label for="expat" class="form-check-label">Expact</label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-12 mt-3 text-center">

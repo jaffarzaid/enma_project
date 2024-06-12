@@ -24,7 +24,7 @@
                     <div class="row">
                         {{-- Job Seeker --}}
                         <div class="col-12 col-md-4">
-                            <a href="{{ route('display.registration') }}">
+                            <a href="{{ route('display.job_seeker.registration') }}">
                                 <div class="card-img p-3">
                                     {{-- <span class="mbr-iconfont mbri-search"></span> --}}
                                     <i class="fas fa-search fa-2x"></i>
@@ -39,7 +39,7 @@
                         </div>
                         {{-- Employee --}}
                         <div class="col-12 col-md-3">
-                            <a href="{{ route('display.registration') }}">
+                            <a href="{{ route('display.employee.registration') }}">
                                 <div class="card-img pb-3">
                                     <i class="fa-solid fa-user-tie fa-2x"></i>
                                 </div>
@@ -53,7 +53,7 @@
                         </div>
                         {{-- University Student --}}
                         <div class="col-12 col-md-5">
-                            <a href="{{ route('display.registration') }}">
+                            <a href="{{ route('display.student.registration') }}">
                                 <div class="card-img pb-3">
                                     <i class="fa-solid fa-school fa-2x"></i>
                                 </div>
@@ -77,7 +77,7 @@
 
                 {{-- Expat --}}
                 <div class="card p-3 col-12 col-md-6 col-lg-3 m-3">
-                    <a href="{{ route('display.registration') }}">
+                    <a href="{{ route('display.expat.registration') }}">
                         <div class="card-img pb-3">
                             <span class="mbr-iconfont mbri-file"></span>
                         </div>

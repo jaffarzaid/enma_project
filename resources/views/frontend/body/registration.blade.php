@@ -8,7 +8,9 @@
                     @csrf
                     <div class="dragArea row input-main">
                         <div class="col-md-12">
-                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary align-center display-3 p-3">Registration Form</h1>
+                            <h1
+                                class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary align-center display-3 p-3">
+                                Registration Form</h1>
                         </div>
 
                         {{-- Personal Information --}}
@@ -18,7 +20,8 @@
 
                         {{-- 1st Name --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="first_name" class="form-control-label mbr-fonts-style display-8">First Name<span style="color: red;"> *</span></label>
+                            <label for="first_name" class="form-control-label mbr-fonts-style display-8">First Name<span
+                                    style="color: red;"> *</span></label>
                             <input type="text" name="first_name" class="form-control" id="first_name">
                             @error('first_name')
                                 <span style="color: red;">{{ $message }}</span>
@@ -48,8 +51,9 @@
 
                         {{-- Nationality --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="nationality" class="form-control-label mbr-fonts-style display-8">Nationality <span style="color: red;"> *</span></label>
-                            <select name="nationality" class="form-control display-7" id="nationality" >
+                            <label for="nationality" class="form-control-label mbr-fonts-style display-8">Nationality <span
+                                    style="color: red;"> *</span></label>
+                            <select name="nationality" class="form-control display-7" id="nationality">
                                 <option value="Bahraini">Bahraini</option>
                                 <option value="Kuwaiti">Kuwaiti</option>
                                 <option value="Omani">Omani</option>
@@ -65,7 +69,8 @@
 
                         {{-- CPR --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="cpr" class="form-control-label mbr-fonts-style display-8">CPR <span style="color: red;"> *</span></label>
+                            <label for="cpr" class="form-control-label mbr-fonts-style display-8">CPR <span
+                                    style="color: red;"> *</span></label>
                             <input type="number" name="cpr" class="form-control display-7" id="cpr">
                             @error('cpr')
                                 <span style="color: red;">{{ $message }}</span>
@@ -78,11 +83,13 @@
                                     style="color: red;"> *</span></label>
                             <div style="display: flex;">
                                 <div data-for="male" class="form-check" style="margin-right: 10px;">
-                                    <input type="radio" value="Male" name="gender" class="form-check-input" id="male">
+                                    <input type="radio" value="Male" name="gender" class="form-check-input"
+                                        id="male">
                                     <label for="male" class="form-check-label">Male</label>
                                 </div>
                                 <div data-for="female" class="form-check">
-                                    <input type="radio" value="Female" name="gender" class="form-check-input" id="female">
+                                    <input type="radio" value="Female" name="gender" class="form-check-input"
+                                        id="female">
                                     <label for="female" class="form-check-label">Female</label>
                                 </div>
                             </div>
@@ -91,10 +98,10 @@
                             @enderror
                         </div>
 
-                        
                         {{-- Phone 1 --}}
                         <div class="col-md-6 form-group mb-3">
-                            <label for="phone_1" class="form-control-label mbr-fonts-style display-8">Phone 1 <span style="color: red;"> *</span></label>
+                            <label for="phone_1" class="form-control-label mbr-fonts-style display-8">Phone 1 <span
+                                    style="color: red;"> *</span></label>
                             <input type="number" name="phone_1" class="form-control display-7" id="phone_1">
                             @error('phone_1')
                                 <span style="color: red;">{{ $message }}</span>
@@ -115,7 +122,8 @@
                         <div class="col-md-4 form-group mb-3">
                             <label for="birthday_date" class="form-control-label mbr-fonts-style display-8">Birthday
                                 <span style="color: red;"> *</span></label>
-                            <input type="date" name="birthday_date" class="form-control display-7" id="birthday_date">
+                            <input type="date" name="birthday_date" class="form-control display-7"
+                                id="birthday_date">
                             @error('birthday_date')
                                 <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -146,7 +154,8 @@
                         <div class="col-md-4 form-group mb-3">
                             <label for="emergency_name" class="form-control-label mbr-fonts-style display-8">Emergency
                                 Contact Name <span style="color: red;"> *</span></label>
-                            <input type="text" name="emergency_name" class="form-control display-7" id="emergency_name">
+                            <input type="text" name="emergency_name" class="form-control display-7"
+                                id="emergency_name">
                             @error('emergency_name')
                                 <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -154,8 +163,7 @@
 
                         {{-- Relationship --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="emr_relationship" class="form-control-label mbr-fonts-style display-8">Relationship 
-                                <span style="color: red;"> *</span></label>
+                            <label for="emr_relationship" class="form-control-label mbr-fonts-style display-8">Relationship <span style="color: red;"> *</span></label>
                             <input type="text" name="emr_relationship" class="form-control display-7" id="emr_relationship">
                             @error('emr_relationship')
                                 <span style="color: red;">{{ $message }}</span>
@@ -174,7 +182,8 @@
 
                         {{-- CPR File --}}
                         <div class="col-md-6 form-group mb-3">
-                            <label for="cpr_file" class="form-control-label mbr-fonts-style display-8">Upload CPR File <span style="color: red;"> *</span></label>
+                            <label for="cpr_file" class="form-control-label mbr-fonts-style display-8">Upload CPR File
+                                <span style="color: red;"> *</span></label>
                             <input type="file" name="cpr_file" class="form-control display-7" id="cpr_file">
                             @error('cpr_file')
                                 <span style="color: red;">{{ $message }}</span>
@@ -183,8 +192,10 @@
 
                         {{-- Passport File --}}
                         <div class="col-md-6 form-group mb-3">
-                            <label for="passport_file" class="form-control-label mbr-fonts-style display-8">Upload Passport File <span style="color: red;"> *</span></label>
-                            <input type="file" name="passport_file" class="form-control display-7" id="passport_file">
+                            <label for="passport_file" class="form-control-label mbr-fonts-style display-8">Upload
+                                Passport File <span style="color: red;"> *</span></label>
+                            <input type="file" name="passport_file" class="form-control display-7"
+                                id="passport_file">
                             @error('passport_file')
                                 <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -198,9 +209,8 @@
 
                         {{-- Academic Qualification --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="qualification"
-                                class="form-control-label mbr-fonts-style display-8">Qualification <span
-                                    style="color: red;"> *</span></label>
+                            <label for="qualification" class="form-control-label mbr-fonts-style display-8">Qualification
+                                <span style="color: red;"> *</span></label>
                             <select name="qualification" class="form-control display-7" id="qualification">
                                 <option value="PhD">PhD</option>
                                 <option value="Master">Master</option>
@@ -214,11 +224,13 @@
 
                         {{-- Specialization --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="specialization" class="form-control-label mbr-fonts-style display-8">Specialization <span style="color: red;"> *</span></label>
+                            <label for="specialization"
+                                class="form-control-label mbr-fonts-style display-8">Specialization <span
+                                    style="color: red;"> *</span></label>
                             <select name="specialization" class="form-control display-7" id="specialization">
-                                <option value="PhD">Business</option>
-                                <option value="Master">Engineering</option>
-                                <option value="Bachelor">Others</option>
+                                <option value="Business">Business</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Others">Others</option>
                             </select>
                             @error('specialization')
                                 <span style="color: red;">{{ $message }}</span>
@@ -227,8 +239,10 @@
 
                         {{-- GPA --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="student_gpa" class="form-control-label mbr-fonts-style display-8">GPA <span style="color: red;"> *</span></label>
-                            <input type="number" name="student_gpa" class="form-control display-7" id="student_gpa" step="0.01">
+                            <label for="student_gpa" class="form-control-label mbr-fonts-style display-8">GPA <span
+                                    style="color: red;"> *</span></label>
+                            <input type="number" name="student_gpa" class="form-control display-7" id="student_gpa"
+                                step="0.01">
                             @error('student_gpa')
                                 <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -236,18 +250,22 @@
 
                         {{-- Language of Instruction --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="gender-form3-1p" class="form-control-label mbr-fonts-style display-8">Language of Instruction <span style="color: red;"> *</span></label>
+                            <label for="gender-form3-1p" class="form-control-label mbr-fonts-style display-8">Language of
+                                Instruction <span style="color: red;"> *</span></label>
                             <div style="display: flex;">
                                 <div data-for="male" class="form-check" style="margin-right: 10px;">
-                                    <input type="radio" value="Arabic" name="instruction_lang" class="form-check-input" id="male">
+                                    <input type="radio" value="Arabic" name="instruction_lang"
+                                        class="form-check-input" id="male">
                                     <label for="male-formbuilder-1r" class="form-check-label">Arabic</label>
                                 </div>
                                 <div data-for="female" class="form-check">
-                                    <input type="radio" value="English" name="instruction_lang" class="form-check-input" id="female">
+                                    <input type="radio" value="English" name="instruction_lang"
+                                        class="form-check-input" id="female">
                                     <label for="female-formbuilder-1r" class="form-check-label">English</label>
                                 </div>
                                 <div data-for="female" class="form-check">
-                                    <input type="radio" value="Bilingual" name="instruction_lang" class="form-check-input" id="female">
+                                    <input type="radio" value="Bilingual" name="instruction_lang"
+                                        class="form-check-input" id="female">
                                     <label for="female-formbuilder-1r" class="form-check-label">Bilingual</label>
                                 </div>
                             </div>
@@ -258,8 +276,10 @@
 
                         {{-- Educational Certificate --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="edu_certificate" class="form-control-label mbr-fonts-style display-8">Upload Educational Certificate <span style="color: red;"> *</span></label>
-                            <input type="file" name="edu_certificate" class="form-control display-7" id="edu_certificate">
+                            <label for="edu_certificate" class="form-control-label mbr-fonts-style display-8">Upload
+                                Educational Certificate <span style="color: red;"> *</span></label>
+                            <input type="file" name="edu_certificate" class="form-control display-7"
+                                id="edu_certificate">
                             @error('edu_certificate')
                                 <span style="color: red;">{{ $message }}</span>
                             @enderror
@@ -267,7 +287,8 @@
 
                         {{-- Transcript --}}
                         <div class="col-md-4 form-group mb-3">
-                            <label for="edu_transcripts" class="form-control-label mbr-fonts-style display-8">Upload Transcripts <span style="color: red;"> *</span></label>
+                            <label for="edu_transcripts" class="form-control-label mbr-fonts-style display-8">Upload
+                                Transcripts <span style="color: red;"> *</span></label>
                             <input type="file" name="edu_transcripts" class="form-control display-7" id="edu_transcripts">
                             @error('edu_transcripts')
                                 <span style="color: red;">{{ $message }}</span>
@@ -311,7 +332,7 @@
 
                         {{-- Job Title --}}
                         <div class="col-md-3 form-group mb-3">
-                            <label for="stu_job_title" class="form-control-label mbr-fonts-style display-8">Job Title </label>
+                            <label for="stu_job_title" class="form-control-label mbr-fonts-style display-8">Job Title</label>
                             <input type="text" name="stu_job_title" class="form-control" id="stu_job_title" placeholder="Manager">
                         </div>
 
@@ -340,7 +361,8 @@
                         </div>
 
                         <div class="col-md-6 form-group mb-3">
-                            <label for="stu_injury_status" class="form-control-label mbr-fonts-style display-8">Do you have any significant injury, disability, and/or medical conditions? <span style="color: red;">*</span></label>
+                            <label for="stu_injury_status" class="form-control-label mbr-fonts-style display-8">Do you
+                                have any significant injury, disability, and/or medical conditions? <span style="color: red;">*</span></label>
                             <div style="display: flex;">
                                 <div class="form-check" style="margin-right: 10px;">
                                     <input type="radio" value="Yes" name="stu_injury_status" class="form-check-input" id="stu_injury_status" required onclick="toggleFileUpload()">
@@ -387,43 +409,83 @@
                         </div>
 
 
-                        {{-- Program of Interest --}}
+                        {{-- Training Services --}}
                         <div class="col-md-12">
-                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary display-7 p-3">Program of Interest</h1>
+                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary display-7 p-3">Training Services</h1>
+                        </div>
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="lastname-form3-1p" class="form-control-label mbr-fonts-style display-8">Select a Training Service <span style="color: red;"> *</span></label>
+                            <div class="col-md-12 form-group mb-3">
+                                <div style="display: flex;">
+                                    <div class="form-check" style="margin-right: 10px;">
+                                        <input type="radio" name="training_service_type" class="form-check-input" id="tutorial_course" value="tutorial_course" required>
+                                        <label for="tutorial_course" class="form-check-label mr-1">Tutorial Course</label>
+                                    </div>
+                                    <div class="form-check" style="margin-right: 10px;">
+                                        <input type="radio" name="training_service_type" class="form-check-input" id="preparatory_course" value="preparatory_course" required>
+                                        <label for="preparatory_course" class="form-check-label mr-1">Preparatory Course</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" name="training_service_type" class="form-check-input" id="examination" value="examination" required>
+                                        <label for="examination" class="form-check-label mr-1">Examination</label>
+                                    </div>
+                                </div>
+                                @error('training_service_type')
+                                    <span style="color: red;">{{ $message }}</span>
+                                @enderror
+                            </div>                            
                         </div>
 
                         <div class="col-md-12 form-group mb-3">
-                            <label for="lastname-form3-1p" class="form-control-label mbr-fonts-style display-8">Select a Couse <span style="color: red;"> *</span></label>
-                            <select name="selected_course" class="form-control display-7"
-                                id="select-formbuilder-1t">
-                                @foreach ($all_courses as $item)
-                                    <option value="{{ $item->id }}">{{ $item->course_name }}</option>
-                                @endforeach
+                            <label for="lastname-form3-1p" class="form-control-label mbr-fonts-style display-8">Select a
+                                Course <span style="color: red;"> *</span></label>
+                            <select name="selected_course" class="form-control display-7" id="select-formbuilder-1t">
+                                @if (isset($job_seeker_courses))
+                                    @foreach ($job_seeker_courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                    @endforeach
+                                @elseif(isset($employee_courses))
+                                    @foreach ($employee_courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                    @endforeach
+                                @elseif (isset($student_courses))
+                                    @foreach ($student_courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                    @endforeach
+                                @elseif (isset($expat_courses))
+                                    @foreach ($expat_courses as $course)
+                                        <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                             @error('selected_course')
                                 <span style="color: red;">{{ $message }}</span>
                             @enderror
                         </div>
 
-
                         {{-- Sponsership Information --}}
                         <div class="col-md-12">
-                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary display-7 p-3">Sponsership Information</h1>
+                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary display-7 p-3">
+                                Sponsership Information</h1>
                         </div>
-                        
+
                         <div class="col-md-4 form-group mb-3">
-                            <label for="gender-form3-1p" class="form-control-label mbr-fonts-style display-8">Program Sponsership <span style="color: red;"> *</span></label>
+                            <label for="gender-form3-1p" class="form-control-label mbr-fonts-style display-8">Program
+                                Sponsership <span style="color: red;"> *</span></label>
                             <div style="display: flex;">
                                 <div class="form-check" style="margin-right: 10px;">
-                                    <input type="radio" value="Self" name="sponsorship_value" class="form-check-input" id="sponsership_value_self">
+                                    <input type="radio" value="Self" name="sponsorship_value"
+                                        class="form-check-input" id="sponsership_value_self">
                                     <label for="sponsership_value_self" class="form-check-label">Self</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="radio" value="Tamkeen" name="sponsorship_value" class="form-check-input" id="sponsership_value_tmk">
+                                    <input type="radio" value="Tamkeen" name="sponsorship_value"
+                                        class="form-check-input" id="sponsership_value_tmk">
                                     <label for="sponsership_value_tmk" class="form-check-label">Tamkeen</label>
                                 </div>
                                 <div class="form-check">
-                                    <input type="radio" value="Employer" name="sponsorship_value" class="form-check-input" id="sponsership_value_emp">
+                                    <input type="radio" value="Employer" name="sponsorship_value"
+                                        class="form-check-input" id="sponsership_value_emp">
                                     <label for="sponsership_value_emp" class="form-check-label">Employer</label>
                                 </div>
                             </div>
@@ -435,11 +497,13 @@
 
                         {{-- Declaration --}}
                         <div class="col-md-12">
-                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary    display-7 p-3">Declaration <span style="color: red;"> *</span></h1>
+                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary    display-7 p-3">
+                                Declaration <span style="color: red;"> *</span></h1>
                         </div>
 
                         <div class="form-check">
-                            <input type="checkbox" name="declaration_1" class="form-check-input" id="dec_1" required>
+                            <input type="checkbox" name="declaration_1" class="form-check-input" id="dec_1"
+                                required>
                             <label for="dec_1" class="form-check-label">
                                 I confirm that the information that I have provided in this application is accurate, correct
                                 and complete and that the
@@ -450,7 +514,6 @@
                                 from the institution.
                             </label>
                             @error('')
-                                
                             @enderror
                         </div>
                         <div class="form-check">
@@ -472,10 +535,12 @@
 
                         {{-- Signature --}}
                         <div class="col-md-12 mt-3">
-                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary display-7 p-3">Signature <span style="color: red;"> *</span></h1>
+                            <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary display-7 p-3">
+                                Signature <span style="color: red;"> *</span></h1>
                         </div>
                         <div class="col-md-12 form-group mb-3">
-                            <input type="text" name="stu_signature" required class="form-control display-7" placeholder="Add Your Name">
+                            <input type="text" name="stu_signature" required class="form-control display-7"
+                                placeholder="Add Your Name">
                         </div>
 
                         <div class="input-group-btn col-md-12 text-center m-3">
