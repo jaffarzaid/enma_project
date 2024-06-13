@@ -24,3 +24,31 @@ function toggleFileUpload() {
     }
 }
 
+
+// Allowing to add other sponsorship 
+document.addEventListener('DOMContentLoaded', (event) => {
+    const otherRadio = document.getElementById('sponsership_value_others');
+    const otherInput = document.getElementById('sponsership_other_input');
+
+    const radioButtons = document.querySelectorAll('input[name="sponsorship_name"]');
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', () => {
+
+            // @ts-ignore
+            if (otherRadio.checked) {
+
+                // @ts-ignore
+                otherInput.disabled = false;
+                // @ts-ignore
+                otherInput.focus();
+            } else {
+                // @ts-ignore
+                otherInput.disabled = true;
+                // @ts-ignore
+                otherInput.value = '';
+            }
+        });
+    });
+});
+// End of Allowing to add other sponsorship 
+

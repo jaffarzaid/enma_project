@@ -31,13 +31,11 @@
         type="text/css">
 
     <link rel="preload" as="style" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}"
-        type="text/css">
-    <!-- Toaster CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}"type="text/css">
     <!-- font-awesome CDN -->
     <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous" async></script>
-
+    <!-- Toaster CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 </head>
 
 <body>
@@ -55,7 +53,7 @@
     <script src="{{ asset('frontend/assets/ytplayer/index.js') }}"></script>
     <script src="{{ asset('frontend/assets/dropdown/js/navbar-dropdown.js') }}"></script>
     <script src="{{ asset('frontend/assets/theme/js/script.js') }}"></script>
-    <script src="{{ asset('frontend/assets/formoid.assets') }}"></script>
+    {{-- <script src="{{ asset('frontend/assets/formoid.assets') }}"></script> --}}
 
 
     {{-- Toaster JS --}}

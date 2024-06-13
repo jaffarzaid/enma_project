@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\TraineeDataValidation;
 use App\Models\Course;
+use App\Models\PreparatoryRegisteredCourses;
+use App\Models\TamkeenRegisteredCourses;
 use App\Models\Trainee;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -28,7 +31,10 @@ class HomeController extends Controller
         $job_seeker_courses = Course::where('is_job_seeker', 1)->orderBy('course_name', 'ASC')
             ->select('id', 'course_name')->get();
 
-        return view('frontend.body.registration', compact('job_seeker_courses'));
+        // Variable to get Trainee Type: 
+        $trainee_type = 'Job Seeker';
+
+        return view('frontend.body.registration', compact('job_seeker_courses', 'trainee_type'));
     }
 
     // Method: Display Employee Registration Page: 
@@ -39,7 +45,10 @@ class HomeController extends Controller
         $employee_courses = Course::where('is_employee', 1)->orderBy('course_name', 'ASC')
             ->select('id', 'course_name')->get();
 
-        return view('frontend.body.registration', compact('employee_courses'));
+        // Variable to get Trainee Type: 
+        $trainee_type = 'Employee';
+
+        return view('frontend.body.registration', compact('employee_courses', 'trainee_type'));
     }
 
     // Method: Display University Student Registration Page: 
@@ -50,7 +59,10 @@ class HomeController extends Controller
         $student_courses = Course::where('is_univ_student', 1)->orderBy('course_name', 'ASC')
             ->select('id', 'course_name')->get();
 
-        return view('frontend.body.registration', compact('student_courses'));
+        // Variable to get Trainee Type: 
+        $trainee_type = 'University Student';
+
+        return view('frontend.body.registration', compact('student_courses', 'trainee_type'));
     }
 
     // Method: Display Expat Registration Page: 
@@ -61,18 +73,26 @@ class HomeController extends Controller
         $expat_courses = Course::where('is_expat', 1)->orderBy('course_name', 'ASC')
             ->select('id', 'course_name')->get();
 
-        return view('frontend.body.registration', compact('expat_courses'));
+        // Variable to get Trainee Type: 
+        $trainee_type = 'Expat';
+
+        return view('frontend.body.registration', compact('expat_courses', 'trainee_type'));
     }
 
 
 
     // Method: Store Student Data: 
-    public function StoreStudentInfo(TraineeDataValidation $request)
+    public function StoreTraineeInfo(TraineeDataValidation $request)
     {
         // Hint: all data is validated into StudentDataValidation class
 
+        // Variable to get Trainee Type: 
+        $traineeType = $request->trainee_type;
+        // dd($traineeType);
+
         // Get CPR File: 
         $cpr_file = $request->file('cpr_file');
+        // dd($cpr_file);
 
         // Get Passport File: 
         $passport_file = $request->file('passport_file');
@@ -108,11 +128,26 @@ class HomeController extends Controller
         // Storing Transcripts into Storage folder: 
         $transcript_file->storeAs('upload/trainee_transcripts/', $transcript_name);
 
+        // Get a document of disability/injury file: 
+        $injury_file_name = null;
+        if($request->hasFile('health_injury_disability_file')){
+            
+            $injury_file = $request->file('health_injury_disability_file');
+
+            // Renaming injury file: 
+            $injury_file_name = hexdec(uniqid()).'.'.$injury_file->extension();
+
+            // Storing Files into Storage folder: 
+            $injury_file->storeAs('upload/injury_files/', $injury_file_name);
+        }
+
+        // Variable to store declaration text: 
+        $declarationText = "I confirm that the information that I have provided in this application is accurate, correct and complete and that the documents submitted along with this application form are genuine. I understand that withholding any information requested or giving false information may make me ineligible for enrollment, admission, or compel my expulsion from the institution. I, also, hereby acknowledge that I have read and understood the Enma Terms and Conditions and Enma Code of Conduct in its entirety and agree to abide by them. I understand and agree that this declaration is final and irrevocable, and that it is not subject to cancellation or amendments.";
 
         // Storing Trainee's data into Trainee Model: 
-        Trainee::insert([
+        $trainee_id = Trainee::insertGetId([
             'f_name' => $request->first_name,
-            'second_name' => $request->second_name,
+            's_name' => $request->second_name,
             'l_name' => $request->last_name,
             'gender' => $request->gender,
             'cpr' => $request->cpr,
@@ -121,7 +156,7 @@ class HomeController extends Controller
             'phone2' =>$request->phone_2,
             'birthday' => $request->birthday_date,
             'address' => $request->home_address,
-            'email' => $request->student_email,
+            'email' => $request->trainee_email,
             'emergency_name' => $request->emergency_name,
             'emergency_relationship' => $request->emr_relationship,
             'emergency_phone' => $request->emr_phone,
@@ -136,16 +171,43 @@ class HomeController extends Controller
             'pro_certificate_name' => $request->pro_cer_name,
             'pro_certificate_specialization' => $request->pro_cer_spec,
             'pro_awarding_body' => $request->pro_cer_awbd,
-            'pro_year' => $request->pro_cer_year,
+            'pro_year' => $request->filled('pro_cer_year') ? (int) $request->pro_cer_year : null,
             'job_title' => $request->stu_job_title,
             'job_nature' => $request->stu_job_natu,
             'employer' => $request->employer,
-            'num_of_experience' => $request->num_experience,
+            'num_of_experience' => $request->filled('num_experience') ? (int) $request->num_experience : null,
             'health_injury_disability' => isset($request->stu_injury_status) ? 1 : 0,
-            'request_help' => isset($request->emergency_exit) ? 1 : 0
-
+            'request_help' => isset($request->emergency_exit) ? 1 : 0,
+            'health_issue_file' => 'upload/injury_files/'.$injury_file_name,
+            'training_service_type' => $request->training_service_type,
+            'pm_of_interest' => $request->selected_course,
+            'sponsorship_name' => $request->sponsorship_name,
+            'declaration' => $declarationText, 
+            'trainee_type' => $traineeType, 
+            'created_at' => Carbon::now()
         ]); 
 
-        return redirect()->route('');
+        // Storing registered courses into tamkeen_registered_courses entity when (Training Service = Tutorial Course or Examination): 
+        if($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination'){
+            TamkeenRegisteredCourses::insert([
+                'trainee_id' => $trainee_id,
+                'course_id' =>$request->selected_course,
+                'created_at' => Carbon::now()
+            ]);
+        }
+        else{
+            PreparatoryRegisteredCourses::insert([
+                'trainee_id' => $trainee_id,
+                'course_id' =>$request->selected_course,
+                'created_at' => Carbon::now()
+            ]);
+        }
+
+        $notification = array(
+            'message' => 'Your Data Submitted Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->back()->with($notification);
     }
 }

@@ -41,7 +41,7 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
     Route::get('/registration/expat', [HomeController::class, 'DisplayExpatRegistrationPage'])->name('display.expat.registration');
 
     // Route: Save student data: 
-    Route::post('/store-student-data', [HomeController::class, 'StoreStudentInfo'])->name('store.student.data');
+    Route::post('/store-student-data', [HomeController::class, 'StoreTraineeInfo'])->name('store.student.data');
 
 
 

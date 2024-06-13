@@ -37,17 +37,18 @@ class TraineeDataValidation extends FormRequest
             'nationality' => 'required',
             'cpr' => [
                 'required',
-                function ($value, $fail) use ($cprLength) {
+                'unique:trainees,cpr',
+                function ($attribute, $value, $fail) use ($cprLength) {
                     $selected_nationality = $this->nationality;
 
-                    if (!empty ($selected_nationality) && array_key_exists($selected_nationality, $cprLength)) {
+                    if (!empty($selected_nationality) && array_key_exists($selected_nationality, $cprLength)) {
                         if (!is_numeric($value)) {
                             $fail('Invalid CPR format. Please enter a valid numeric CPR.');
                             return;
                         }
 
                         if (strlen((string) $value) !== $cprLength[$selected_nationality]) {
-                            $fail('Your CPR is not Valid!');
+                            $fail('Your CPR is not valid!');
                         }
                     } else {
                         $fail('Invalid nationality or missing CPR length information.');
@@ -59,7 +60,7 @@ class TraineeDataValidation extends FormRequest
             'phone_2' => 'required|numeric',
             'birthday_date' => 'required|date',
             'home_address' => 'required',
-            'student_email' => 'required|email',
+            'trainee_email' => 'required|email',
             'emergency_name' => 'required',
             'emr_relationship' => 'required',
             'emr_phone' => 'required|numeric',
@@ -76,7 +77,7 @@ class TraineeDataValidation extends FormRequest
             'health_injury_disability_file' => 'required|mimes:pdf|max:3072',
             'training_service_type' => 'required',
             'selected_course' => 'required',
-            'sponsorship_value' => 'required',
+            'sponsorship_name' => 'required',
             'declaration_1' => 'required',
             'declaration_2' => 'required',
             'declaration_3' => 'required',
@@ -84,60 +85,61 @@ class TraineeDataValidation extends FormRequest
         ];
     }
 
-    // Returning Messages: 
+    // Method: Display Error Messages: 
     public function messages()
     {
         return [
-            'first_name.required' => 'This Field is required!',
-            'first_name.max' => 'Only 15 characters is allowed!',
-            'second_name.required' => 'This Field is required!',
-            'second_name.max' => 'Only 15 characters is allowed!',
-            'last_name.required' => 'This Field is required!',
-            'last_name.max' => 'Only 15 characters is allowed!',
-            'nationality.required' => 'This Field is required!',
-            'cpr.required' => 'This Field is required!',
-            'gender.required' => 'This Field is required!',
-            'phone_1.required' => 'This Field is required!',
-            'phone_2.required' => 'This Field is required!',
-            'phone_1.numeric' => 'This field must be numeric!',
-            'phone_2.numeric' => 'This field must be numeric!',
-            'birthday_date.required' => 'This Field is required!',
-            'birthday_date.date' => 'This Field must be date format!',
-            'home_address.required' => 'This Field is required!',
-            'student_email.required' => 'This Field is required!',
-            'student_email.email' => 'The email format is invalid!',
-            'emergency_name.required' => 'This Field is required!',
-            'emr_relationship.required' => 'This Field is required!',
-            'emr_phone.required' => 'This Field is required!',
-            'emr_phone.numeric' => 'This field must be numeric!',
-            'cpr_file.required' => 'This Field is required!',
+            'first_name.required' => 'This Field is Required!',
+            'first_name.max' => 'Name is Too Long!',
+            'second_name.required' => 'This Field is Required!',
+            'second_name.max' => 'Name is Too Long!',
+            'last_name.required' => 'This Field is Required!',
+            'last_name.max' => 'Name is Too Long!',
+            'cpr.required' => 'This Field is Required!',
+            'cpr.unique' => 'You are already registered!',
+            'gender.required' => 'This Field is Required!',
+            'phone_1.required' => 'This Field is Required!',
+            'phone_1.numeric' => 'Only numbers are allowed!',
+            'phone_2.required' => 'This Field is Required!',
+            'phone_2.numeric' => 'This Field is Required!',
+            'birthday_date.required' => 'This Field is Required!',
+            'birthday_date.date' => 'Only date is allowed!',
+            'home_address.required' => 'This Field is Required!',
+            'trainee_email.required' => 'This Field is Required!',
+            'trainee_email.email' => 'This is not an email form!',
+            'emergency_name.required' => 'This Field is Required!',
+            'emr_relationship.required' => 'This Field is Required!',
+            'emr_phone.required' => 'This Field is Required!',
+            'emr_phone.numeric' => 'Only numbers are allowed!',
+            'cpr_file.required' => 'This Field is Required!',
             'cpr_file.mimes' => 'Only PDF file is allowed!',
-            'cpr_file.max' => 'File is too big, 3MB is the maximum size!',
-            'passport_file.required' => 'This Field is required!',
+            'cpr_file.max' => 'File size should not exceeds 3MB!',
+            'passport_file.required' => 'This Field is Required!',
             'passport_file.mimes' => 'Only PDF file is allowed!',
-            'passport_file.max' => 'File is too big, 3MB is the maximum size!',
-            'qualification.required' => 'This Field is required!',
-            'specialization.required' => 'This Field is required!',
-            'student_gpa.required' => 'This Field is required!',
-            'student_gpa.numeric' => 'This field must be numeric!',
-            'instruction_lang.required' => 'This Field is required!',
-            'edu_certificate.required' => 'This Field is required!',
+            'passport_file.max' => 'File size should not exceeds 3MB!',
+            'qualification.required' => 'This Field is Required!',
+            'specialization.required' => 'This Field is Required!',
+            'student_gpa.required' => 'This Field is Required!',
+            'student_gpa.numeric' => 'Only numbers are allowed!',
+            'instruction_lang.required' => 'This Field is Required!',
+            'edu_certificate.required' => 'This Field is Required!',
             'edu_certificate.mimes' => 'Only PDF file is allowed!',
-            'edu_certificate.max' => 'File is too big, 3MB is the maximum size!',
-            'edu_transcripts.required' => 'This Field is required!',
+            'edu_certificate.max' => 'File size should not exceeds 3MB!',
+            'edu_transcripts.required' => 'This Field is Required!',
             'edu_transcripts.mimes' => 'Only PDF file is allowed!',
-            'edu_transcripts.max' => 'File is too big, 3MB is the maximum size!',
-            'stu_injury_status.required' => 'This Field is required!',
-            'emergency_exit.required' => 'This Field is required!',
-            'health_injury_disability_file.required' => 'This Field is required!',
+            'edu_transcripts.max' => 'File size should not exceeds 3MB!',
+            'stu_injury_status.required' => 'This Field is Required!',
+            'emergency_exit.required' => 'This Field is Required!',
+            'health_injury_disability_file.required' => 'This Field is Required!',
             'health_injury_disability_file.mimes' => 'Only PDF file is allowed!',
-            'health_injury_disability_file.max' => 'File is too big, 3MB is the maximum size!',
-            'training_service_type.required' => 'This Field is required!',
-            'selected_course.required' => 'This Field is required!',
-            'declaration_1.required' => 'This Field is required!',
-            'declaration_2.required' => 'This Field is required!',
-            'declaration_3.required' => 'This Field is required!',
-            'stu_signature.required' => 'This Field is required!',
+            'health_injury_disability_file.max' => 'File size should not exceeds 3MB!',
+            'training_service_type.required' => 'This Field is Required!',
+            'selected_course.required' => 'This Field is Required!',
+            'sponsorship_name.required' => 'This Field is Required!',
+            'declaration_1.required' => 'This Field is Required!',
+            'declaration_2.required' => 'This Field is Required!',
+            'declaration_3.required' => 'This Field is Required!',
+            'stu_signature.required' => 'This Field is Required!',
         ];
     }
 }
