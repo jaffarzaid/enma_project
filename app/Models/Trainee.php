@@ -72,7 +72,7 @@ class Trainee extends Model
 
     // Relationship with preparatory_registered_courses Entity: 
     public function preparatory_registered_courses(){
-        return $this->hasMany(ProPreparatoryRegisteredCourses::class, 'trainee_id', 'id');
+        return $this->hasMany(PreparatoryRegisteredCourses::class, 'trainee_id', 'id');
     }
 
     // Relationship with tamkeen_registered_courses Entity: 
@@ -83,6 +83,11 @@ class Trainee extends Model
     // Relationship with exams Entity: 
     public function exams(){
         return $this->hasMany(Exam::class, 'trainee_id', 'id');
+    }
+
+    // Relationship with NonBahrainiRegisteredCourse Model: 
+    public function nonBahRegisteredCourses(){
+        return $this->hasMany(NonBahrainiRegisteredCourse::class, 'trainee_id', 'id');
     }
 
 }

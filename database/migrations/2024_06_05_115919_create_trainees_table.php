@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('trainees', function (Blueprint $table) {
             $table->id();
-            $table->string('f_name')->nullable();
-            $table->string('s_name')->nullable();
-            $table->string('l_name')->nullable();
-            $table->string('gender')->nullable();
-            $table->integer('cpr')->nullable()->unique();
-            $table->string('nationality')->nullable();
-            $table->integer('phone1')->nullable();
-            $table->integer('phone2')->nullable();
-            $table->date('birthday')->nullable();
+            $table->string('f_name');
+            $table->string('s_name');
+            $table->string('l_name');
+            $table->string('gender');
+            $table->bigInteger('cpr')->unique();
+            $table->string('nationality');
+            $table->string('phone1');
+            $table->string('phone2');
+            $table->date('birthday');
             $table->text('address');
-            $table->string('email')->nullable();
+            $table->string('email')->unique();
             $table->string('emergency_name');
             $table->string('emergency_relationship');
             $table->integer('emergency_phone');
@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('transcript_file');
             $table->string('pro_certificate_name')->nullable();
             $table->string('pro_certificate_specialization')->nullable();
-            $table->string('pro_awarding_body');
+            $table->string('pro_awarding_body')->nullable();
             $table->integer('pro_year')->nullable();
             $table->string('job_title')->nullable();
             $table->string('job_nature')->nullable();

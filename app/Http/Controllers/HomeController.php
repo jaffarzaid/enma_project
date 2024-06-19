@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\TraineeDataValidation;
 use App\Models\Course;
+use App\Models\NonBahrainiRegisteredCourse;
 use App\Models\PreparatoryRegisteredCourses;
 use App\Models\TamkeenRegisteredCourses;
 use App\Models\Trainee;
@@ -188,15 +189,21 @@ class HomeController extends Controller
         ]); 
 
         // Storing registered courses into tamkeen_registered_courses entity when (Training Service = Tutorial Course or Examination): 
-        if($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination'){
+        if($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination' && $request->nationality == 'Bahraini'){
             TamkeenRegisteredCourses::insert([
                 'trainee_id' => $trainee_id,
                 'course_id' =>$request->selected_course,
                 'created_at' => Carbon::now()
             ]);
         }
-        else{
+        else if ($request->training_service_type == 'Preparatory Course'){
             PreparatoryRegisteredCourses::insert([
+                'trainee_id' => $trainee_id,
+                'course_id' =>$request->selected_course,
+                'created_at' => Carbon::now()
+            ]);
+        }else if($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination' && $request->nationality != 'Bahraini'){
+            NonBahrainiRegisteredCourse::insert([
                 'trainee_id' => $trainee_id,
                 'course_id' =>$request->selected_course,
                 'created_at' => Carbon::now()

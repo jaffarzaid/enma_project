@@ -31,11 +31,16 @@
         type="text/css">
 
     <link rel="preload" as="style" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}"type="text/css">
+    <link rel="stylesheet"
+        href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}"type="text/css">
     <!-- font-awesome CDN -->
     <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous" async></script>
     <!-- Toaster CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+
+    {{-- Country code extension --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
 </head>
 
 <body>
@@ -84,4 +89,26 @@
     <script src="{{ asset('JS/trainee_input_validation.js') }}"></script>
 </body>
 
+{{-- Script to dispplay country code to Mobile Number --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const phoneInputFields = document.querySelectorAll("#phone_1, #phone_2, #emr_phone");
+
+        phoneInputFields.forEach(function(phoneInputField) {
+            const phoneInput = window.intlTelInput(phoneInputField, {
+                initialCountry: "bh",
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+            });
+
+            // Add an event listener for the input field
+            phoneInputField.addEventListener("input", function() {
+                const countryData = phoneInput.getSelectedCountryData();
+                const formattedNumber = phoneInput.getNumber();
+
+                // Display the formatted number with the country code
+                console.log(`Country Code: +${countryData.dialCode}, Phone Number: ${formattedNumber}`);
+            });
+        });
+    });
+</script>
 </html>

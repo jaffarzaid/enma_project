@@ -38,6 +38,7 @@ class TraineeDataValidation extends FormRequest
             'cpr' => [
                 'required',
                 'unique:trainees,cpr',
+                'max:15',
                 function ($attribute, $value, $fail) use ($cprLength) {
                     $selected_nationality = $this->nationality;
 
@@ -47,8 +48,9 @@ class TraineeDataValidation extends FormRequest
                             return;
                         }
 
-                        if (strlen((string) $value) !== $cprLength[$selected_nationality]) {
-                            $fail('Your CPR is not valid!');
+                        $expectedLength = $cprLength[$selected_nationality];
+                        if (strlen((string) $value) !== $expectedLength) {
+                            $fail('Your CPR must be ' . $expectedLength . ' digits long for ' . $selected_nationality . ' nationality.');
                         }
                     } else {
                         $fail('Invalid nationality or missing CPR length information.');
@@ -60,7 +62,7 @@ class TraineeDataValidation extends FormRequest
             'phone_2' => 'required|numeric',
             'birthday_date' => 'required|date',
             'home_address' => 'required',
-            'trainee_email' => 'required|email',
+            'trainee_email' => 'required|email|unique:trainees,email',
             'emergency_name' => 'required',
             'emr_relationship' => 'required',
             'emr_phone' => 'required|numeric',
@@ -74,7 +76,7 @@ class TraineeDataValidation extends FormRequest
             'edu_transcripts' => 'required|mimes:pdf|max:3072',
             'stu_injury_status' => 'required',
             'emergency_exit' => 'required',
-            'health_injury_disability_file' => 'required|mimes:pdf|max:3072',
+            'health_injury_disability_file' => 'mimes:pdf|max:3072',
             'training_service_type' => 'required',
             'selected_course' => 'required',
             'sponsorship_name' => 'required',
@@ -107,6 +109,7 @@ class TraineeDataValidation extends FormRequest
             'home_address.required' => 'This Field is Required!',
             'trainee_email.required' => 'This Field is Required!',
             'trainee_email.email' => 'This is not an email form!',
+            'trainee_email.unique' => 'This email is already existed!',
             'emergency_name.required' => 'This Field is Required!',
             'emr_relationship.required' => 'This Field is Required!',
             'emr_phone.required' => 'This Field is Required!',
