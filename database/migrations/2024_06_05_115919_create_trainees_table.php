@@ -64,6 +64,7 @@ return new class extends Migration
             $table->date('counselling_date');
             $table->string('admission_approved');
             $table->string('studying_status');
+            $table->text('study_status_specification');
             $table->string('name_studying_course');
             $table->date('studying_finishing_course_date');
             $table->string('registration_status');

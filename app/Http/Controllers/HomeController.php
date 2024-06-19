@@ -169,6 +169,8 @@ class HomeController extends Controller
             'instruction_language' => $request->instruction_lang,
             'education_certificate_file' => 'upload/trainee_certificates/'.$certificate_name,
             'transcript_file' => 'upload/trainee_transcripts/'.$transcript_name,
+            'studying_status'=> $request->studying_status,
+            'study_status_specification' => $request->study_status_specification,
             'pro_certificate_name' => $request->pro_cer_name,
             'pro_certificate_specialization' => $request->pro_cer_spec,
             'pro_awarding_body' => $request->pro_cer_awbd,
@@ -185,6 +187,7 @@ class HomeController extends Controller
             'sponsorship_name' => $request->sponsorship_name,
             'declaration' => $declarationText, 
             'trainee_type' => $traineeType, 
+            'signature' => $request->stu_signature,
             'created_at' => Carbon::now()
         ]); 
 

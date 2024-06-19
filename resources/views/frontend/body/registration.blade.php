@@ -309,6 +309,32 @@
                             @enderror
                         </div>
 
+                        {{-- Studying Status --}}
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="gender-form3-1p" class="form-control-label mbr-fonts-style display-8">Are you studying now? <span style="color: red;"> *</span></label>
+                            <div style="display: flex;">
+                                <div class="form-check" style="margin-right: 10px;">
+                                    <input type="radio" value="Yes" name="studying_status"
+                                        class="form-check-input" id="studying_status_yes" required>
+                                    <label for="studying_status_yes" class="form-check-label">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" value="No" name="studying_status"
+                                        class="form-check-input" id="studying_status_no">
+                                    <label for="studying_status_no" class="form-check-label">No</label>
+                                </div>
+                            </div>
+                            @error('studying_status')
+                                <span style="color: red;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        {{-- Specifying studying status --}}
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="study_status_specification" class="form-control-label mbr-fonts-style ">If Yes, specify</label>
+                            <input type="text" name="study_status_specification" class="form-control" id="study_status_specification">
+                        </div>
+
                         {{-- Professoinal Certification --}}
                         <div class="col-md-12">
                             <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary p-3">Professoinal
