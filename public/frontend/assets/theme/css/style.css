@@ -2,13 +2,37 @@
 section {
   background-color: #ffffff;
 }
+/* testing */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/* testing */
+container {
+  flex: 1; /* This ensures the container takes up the available space */
+}
+/* testing */
+.footer1 .row {
+  justify-content: space-between;
+}
 
+.footer1 .logo,
+.footer1 .group-title,
+.footer1 .text2 {
+  margin-bottom: 5px;
+}
 body {
   font-style: normal;
   line-height: 1.5;
   font-weight: 400;
   color: #232323;
   position: relative;
+  /* testing */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
 }
 
 button {

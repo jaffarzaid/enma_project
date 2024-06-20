@@ -14,7 +14,10 @@ class Exam extends Model
         'trainee_id',
         'tamkeen_registered_courses_id',
         'preparatory_registered_courses_id',
-        'non_bahraini_registered_id',
+        'non_bahraini_registered_course_id',
+        'exam_score',
+        'exam_type',
+        'exam_status'
     ];
 
     // Inverse relationship with Trainee model: 
@@ -34,6 +37,6 @@ class Exam extends Model
 
     // Inverse relationship with NonBahrainiRegisteredCourse Model: 
     public function nonBahrainiRegisteredCourses(){
-        return $this->belongsTo(NonBahrainiRegisteredCourse::class, 'non_bahraini_registered_id', 'id');
+        return $this->belongsTo(NonBahrainiRegisteredCourse::class, 'non_bahraini_registered_course_id', 'id');
     }
 }

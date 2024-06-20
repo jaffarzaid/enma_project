@@ -1,4 +1,4 @@
-<section data-bs-version="5.1" class="footer1 educationm4_footer1 cid-uduoMZdtgt" id="footer1-1o">
+<section class="footer1 educationm4_footer1 cid-uduoMZdtgt" id="footer1-1o">
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-12 col-sm-12">
@@ -55,10 +55,10 @@
                     <div class="soc-item">
                         <a href="https://www.linkedin.com/company/enmainstitute/" target="_blank">
                             <div class="mbr-iconfont mbr-iconfont-social socicon-linkedin socicon"
-                                style="color: rgb(101, 101, 101); fill: rgb(101, 101, 101); media-simple="true">
+                                style="color: rgb(101, 101, 101); fill: rgb(101, 101, 101);" media-simple="true">
                             </div>
                         </a>
-                    </div>
+                    </div>                    
                 </div>
             </div>  
             <div class="col-lg-4 col-md-12 col-sm-12 img-list">

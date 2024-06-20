@@ -35,12 +35,13 @@
         href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=iCOhHZ') }}"type="text/css">
     <!-- font-awesome CDN -->
     <script src="https://kit.fontawesome.com/8061aaf173.js" crossorigin="anonymous" async></script>
-    <!-- Toaster CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 
     {{-- Country code extension --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+    {{-- Flash Notification CSS --}}
+    {{-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> --}}
 </head>
 
 <body>
@@ -60,32 +61,6 @@
     <script src="{{ asset('frontend/assets/theme/js/script.js') }}"></script>
     {{-- <script src="{{ asset('frontend/assets/formoid.assets') }}"></script> --}}
 
-
-    {{-- Toaster JS --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    {{-- Toaster Message --}}
-    @if (Session::has('message'))
-        <script>
-            var type = "{{ Session::get('alert-type', 'info') }}"
-            switch (type) {
-                case 'info':
-                    toastr.info(" {{ Session::get('message') }} ");
-                    break;
-
-                case 'success':
-                    toastr.success(" {{ Session::get('message') }} ");
-                    break;
-
-                case 'warning':
-                    toastr.warning(" {{ Session::get('message') }} ");
-                    break;
-
-                case 'error':
-                    toastr.error(" {{ Session::get('message') }} ");
-                    break;
-            }
-        </script>
-    @endif
     <script src="{{ asset('JS/trainee_input_validation.js') }}"></script>
 </body>
 

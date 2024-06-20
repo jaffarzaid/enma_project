@@ -23,4 +23,13 @@ class NonBahrainiRegisteredCourse extends Model
         return $this->belongsTo(Trainee::class, 'course_id', 'id');
     }
 
+    // Inverse Relationship with Course Model: 
+    public function courses(){
+        return $this->belongsTo(Course::class, 'course_id', 'id');
+    }
+
+    // Relationship with Exams model:
+    public function exam(){
+        return $this->hasMany(Exam::class, 'non_bahraini_registered_course_id', 'id');
+    } 
 }

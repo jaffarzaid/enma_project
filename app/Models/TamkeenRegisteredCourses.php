@@ -25,6 +25,11 @@ class TamkeenRegisteredCourses extends Model
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 
+    // Inverse Relationship with Trainee entity: 
+    public function trainee(){
+        return $this->belongsTo(Trainee::class, 'trainee_id', 'id');
+    }
+
     // Relationship with exams Entity: 
     public function exams()
     {

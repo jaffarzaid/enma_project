@@ -76,41 +76,54 @@ document.addEventListener("DOMContentLoaded", (event) => {
         otherInput.value = "";
     }
 });
-
-
 // End of Allowing to add other sponsorship
 
 // Hiding radio button of Tamkeen when nationality is not Bahraini:
-const nationalitySelect = document.getElementById("nationality");
-const tamkeenRadio = document.getElementById("sponsership_value_tmk");
-
-// @ts-ignore
-nationalitySelect.addEventListener("change", () => {
+function toggleTamkeen() {
     // @ts-ignore
-    if (nationalitySelect.value === "Bahraini") {
+    var nationality = document.getElementById("nationality").value;
+    var tamkeenRadio = document.getElementById("sponsorship_value_tmk");
+
+    if (nationality != "Bahraini") {
         // @ts-ignore
-        tamkeenRadio.style.display = "hide";
+        tamkeenRadio.disabled = true;
     } else {
         // @ts-ignore
-        tamkeenRadio.style.display = "none";
-        // @ts-ignore
-        tamkeenRadio.checked = false; // Uncheck the radio button
+        tamkeenRadio.disabled = false;
     }
-});
+}
 
 // Disable Tamkeen option when a trainee selects preparatory course for registration: 
 document.addEventListener('DOMContentLoaded', function() {
+    // @ts-ignore
+    var nationality = document.getElementById("nationality").value;
     const preparatoryCourseRadio = document.getElementById('preparatory_course');
     const tamkeenRadio = document.getElementById('sponsorship_value_tmk');
     const trainingServiceTypeRadios = document.getElementsByName('training_service_type');
 
     function updateTamkeenAvailability() {
         // @ts-ignore
-        if (preparatoryCourseRadio.checked) {
+        var nationality = document.getElementById("nationality").value; // Update nationality value
+        
+        // Check if preparatory course radio is checked
+        // @ts-ignore
+        var preparatoryCourseChecked = preparatoryCourseRadio.checked;
+
+        // Check if any training service type radio is checked
+        var anyTrainingServiceTypeChecked = false;
+        trainingServiceTypeRadios.forEach(function(radio) {
+            // @ts-ignore
+            if (radio.checked) {
+                anyTrainingServiceTypeChecked = true;
+            }
+        });
+
+        // Update tamkeen radio availability based on conditions
+        if (nationality !== 'Bahraini' || preparatoryCourseChecked || !anyTrainingServiceTypeChecked) {
             // @ts-ignore
             tamkeenRadio.disabled = true;
             // @ts-ignore
-            tamkeenRadio.checked = false; // Uncheck if it was checked
+            tamkeenRadio.checked = false; 
         } else {
             // @ts-ignore
             tamkeenRadio.disabled = false;

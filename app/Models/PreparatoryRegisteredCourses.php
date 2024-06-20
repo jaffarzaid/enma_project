@@ -18,6 +18,11 @@ class PreparatoryRegisteredCourses extends Model
         'declaration',
     ];
 
+    // Inverse Relationship with Trainee entity: 
+    public function trainee(){
+        return $this->belongsTo(Trainee::class, 'trainee_id', 'id');
+    }
+
     // Inverse Relationship with course entity: 
     public function courses()
     {

@@ -26,6 +26,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    // Method: Display Main Page Registration for Job Seeker: 
+    public function MainPageRegistrationJobSeeker()
+    {
+
+        // Variable to get Trainee Type: 
+        $trainee_type = 'Job Seeker';
+
+        return view('frontend.body.registration_main', compact('trainee_type'));
+    }
+
     // Method: Display Job Seeker Registration Page: 
     public function DisplayJobSeekerRegistrationPage()
     {
@@ -37,6 +48,16 @@ class HomeController extends Controller
         $trainee_type = 'Job Seeker';
 
         return view('frontend.body.registration', compact('job_seeker_courses', 'trainee_type'));
+    }
+
+    // Method: Display Main Page Registration for Employee: 
+    public function MainPageRegistrationEmployee()
+    {
+
+        // Variable to get Trainee Type: 
+        $trainee_type = 'Employee';
+
+        return view('frontend.body.registration_main', compact('trainee_type'));
     }
 
     // Method: Display Employee Registration Page: 
@@ -51,6 +72,15 @@ class HomeController extends Controller
         $trainee_type = 'Employee';
 
         return view('frontend.body.registration', compact('employee_courses', 'trainee_type'));
+    }
+
+    // Method: Display Main Page Student Registration: 
+    public function MainPageRegistrationStudent()
+    {
+        // Variable to get Trainee Type: 
+        $trainee_type = 'University Student';
+
+        return view('frontend.body.registration_main', compact('trainee_type'));
     }
 
     // Method: Display University Student Registration Page: 
@@ -146,6 +176,14 @@ class HomeController extends Controller
         // Variable to store declaration text: 
         $declarationText = "I confirm that the information that I have provided in this application is accurate, correct and complete and that the documents submitted along with this application form are genuine. I understand that withholding any information requested or giving false information may make me ineligible for enrollment, admission, or compel my expulsion from the institution. I, also, hereby acknowledge that I have read and understood the Enma Terms and Conditions and Enma Code of Conduct in its entirety and agree to abide by them. I understand and agree that this declaration is final and irrevocable, and that it is not subject to cancellation or amendments.";
 
+        if ($request->sponsorship_name == 'Tamkeen' && $request->nationality != 'Bahraini') {
+            $errorMessage = 'Tamkeen is only available for Bahraini nationals!';
+            return redirect()->back()
+                ->withErrors(['sponsorship_name' => $errorMessage])
+                ->withInput()
+                ->with('error', $errorMessage);
+        }
+
         // Storing Trainee's data into Trainee Model: 
         $trainee_id = Trainee::insertGetId([
             'f_name' => $request->first_name,
@@ -197,28 +235,40 @@ class HomeController extends Controller
             TamkeenRegisteredCourses::insert([
                 'trainee_id' => $trainee_id,
                 'course_id' => $request->selected_course,
+                'trainee_type' => $request->trainee_type,
+                'training_service' => $request->training_service_type,
+                'program_sponsorship' => $request->sponsorship_name,
+                'declaration' => $declarationText,
                 'created_at' => Carbon::now()
             ]);
         } else if ($request->training_service_type == 'Preparatory Course') {
             PreparatoryRegisteredCourses::insert([
                 'trainee_id' => $trainee_id,
                 'course_id' => $request->selected_course,
+                'trainee_type' => $request->trainee_type,
+                'training_service' => $request->training_service_type,
+                'program_sponsorship' => $request->sponsorship_name,
+                'declaration' => $declarationText,
                 'created_at' => Carbon::now()
             ]);
         } else if (($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination') && $request->nationality != 'Bahraini') {
             NonBahrainiRegisteredCourse::insert([
                 'trainee_id' => $trainee_id,
                 'course_id' => $request->selected_course,
+                'trainee_type' => $request->trainee_type,
+                'training_service' => $request->training_service_type,
+                'program_sponsorship' => $request->sponsorship_name,
+                'declaration' => $declarationText,
                 'created_at' => Carbon::now()
             ]);
         }
 
-        $notification = array(
-            'message' => 'Your Data Submitted Successfully',
-            'alert-type' => 'success',
-        );
+        // $notification = array(
+        //     'message' => 'Your Data Submitted Successfully',
+        //     'alert-type' => 'success',
+        // );
 
-        return redirect()->back()->with($notification);
+        return redirect()->back()->with('success', 'Your Data Has been Submitted Successfully');
     }
 
     // Method: Display re-enrollment page for job seeker:  
@@ -277,8 +327,13 @@ class HomeController extends Controller
         $declaration = "I confirm that the information that I have provided in this application is accurate, correct and complete and that the documents submitted along with this application form are genuine. I understand that withholding any information requested or giving false information may make me ineligible for enrollment, admission, or compel my expulsion from the institution. I, also, hereby acknowledge that I have read and understood the Enma Terms and Conditions and Enma Code of Conduct in its entirety and agree to abide by them. I understand and agree that this declaration is final and irrevocable, and that it is not subject to cancellation or amendments.";
 
 
+        if ($request->sponsorship_name == 'Tamkeen' && $current_trainee->nationality != 'Bahraini') {
+            return redirect()->back()
+                ->withErrors(['sponsorship_name' => 'Tamkeen is only available for Bahraini nationals.'])
+                ->withInput();
+        }
         // Storing registered courses into tamkeen_registered_courses entity when (Training Service = Tutorial Course or Examination): 
-        if (($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination') && $current_trainee->nationality == 'Bahraini') {
+        else if (($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination') && $current_trainee->nationality == 'Bahraini') {
             TamkeenRegisteredCourses::insert([
                 'trainee_id' => $current_trainee->id,
                 'course_id' => $request->selected_course,
@@ -302,6 +357,7 @@ class HomeController extends Controller
             NonBahrainiRegisteredCourse::insert([
                 'trainee_id' => $current_trainee->id,
                 'course_id' => $request->selected_course,
+                'trainee_type' => $request->trainee_type,
                 'training_service' => $request->training_service_type,
                 'program_sponsorship' => $request->sponsorship_name,
                 'declaration' => $declaration,
@@ -309,11 +365,6 @@ class HomeController extends Controller
             ]);
         }
 
-        $notification = array(
-            'message' => 'Your Data Submitted Successfully',
-            'alert-type' => 'success',
-        );
-
-        return redirect()->back()->with($notification);
+        return redirect()->back()->with('success', 'Your Data Has been Submitted Successfully');
     }
 }
