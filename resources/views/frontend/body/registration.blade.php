@@ -17,6 +17,18 @@
                                 Registration Form</h1>
                         </div>
 
+                        {{-- old trainee registration --}}
+                        <div class="col-md-12 align-center">
+                            @if ($trainee_type == 'Job Seeker')
+                                <a href="{{ route('job_seeker_reenrollment') }}" class="btn-sm btn-primary">Login</a>
+                            @elseif ($trainee_type == 'Employee')
+                                <a href="{{ route('employee.reenrollment') }}" class="btn-sm btn-primary">Login</a>
+                            @else
+                                <a href="{{ route('univ_stu.reenrollment') }}" class="btn-sm btn-primary">Login</a>
+                            @endif
+                            
+                        </div>
+
                         {{-- Personal Information --}}
                         <div class="col-md-12">
                             <h1 class="mbr-fonts-style mbr-fonts-style mbr-section-title text-primary display-7 p-3">
@@ -551,8 +563,8 @@
                                 </div>
                                 <div class="form-check" style="margin-bottom: 10px;">
                                     <input type="radio" value="Tamkeen" name="sponsorship_name"
-                                        class="form-check-input" id="sponsership_value_tmk">
-                                    <label for="sponsership_value_tmk" class="form-check-label">Tamkeen</label>
+                                        class="form-check-input" id="sponsorship_value_tmk">
+                                    <label for="sponsorship_value_tmk" class="form-check-label">Tamkeen</label>
                                 </div>
                                 <div class="form-check" style="display: flex; align-items: center;">
                                     <input type="radio" value="Others" name="sponsorship_name"

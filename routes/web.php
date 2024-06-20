@@ -43,6 +43,17 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
     // Route: Save student data: 
     Route::post('/store-student-data', [HomeController::class, 'StoreTraineeInfo'])->name('store.student.data');
 
+    // Route: Display Page for Job Seeker Trainee re-enrollment: 
+    Route::get('/job-seeker/re-enrollment', [HomeController::class, 'JobSeekerReEnrollment'])->name('job_seeker_reenrollment');
+
+    // Route: Display Page for Employee Trainee re-enrollment: 
+    Route::get('/employee/re-enrollment', [HomeController::class, 'EmployeeReEnrollment'])->name('employee.reenrollment');
+
+    // Route: Display Page for university Trainee re-enrollment: 
+    Route::get('/university-student/re-enrollment', [HomeController::class, 'UniversityStuReEnrollment'])->name('univ_stu.reenrollment');
+
+    // Route: Store re-enrollment data of old Trainee: 
+    Route::post('/store/old-trainee-data', [HomeController::class, 'StoreOldTraineeEnrollment'])->name('store.old_trainee.data');
 
 
     // Admin Routes

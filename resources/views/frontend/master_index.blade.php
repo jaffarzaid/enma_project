@@ -26,7 +26,7 @@
         <link rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Inter+Tight:100,200,300,400,500,600,700,800,900,100i,200i,300i,400i,500i,600i,700i,800i,900i&display=swap">
     </noscript>
-    <link rel="preload" as="style" href="{{ asset('assets/mobirise/css/mbr-additional.css?v=AsmSqY') }}">
+    {{-- <link rel="preload" as="style" href="{{ asset('assets/mobirise/css/mbr-additional.css?v=AsmSqY') }}"> --}}
     <link rel="stylesheet" href="{{ asset('frontend/assets/mobirise/css/mbr-additional.css?v=AsmSqY') }}"
         type="text/css">
 

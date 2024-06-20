@@ -98,10 +98,10 @@ nationalitySelect.addEventListener("change", () => {
     }
 });
 
-// Disable Tamkeen option when a trainee selects preparatory course: 
+// Disable Tamkeen option when a trainee selects preparatory course for registration: 
 document.addEventListener('DOMContentLoaded', function() {
     const preparatoryCourseRadio = document.getElementById('preparatory_course');
-    const tamkeenRadio = document.getElementById('sponsership_value_tmk');
+    const tamkeenRadio = document.getElementById('sponsorship_value_tmk');
     const trainingServiceTypeRadios = document.getElementsByName('training_service_type');
 
     function updateTamkeenAvailability() {
@@ -125,3 +125,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial check in case a radio button is pre-selected
     updateTamkeenAvailability();
 });
+
+
+

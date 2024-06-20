@@ -11,7 +11,11 @@ class PreparatoryRegisteredCourses extends Model
 
     protected $fillable = [
         'trainee_id',
-        'course_id'
+        'course_id',
+        'trainee_type',
+        'training_service',
+        'program_sponsorship',
+        'declaration',
     ];
 
     // Inverse Relationship with course entity: 
