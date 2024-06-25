@@ -76,6 +76,32 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
                 // Route:: Logout: 
                 Route::post('/logout', [AdminController::class, 'Logout'])->name('logout');
 
+                // ============= Trainees Section =============
+
+                // Route: View all Trainees
+                Route::get('/all-trainees', [AdminController::class, 'ViewAllTrainees'])->name('view.all.trainees');
+
+                // Route: View All Employee Trainees only: 
+                Route::get('/employee-trainees', [AdminController::class, 'ViewEmployeeTrainees'])->name('view.employee.trainees');
+
+                // Route: View Job Seeker Trainees only: 
+                Route::get('/job-seeker-trainees', [AdminController::class, 'ViewJobSeekerTrainees'])->name('view.job_seeker.trainees');
+
+                // Route: View University Job Seeker Trainees: 
+                Route::get('/university-student-trainees', [AdminController::class, 'ViewUnivStudentTrainees'])->name('view.univ_students.trainees');
+
+                // Route: View Edit Trainee Page: 
+                Route::get('/edit/trainee/{id}', [AdminController::class, 'EditTraineeInfo'])->name('edit.trainee.info');
+
+                // Rout: Update Trainee Data: 
+                Route::post('/update/trainee/{id}', [AdminController::class, 'UpdateTraineeData'])->name('update.trainee');
+
+                // Route: Display page to see student details and approve a trainee: 
+                Route::get('/approve/trainee/{id}', [AdminController::class, 'DisplayApprovePage'])->name('view.trainee.details');
+
+                // ============= End of Trainees Section =============
+
+
                 // ============= Trainer Section =============
                 Route::group(['middleware' => ['check.trainerSection']], function () {
                     // Route: Display Adding Tutor Page: 

@@ -2,7 +2,7 @@
 
 @section('dynamic')
 
-    <span class="count_top"><i class="fa fa-home"></i> <span class="green"> / Add Trainer</span></span>
+    <span class="count_top"><i class="fa fa-home"></i> <span class="green"> / Edit Trainer</span></span>
     <br>    
     <div class="card mt-3">
         <div class="card-body">

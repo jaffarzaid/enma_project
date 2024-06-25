@@ -46,8 +46,8 @@ return new class extends Migration
             $table->integer('health_injury_disability');
             $table->integer('request_help');
             $table->string('health_issue_file');
-            $table->string('pm_of_interest');
-            $table->string('sponsorship_name');
+            // $table->string('pm_of_interest');
+            // $table->string('sponsorship_name');
             $table->text('declaration')->nullable();
             $table->string('signature')->nullable();
             $table->date('english_assessment_date');

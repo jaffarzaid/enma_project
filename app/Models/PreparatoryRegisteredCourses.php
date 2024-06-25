@@ -16,6 +16,7 @@ class PreparatoryRegisteredCourses extends Model
         'training_service',
         'program_sponsorship',
         'declaration',
+        'approval_status'
     ];
 
     // Inverse Relationship with Trainee entity: 

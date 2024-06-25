@@ -104,7 +104,7 @@ class TraineeDataValidation extends FormRequest
             'phone_1.required' => 'This Field is Required!',
             'phone_1.numeric' => 'Only numbers are allowed!',
             'phone_2.required' => 'This Field is Required!',
-            'phone_2.numeric' => 'This Field is Required!',
+            'phone_2.numeric' => 'Only numbers are allowed!',
             'birthday_date.required' => 'This Field is Required!',
             'birthday_date.date' => 'Only date is allowed!',
             'home_address.required' => 'This Field is Required!',

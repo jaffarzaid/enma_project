@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('training_service');
             $table->string('program_sponsorship');
             $table->text('declaration');
+            $table->string('approval_status')->default('Pending');
             $table->timestamps();
         });
     }
