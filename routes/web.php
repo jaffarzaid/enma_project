@@ -82,7 +82,7 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
                 Route::get('/all-trainees', [AdminController::class, 'ViewAllTrainees'])->name('view.all.trainees');
 
                 // Route: View All Employee Trainees only: 
-                Route::get('/employee-trainees', [AdminController::class, 'ViewEmployeeTrainees'])->name('view.employee.trainees');
+                Route::get('/employed-trainees', [AdminController::class, 'ViewEmployeeTrainees'])->name('view.employee.trainees');
 
                 // Route: View Job Seeker Trainees only: 
                 Route::get('/job-seeker-trainees', [AdminController::class, 'ViewJobSeekerTrainees'])->name('view.job_seeker.trainees');
@@ -97,7 +97,19 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
                 Route::post('/update/trainee/{id}', [AdminController::class, 'UpdateTraineeData'])->name('update.trainee');
 
                 // Route: Display page to see student details and approve a trainee: 
-                Route::get('/approve/trainee/{id}', [AdminController::class, 'DisplayApprovePage'])->name('view.trainee.details');
+                Route::get('/edit/trainee/approval/{id}', [AdminController::class, 'DisplayApprovePage'])->name('view.trainee.details');
+
+                // Route: Approve Trainee: 
+                Route::post('/accept/trainee/{id}', [AdminController::class, 'UpdateApproveStatus'])->name('approve.trainee');
+
+                // Route: Reject a Trainee: 
+                Route::post('/Reject/trainee/{id}', [AdminController::class, 'RejectTrainee'])->name('reject.trainee');
+
+                // Route: Only view Trainee details with approved status details: 
+                Route::get('/view/trainee-details/{id}', [AdminController::class, 'ReadTraineeDetails'])->name('read.trainee.details');
+
+                // Route: Display only pending registration of trainees: 
+                Route::get('/pending/trainees', [AdminController::class, 'ViewPendingTrainees'])->name('pending.trainees');
 
                 // ============= End of Trainees Section =============
 

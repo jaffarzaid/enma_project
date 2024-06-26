@@ -18,6 +18,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Qualification</th>
                             <th scope="col">Specialization</th>
+                            <th scope="col">Approval Status</th>
                             <th scope="col">Sponsorship Name</th>
                             <th scope="col">Trainee Type</th>
                             <th scope="col">Action</th>
@@ -34,12 +35,44 @@
                                 <td>{{ $trainee->email }}</td>
                                 <td>{{ $trainee->qualification }}</td>
                                 <td>{{ $trainee->specialization }}</td>
-                                <td>{{ $trainee->sponsorship_name }}</td>
+                                <td>
+                                    @php
+                                        $status = '';
+                                        if (
+                                            isset($trainee_tm[$trainee->id]) &&
+                                            property_exists($trainee_tm[$trainee->id], 'approval_status')
+                                        ) {
+                                            $status = $trainee_tm[$trainee->id]->approval_status;
+                                        } elseif (
+                                            isset($trainee_pre[$trainee->id]) &&
+                                            property_exists($trainee_pre[$trainee->id], 'approval_status')
+                                        ) {
+                                            $status = $trainee_pre[$trainee->id]->approval_status;
+                                        } elseif (
+                                            isset($trainee_non_bh[$trainee->id]) &&
+                                            property_exists($trainee_non_bh[$trainee->id], 'approval_status')
+                                        ) {
+                                            $status = $trainee_non_bh[$trainee->id]->approval_status;
+                                        }
+                                    @endphp
+                                    @if ($status === 'Pending')
+                                        <h6><span class="badge badge-warning">Pending</span></h6>
+                                    @elseif ($status === 'Accepted')
+                                        <h6><span class="badge badge-success">Accepted</span></h6>
+                                    @else
+                                        <h6><span class="badge badge-danger">Rejected</span></h6>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ isset($trainee_tm[$trainee->id]) ? $trainee_tm[$trainee->id]->program_sponsorship : '' }}
+                                    {{ isset($trainee_pre[$trainee->id]) ? $trainee_pre[$trainee->id]->program_sponsorship : '' }}
+                                    {{ isset($trainee_non_bh[$trainee->id]) ? $trainee_non_bh[$trainee->id]->program_sponsorship : '' }}
+                                </td>
                                 <td>{{ $trainee->trainee_type }}</td>
                                 <td>
                                     <a href="{{ route('edit.trainee.info', $trainee->id) }}" title="Edit"><i
                                             class="fa fa-edit"></i></a>
-                                    <a href="{{ route('view.trainer.details', $trainee->id) }}" title="View"><i
+                                    <a href="{{ route('read.trainee.details', $trainee->id) }}" title="View"><i
                                             class="fa fa-eye p-1"></i></a>
                                 </td>
                             </tr>

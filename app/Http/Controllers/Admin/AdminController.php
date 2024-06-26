@@ -11,6 +11,9 @@ use App\Http\Requests\TrainerUpdateValidation;
 use App\Http\Requests\UpdateChildAdminValidation;
 use App\Http\Requests\UpdateTraineeValidation;
 use App\Models\Course;
+use App\Models\NonBahrainiRegisteredCourse;
+use App\Models\PreparatoryRegisteredCourses;
+use App\Models\TamkeenRegisteredCourses;
 use App\Models\Trainee;
 use App\Models\Trainer;
 use App\Models\User;
@@ -394,7 +397,7 @@ class AdminController extends Controller
         // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type')
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
 
         return view('backend.trainees.all_trainees', compact('all_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
@@ -409,7 +412,7 @@ class AdminController extends Controller
         // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type')
+            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
 
         // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
@@ -421,8 +424,9 @@ class AdminController extends Controller
         // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type')
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
+
 
         return view('backend.trainees.view_employee_trainees', compact('emp_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
@@ -436,7 +440,7 @@ class AdminController extends Controller
         // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type')
+            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
 
         // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
@@ -448,8 +452,9 @@ class AdminController extends Controller
         // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type')
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
+
 
         return view('backend.trainees.view_job_seeker_trainees', compact('job_seeker_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
@@ -460,7 +465,25 @@ class AdminController extends Controller
         // Variable to get only University Student Trainees: 
         $univ_student_trainees = Trainee::where('trainee_type', 'University Student')->paginate(10);
 
-        return view('backend.trainees.view_univ_student_trainees', compact('univ_student_trainees'));
+        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
+        $trainee_tm = DB::table('trainees')
+            ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
+            ->get()->keyBy('trainee_id');
+
+        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
+        $trainee_pre = DB::table('trainees')
+            ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
+            ->get()->keyBy('trainee_id');
+
+        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
+        $trainee_non_bh = DB::table('trainees')
+            ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
+            ->get()->keyBy('trainee_id');
+
+        return view('backend.trainees.view_univ_student_trainees', compact('univ_student_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
 
     // Method: Display Edit Trainee Page: 
@@ -473,7 +496,7 @@ class AdminController extends Controller
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.*')
-            ->where('trainees.id', $id) 
+            ->where('trainees.id', $id)
             ->orderByDesc('tamkeen_registered_courses.created_at')
             ->first();
 
@@ -481,7 +504,7 @@ class AdminController extends Controller
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.*')
-            ->where('trainees.id', $id) 
+            ->where('trainees.id', $id)
             ->orderBy('preparatory_registered_courses.created_at', 'DESC')
             ->first();
 
@@ -490,7 +513,7 @@ class AdminController extends Controller
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type')
             ->where('trainees.id', $id)
-            ->orderBy('non_bahraini_registered_courses.created_at', 'DESC') 
+            ->orderBy('non_bahraini_registered_courses.created_at', 'DESC')
             ->first();
 
         // Variable to get Courses: 
@@ -500,7 +523,8 @@ class AdminController extends Controller
     }
 
     // Method: Update Trainee Data: 
-    public function UpdateTraineeData(UpdateTraineeValidation $request, $id){
+    public function UpdateTraineeData(UpdateTraineeValidation $request, $id)
+    {
         // All validation of updating trainee data is on UpdateTraineeValidation: 
 
         // Updating Trainee data: 
@@ -541,11 +565,12 @@ class AdminController extends Controller
             'alert-type' => 'success',
         );
 
-        return redirect()->route('view.all.trainees')->with($notification);   
+        return redirect()->route('view.all.trainees')->with($notification);
     }
 
     // Method: Display Approve Trainee Page: 
-    public function DisplayApprovePage($id){
+    public function DisplayApprovePage($id)
+    {
         // Variable to get Requested Trainee: 
         $current_trainee = Trainee::where('id', $id)->first();
 
@@ -553,7 +578,7 @@ class AdminController extends Controller
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.*')
-            ->where('trainees.id', $id) 
+            ->where('trainees.id', $id)
             ->orderByDesc('tamkeen_registered_courses.created_at')
             ->first();
 
@@ -561,7 +586,7 @@ class AdminController extends Controller
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.*')
-            ->where('trainees.id', $id) 
+            ->where('trainees.id', $id)
             ->orderBy('preparatory_registered_courses.created_at', 'DESC')
             ->first();
 
@@ -570,7 +595,7 @@ class AdminController extends Controller
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.*')
             ->where('trainees.id', $id)
-            ->orderBy('non_bahraini_registered_courses.created_at', 'DESC') 
+            ->orderBy('non_bahraini_registered_courses.created_at', 'DESC')
             ->first();
 
         // Variable to get Courses: 
@@ -601,7 +626,221 @@ class AdminController extends Controller
         //dd($sponsorship);
 
         return view('backend.trainees.approve_trainee_page', compact('current_trainee', 'trainee_tm', 'trainee_pre', 'trainee_non_bh', 'courses', 'selectedCourse', 'sponsorship'));
+    }
 
+    // Method: Accept Trainee: 
+    public function UpdateApproveStatus(Request $request, $id)
+    {
+        // Updating trainee approve status: 
+        if (TamkeenRegisteredCourses::where('trainee_id', $id)->exists()) {
+            $latestRecord = TamkeenRegisteredCourses::where('trainee_id', $id)
+                ->orderBy('created_at', 'desc')->first();
 
+            if ($latestRecord) {
+                $latestRecord->update([
+                    'approval_status' => 'Accepted',
+                    'note' => $request->note,
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
+
+        if (PreparatoryRegisteredCourses::where('trainee_id', $id)->exists()) {
+            $latestRecord = PreparatoryRegisteredCourses::where('trainee_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            if ($latestRecord) {
+                $latestRecord->update([
+                    'approval_status' => 'Accepted',
+                    'note' => $request->note,
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
+
+        if (NonBahrainiRegisteredCourse::where('trainee_id', $id)->exists()) {
+            $latestRecord = NonBahrainiRegisteredCourse::where('trainee_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            if ($latestRecord) {
+                $latestRecord->update([
+                    'approval_status' => 'Accepted',
+                    'note' => $request->note,
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
+
+        $notification = array(
+            'message' => 'Trainee Accepted Successfully',
+            'alert-type' => 'success',
+        );
+
+        return redirect()->route('pending.trainees')->with($notification);
+    }
+
+    // Method: Reject Trainee 
+    public function RejectTrainee(Request $request, $id)
+    {
+        // Updating trainee approve status: 
+        if (TamkeenRegisteredCourses::where('trainee_id', $id)->exists()) {
+            $latestRecord = TamkeenRegisteredCourses::where('trainee_id', $id)
+                ->orderBy('created_at', 'desc')->first();
+
+            if ($latestRecord) {
+                $latestRecord->update([
+                    'approval_status' => 'Rejected',
+                    'reason_of_rejection' => $request->rejection_reason,
+                    'note' => $request->note,
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
+
+        if (PreparatoryRegisteredCourses::where('trainee_id', $id)->exists()) {
+            $latestRecord = PreparatoryRegisteredCourses::where('trainee_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            if ($latestRecord) {
+                $latestRecord->update([
+                    'approval_status' => 'Rejected',
+                    'reason_of_rejection' => $request->rejection_reason,
+                    'note' => $request->note,
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
+
+        if (NonBahrainiRegisteredCourse::where('trainee_id', $id)->exists()) {
+            $latestRecord = NonBahrainiRegisteredCourse::where('trainee_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            if ($latestRecord) {
+                $latestRecord->update([
+                    'approval_status' => 'Rejected',
+                    'reason_of_rejection' => $request->rejection_reason,
+                    'note' => $request->note,
+                    'updated_at' => Carbon::now()
+                ]);
+            }
+        }
+
+        $notification = array(
+            'message' => 'Trainee Rejected Successfully',
+            'alert-type' => 'info',
+        );
+
+        return redirect()->route('pending.trainees')->with($notification);
+    }
+
+    // Method: Read only full details of a trainee acceptance/rejection: 
+    public function ReadTraineeDetails($id)
+    {
+        // Variable to get Requested Trainee: 
+        $current_trainee = Trainee::where('id', $id)->first();
+
+        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
+        $trainee_tm = DB::table('trainees')
+            ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.*')
+            ->where('trainees.id', $id)
+            ->orderByDesc('tamkeen_registered_courses.created_at')
+            ->first();
+
+        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
+        $trainee_pre = DB::table('trainees')
+            ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.*')
+            ->where('trainees.id', $id)
+            ->orderBy('preparatory_registered_courses.created_at', 'DESC')
+            ->first();
+
+        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
+        $trainee_non_bh = DB::table('trainees')
+            ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.*')
+            ->where('trainees.id', $id)
+            ->orderBy('non_bahraini_registered_courses.created_at', 'DESC')
+            ->first();
+
+        // Variable to get Courses: 
+        $courses = Course::orderBy('course_name', 'ASC')->get();
+
+        // Variable to get latest selected course by a trainer : 
+        $selectedCourse = '';
+
+        if (isset($trainee_tm) && $trainee_tm->course_id) {
+            $selectedCourse = $courses->firstWhere('id', $trainee_tm->course_id)->course_name;
+        } elseif (isset($trainee_pre) && $trainee_pre->course_id) {
+            $selectedCourse = $courses->firstWhere('id', $trainee_pre->course_id)->course_name;
+        } elseif (isset($trainee_non_bh) && $trainee_non_bh->course_id) {
+            $selectedCourse = $courses->firstWhere('id', $trainee_non_bh->course_id)->course_name;
+        }
+
+        // Variable to get latest program sponsorship by a trainer: 
+        $sponsorship = '';
+
+        if ($trainee_tm && $trainee_tm->program_sponsorship) {
+            $sponsorship = $trainee_tm->program_sponsorship;
+        } elseif ($trainee_pre && $trainee_pre->program_sponsorship) {
+            $sponsorship = $trainee_pre->program_sponsorship;
+        } elseif ($trainee_non_bh && $trainee_non_bh->program_sponsorship) {
+            $sponsorship = $trainee_non_bh->program_sponsorship;
+        }
+
+        $trainee_tm_note = isset($trainee_tm) ? $trainee_tm->note : '';
+
+        $trainee_pre_note = isset($trainee_pre) ? $trainee_pre->note : '';
+
+        $trainee_non_bh_note = isset($trainee_non_bh) ? $trainee_non_bh->note : '';
+
+        return view(
+            'backend.trainees.read_trainee_details',
+            compact(
+                'current_trainee',
+                'trainee_tm',
+                'trainee_pre',
+                'trainee_non_bh',
+                'courses',
+                'selectedCourse',
+                'sponsorship',
+                'trainee_non_bh_note',
+                'trainee_tm_note',
+                'trainee_pre_note'
+            )
+        );
+    }
+
+    // Method: View Pending Trainees Page: 
+    public function ViewPendingTrainees()
+    {
+        // Getting pending trainees and related data
+        $trainee_tm = DB::table('trainees')
+            ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'trainees.f_name', 'trainees.s_name', 'trainees.l_name', 'trainees.cpr', 'trainees.nationality', 'trainees.phone1', 'trainees.phone2', 'trainees.qualification', 'trainees.specialization', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type')
+            ->where('tamkeen_registered_courses.approval_status', 'Pending')
+            ->get()->keyBy('trainee_id');
+
+        $trainee_pre = DB::table('trainees')
+            ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'trainees.f_name', 'trainees.s_name', 'trainees.l_name', 'trainees.cpr', 'trainees.nationality', 'trainees.phone1', 'trainees.phone2', 'trainees.qualification', 'trainees.specialization', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
+            ->where('preparatory_registered_courses.approval_status', 'Pending')
+            ->get()->keyBy('trainee_id');
+
+        $trainee_non_bh = DB::table('trainees')
+            ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
+            ->select('trainees.id as trainee_id', 'trainees.f_name', 'trainees.s_name', 'trainees.l_name', 'trainees.cpr', 'trainees.nationality', 'trainees.phone1', 'trainees.phone2', 'trainees.qualification', 'trainees.specialization', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type')
+            ->where('non_bahraini_registered_courses.approval_status', 'Pending')
+            ->get()->keyBy('trainee_id');
+
+        // Merge all pending trainees into one collection (if needed)
+        $pending_trainees = $trainee_tm->merge($trainee_pre)->merge($trainee_non_bh);
+
+        // Pass the pending_trainees collection to your view
+        return view('backend.trainees.pending_trainees', compact('pending_trainees'));
     }
 }

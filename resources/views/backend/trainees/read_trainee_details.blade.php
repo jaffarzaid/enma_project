@@ -420,67 +420,65 @@
                         value="{{ $sponsorship }}" readonly>
                 </div>
 
-                <div class="col-md-6 mt-3">
-                    <form method="POST" action="{{ route('reject.trainee', $current_trainee->id) }}">
-                        @csrf
-                        {{-- Reason for Rejection --}}
-                        <div class="col-md-12 mt-3">
-                            <label for="trainee_gender" class="form-label">Reason for Rejection</label>
-                            <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_1" value="No Proper Educational Qualification">
-                                <label class="form-check-label" for="r_1">
-                                    No Proper Educational Qualification
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_2" value="No Relevant Work Experience">
-                                <label class="form-check-label" for="r_2">
-                                    No Relevant Work Experience
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_3" value="Low Level English Proficiency">
-                                <label class="form-check-label" for="r_3">
-                                    Low Level English Proficiency
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_4" value="Low Score on Pre-Assessment Test">
-                                <label class="form-check-label" for="r_4">
-                                    Low Score on Pre-Assessment Test
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_5" value="Others">
-                                <label class="form-check-label" for="r_5">
-                                    Others
-                                </label>
-                            </div>
-                        </div>
-
-                        {{-- Note --}}
-                        <div class="col-md-12 mt-3">
-                            <label class="form-label" for="note">Note</label>
-                            <textarea id="note" class="form-control" name="note"></textarea>
-                        </div>
-
-                        <div class="col-md-12 mt-3 text-center">
-                            <button type="submit" class="btn btn-danger">Decline</button>
-                        </div>
-                    </form>
+                {{-- Reason for Rejection --}}
+                <div class="col-md-12 mt-3">
+                    <label for="trainee_gender" class="form-label">Reason for Rejection</label>
+                    <div class="form-check">
+                        <input type="radio" name="rejection_reason" class="form-check-input" id="r_1"
+                        {{ (isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
+                        {{ (isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
+                        {{ (isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
+                            disabled>
+                        <label class="form-check-label" for="r_1">
+                            No Proper Educational Qualification
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="rejection_reason" class="form-check-input" id="r_2"
+                        {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
+                        {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
+                        {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
+                           disabled>
+                        <label class="form-check-label" for="r_2">
+                            No Relevant Work Experience
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="rejection_reason" class="form-check-input" id="r_3"
+                            {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'Low Level English Proficiency' ? 'checked' : '' }}
+                            {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'Low Level English Proficiency' ? 'checked' : '' }}
+                            {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'Low Level English Proficiency' ? 'checked' : '' }}
+                        disabled>
+                        <label class="form-check-label" for="r_3">
+                            Low Level English Proficiency
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="rejection_reason" class="form-check-input" id="r_4"
+                        {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'Low Score on Pre-Assessment Test' ? 'checked' : '' }}
+                        {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'Low Score on Pre-Assessment Test' ? 'checked' : '' }}
+                        {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'Low Score on Pre-Assessment Test' ? 'checked' : '' }}
+                        disabled>
+                        <label class="form-check-label" for="r_4">
+                            Low Score on Pre-Assessment Test
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="rejection_reason" class="form-check-input" id="r_5"
+                        {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'Others' ? 'checked' : '' }}
+                        {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'Others' ? 'checked' : '' }}
+                        {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'Others' ? 'checked' : '' }}
+                        disabled>
+                        <label class="form-check-label" for="r_5">
+                            Others
+                        </label>
+                    </div>
                 </div>
 
-                {{-- Approve Form --}}
-                <div class="col-md-6 mt-3">
-                    <form method="POST" action="{{ route('approve.trainee', $current_trainee->id) }}">
-                        @csrf
-                        <div class="col-md-12 mt-3">
-                            
-                        </div>
-                        <div class="col-md-12 mt-3 text-center">
-                            <button type="submit" class="btn btn-success">Approve</button>
-                        </div>
-                    </form>
+                {{-- Note --}}
+                <div class="col-md-12 mt-3">
+                    <label class="form-label" for="note">Note</label>
+                    <textarea id="note" class="form-control" name="note" readonly>{{ $trainee_tm_note ?: ($trainee_pre_note ?: $trainee_non_bh_note) }}</textarea>
                 </div>
             </div>
         </div>

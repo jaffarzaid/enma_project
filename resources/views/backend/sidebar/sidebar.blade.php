@@ -32,6 +32,7 @@
                     <li><a><i class="fa fa-group"></i></i> Trainees <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('view.all.trainees') }}">All Trainees</a></li>
+                            <li><a href="{{ route('pending.trainees') }}">Pending Trainees</a></li>
                             <li><a href="{{ route('view.employee.trainees') }}">Employee Trainees</a></li>
                             <li><a href="{{ route('view.job_seeker.trainees') }}">Job Seeker Trainees</a></li>
                             <li><a href="{{ route('view.univ_students.trainees') }}">University Student Trainees</a></li>

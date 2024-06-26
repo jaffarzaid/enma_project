@@ -319,7 +319,7 @@ class HomeController extends Controller
         // Trainee validation based on ReEnrollmentTraineeData class: 
 
         // Variable to get trainee id: 
-        $current_trainee = Trainee::where('cpr', $request->trainee_cpr)->first();
+        $current_trainee = Trainee::where('cpr', $request->trainee_cpr)->orderBy('created_at', 'desc')->first();
 
         // dd($current_trainee->nationality);
         // dd($request->trainee_type);
@@ -332,6 +332,39 @@ class HomeController extends Controller
                 ->withErrors(['sponsorship_name' => 'Tamkeen is only available for Bahraini nationals.'])
                 ->withInput();
         }
+
+        // Get the latest record for the current trainee from the TamkeenRegisteredCourses table: 
+        $latestTamkeenCourse = TamkeenRegisteredCourses::where('trainee_id', $current_trainee->id)
+        ->orderBy('created_at', 'DESC')->first();
+
+        // Condition to prevent trainee from registration if the latest approval_status is 'Pending'
+        if ($latestTamkeenCourse && $latestTamkeenCourse->approval_status == 'Pending') {
+            return redirect()->back()
+                ->withErrors(['selected_course' => 'Your previous application is still pending.'])
+                ->withInput();
+        }
+
+        // Get the latest record for the current trainee from the PreparatoryRegisteredCourses table: 
+        $latestPreparatoryCourse = PreparatoryRegisteredCourses::where('trainee_id', $current_trainee->id)
+        ->orderBy('created_at', 'DESC')->first();
+
+        // Condition to prevent trainee from registration if the latest approval_status is 'Pending': 
+        if($latestPreparatoryCourse && $latestPreparatoryCourse->approval_status == 'Pending'){
+            return redirect()->back()
+                ->withErrors(['selected_course' => 'Your previous application is still pending.'])
+                ->withInput();
+        }
+
+        // Get the latest record for the current trainee from the NonBahrainiRegisteredCourse table: 
+        $latestNonBahrainiCOurse = NonBahrainiRegisteredCourse::where('trainee_id', $current_trainee->id)
+        ->orderBy('created_at', 'DESC')->first();
+        if($latestNonBahrainiCOurse && $latestNonBahrainiCOurse->approval_status == 'Pending'){
+            return redirect()->back()
+                ->withErrors(['selected_course' => 'Your previous application is still pending.'])
+                ->withInput();
+        }
+        
+
         // Storing registered courses into tamkeen_registered_courses entity when (Training Service = Tutorial Course or Examination): 
         else if (($request->training_service_type == 'Tutorial Course' || $request->training_service_type == 'Examination') && $current_trainee->nationality == 'Bahraini') {
             TamkeenRegisteredCourses::insert([

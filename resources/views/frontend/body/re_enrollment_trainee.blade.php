@@ -80,9 +80,9 @@
                             </div>
 
                             <div class="col-md-12 form-group mb-3">
-                                <label for="lastname-form3-1p" class="form-control-label mbr-fonts-style display-8">Select a
+                                <label for="selected_course" class="form-control-label mbr-fonts-style display-8">Select a
                                     Course <span style="color: red;"> *</span></label>
-                                <select name="selected_course" class="form-control display-7" id="select-formbuilder-1t">
+                                <select name="selected_course" class="form-control display-7" id="selected_course">
                                     @if (isset($job_seeker_courses))
                                         @foreach ($job_seeker_courses as $course)
                                             <option value="{{ $course->id }}">{{ $course->course_name }}</option>

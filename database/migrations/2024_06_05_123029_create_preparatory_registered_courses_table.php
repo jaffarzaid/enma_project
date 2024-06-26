@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('program_sponsorship');
             $table->text('declaration');
             $table->string('approval_status')->default('Pending');
+            $table->string('reason_of_rejection')->nullable();
+            $table->text('note');
             $table->timestamps();
         });
     }

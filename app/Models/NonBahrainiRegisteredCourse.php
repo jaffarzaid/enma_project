@@ -16,7 +16,9 @@ class NonBahrainiRegisteredCourse extends Model
         'training_service',
         'program_sponsorship',
         'declaration',
-        'approval_status'
+        'approval_status',
+        'reason_of_rejection',
+        'note'
     ];
 
     //  Inverse Relationship with Trainee Model: 
