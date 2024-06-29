@@ -23,41 +23,43 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Exception;
+use ZipArchive;
 
 class AdminController extends Controller
 {
-    // function to ensure a user is authenticated before executing any function: 
+    // function to ensure a user is authenticated before executing any function:
     public function __construct()
     {
         $this->middleware('auth');
     }
 
 
-    //Method: Admin logout: 
+    //Method: Admin logout:
     public function Logout()
     {
         Auth::guard('web')->logout();
-        // Clearing User Session: 
+        // Clearing User Session:
         Session::invalidate();
-        // Regenerate CSRF: 
+        // Regenerate CSRF:
         Session::regenerateToken();
 
         return redirect()->route('login');
     }
 
-    // Method: Display Add Tutor Page: 
+    // Method: Display Add Tutor Page:
     public function AddTrainer()
     {
         return view('backend.trainers.add_trainer');
     }
 
-    // Method: Store Trainer Data: 
+    // Method: Store Trainer Data:
     public function StoreTrainer(NewTrainerValidation $request)
     {
 
         // All Trainer data is validated at BackendValidation Class.
 
-        // Storing Trainer's Data into database: 
+        // Storing Trainer's Data into database:
         Trainer::insert([
             'cpr' => $request->trainer_cpr,
             'name' => $request->trainer_name,
@@ -80,39 +82,39 @@ class AdminController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    // Method: display all trainers page: 
+    // Method: display all trainers page:
     public function DisplayAllTrainer()
     {
-        // Variable to get all added trainers: 
+        // Variable to get all added trainers:
         $trainers = Trainer::orderBy('id', 'DESC')->paginate(10);
 
         return view('backend.trainers.all_trainers', compact('trainers'));
     }
 
-    // Method: View All Trainer: 
+    // Method: View All Trainer:
     public function ViewTrainer($id)
     {
 
-        // Variable To get specific trainer details: 
+        // Variable To get specific trainer details:
         $current_trainer = Trainer::where('id', $id)->first();
 
         return view('backend.trainers.view_trainer_details', compact('current_trainer'));
     }
 
-    //  Method: Display trainer edit page: 
+    //  Method: Display trainer edit page:
     public function EditTrainer($id)
     {
-        // Get requested trainer: 
+        // Get requested trainer:
         $current_trainer = Trainer::where('id', $id)->first();
 
         return view('backend.trainers.edit_trainer', compact('current_trainer'));
     }
 
-    // Method: update trainer data: 
+    // Method: update trainer data:
     public function UpdateTrainer(TrainerUpdateValidation $request, $id)
     {
-        // Validation is through BackendValidation class: 
-        // Updating current trainer: 
+        // Validation is through BackendValidation class:
+        // Updating current trainer:
         Trainer::where('id', $id)->update([
             'cpr' => $request->updated_trainer_cpr,
             'name' => $request->updated_trainer_name,
@@ -135,20 +137,20 @@ class AdminController extends Controller
     }
 
 
-    // Method: Display Add Courses Page: 
+    // Method: Display Add Courses Page:
     public function AddCourses()
     {
-        // Variable to get all trainers: 
+        // Variable to get all trainers:
         $trainers = Trainer::orderBy('name', 'ASC')->get();
         return view('backend.courses.add_course', compact('trainers'));
     }
 
-    // Method: Store Courses: 
+    // Method: Store Courses:
     public function StoreCourse(NewCourseValidation $request)
     {
-        // All validation based on NewCourseValidation class: 
+        // All validation based on NewCourseValidation class:
 
-        // Adding a course to database: 
+        // Adding a course to database:
         Course::insert([
             'trainer_id' => $request->trainer_name,
             'awarding_body' => $request->awarding_body,
@@ -175,41 +177,41 @@ class AdminController extends Controller
     }
 
 
-    // Method: Display All Courses: 
+    // Method: Display All Courses:
     public function DisplayAllCourses()
     {
 
-        // Variable to get Courses: 
+        // Variable to get Courses:
         $courses = Course::orderBy('id', 'DESC')->paginate(10);
 
         return view('backend.courses.all_courses', compact('courses'));
     }
 
-    // Method: Display Edit Course Page: 
+    // Method: Display Edit Course Page:
     public function EditCourse($id)
     {
 
-        // Variable to get specific course: 
+        // Variable to get specific course:
         $current_course = DB::table('trainers')
             ->join('courses', 'trainers.id', '=', 'courses.trainer_id')
             ->where('courses.id', $id)
             ->select('courses.*', 'trainers.name as trainer_name')
             ->first();
 
-        // Variable to get trainers" 
+        // Variable to get trainers"
         $trainers = Trainer::orderBy('name', 'ASC')->get();
 
         return view('backend.courses.edit_course', compact('current_course', 'trainers'));
     }
 
 
-    // Method: Update Course data: 
+    // Method: Update Course data:
     public function UpdateCourse(CourseUpdateValidation $request, $id)
     {
 
-        // Validation of course data is available into CourseUpdateValidation class: 
+        // Validation of course data is available into CourseUpdateValidation class:
 
-        // updating data into database: 
+        // updating data into database:
         Course::where('id', $id)->update([
             'trainer_id' => $request->trainer_name,
             'awarding_body' => $request->awarding_body,
@@ -240,7 +242,7 @@ class AdminController extends Controller
     // Method: View Course data Page:
     public function ViewCourse($id)
     {
-        // Variable to get specific course: 
+        // Variable to get specific course:
         $current_course = DB::table('trainers')
             ->join('courses', 'trainers.id', '=', 'courses.trainer_id')
             ->where('courses.id', $id)
@@ -250,18 +252,18 @@ class AdminController extends Controller
         return view('backend.courses.view_course', compact('current_course'));
     }
 
-    // Method: Display page to create child admin: 
+    // Method: Display page to create child admin:
     public function CreateChildAdmin()
     {
         return view('backend.child_admins.create_child_admin');
     }
 
-    // Method: Store child Admin into User Model: 
+    // Method: Store child Admin into User Model:
     public function StoreChildAdmin(ChildAdminValidation $request)
     {
-        // all Child Admin is validated into ChildAdminValidation class: 
+        // all Child Admin is validated into ChildAdminValidation class:
 
-        // Inserting child admin in User Model: 
+        // Inserting child admin in User Model:
         User::insert([
             'name' => $request->emp_name,
             'email' => $request->emp_email,
@@ -285,18 +287,18 @@ class AdminController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    // Method: Display All Child Admin: 
+    // Method: Display All Child Admin:
     public function ViewChildAdmins()
     {
 
-        // variable to get all child Admin: 
+        // variable to get all child Admin:
         $child_admins = User::orderBy('id', 'DESC')->select('id', 'name', 'email', 'status')
             ->where('is_child_admin', 1)->paginate(10);
 
         return view('backend.child_admins.all_child_admins', compact('child_admins'));
     }
 
-    // Method: Display Edit Child Admin Page: 
+    // Method: Display Edit Child Admin Page:
     public function EditChildAdmin($id)
     {
 
@@ -306,10 +308,10 @@ class AdminController extends Controller
         return view('backend.child_admins.edit_child_admin', compact('curr_child_admin'));
     }
 
-    // Method: Update Child Admin Data: 
+    // Method: Update Child Admin Data:
     public function UpdateChildAdmin(UpdateChildAdminValidation $request, $id)
     {
-        // Validation in on class: 
+        // Validation in on class:
 
         // Storing Updated data into array:
         $updated_data = [
@@ -326,12 +328,12 @@ class AdminController extends Controller
             'updated_at' => Carbon::now()
         ];
 
-        // Condition to check if a user want to change his password: 
+        // Condition to check if a user want to change his password:
         if ($request->filled('password')) {
             $updated_data['password'] = Hash::make($request->password);
         }
 
-        // Updating Child Admin: 
+        // Updating Child Admin:
         User::where('id', $id)->update($updated_data);
 
         $notification = array(
@@ -342,10 +344,10 @@ class AdminController extends Controller
         return redirect()->route('all.child_admins')->with($notification);
     }
 
-    // Method: Deactivate Child Admin: 
+    // Method: Deactivate Child Admin:
     public function DeactivateChildAdmin($id)
     {
-        // Change Child Admin Status: 
+        // Change Child Admin Status:
         User::where('id', $id)->update([
             'status' => 0,
             'updated_at' => Carbon::now()
@@ -359,10 +361,10 @@ class AdminController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    // Method: Activate Child Admin: 
+    // Method: Activate Child Admin:
     public function ActivateChildAdmin($id)
     {
-        // Change Child Admin Status to active: 
+        // Change Child Admin Status to active:
         User::where('id', $id)->update([
             'status' => 1,
             'updated_at' => Carbon::now()
@@ -376,25 +378,25 @@ class AdminController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    // Method: Display All Trainees Page: 
+    // Method: Display All Trainees Page:
     public function ViewAllTrainees()
     {
-        // Variable to get all trainees from database: 
+        // Variable to get all trainees from database:
         $all_trainees = Trainee::orderBy('created_at', 'DESC')->paginate(10);
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
@@ -403,25 +405,25 @@ class AdminController extends Controller
         return view('backend.trainees.all_trainees', compact('all_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
 
-    // Method: Display only Employee Trainees: 
+    // Method: Display only Employee Trainees:
     public function ViewEmployeeTrainees()
     {
-        // Variable to get only Employee Trainee: 
+        // Variable to get only Employee Trainee:
         $emp_trainees = Trainee::where('trainee_type', 'Employee')->paginate(10);
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
@@ -431,25 +433,25 @@ class AdminController extends Controller
         return view('backend.trainees.view_employee_trainees', compact('emp_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
 
-    // Method Display only Job Seeker Trainees: 
+    // Method Display only Job Seeker Trainees:
     public function ViewJobSeekerTrainees()
     {
-        // Variable to get only job seeker trainees: 
+        // Variable to get only job seeker trainees:
         $job_seeker_trainees = Trainee::where('trainee_type', 'Job Seeker')->paginate(10);
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
@@ -459,25 +461,25 @@ class AdminController extends Controller
         return view('backend.trainees.view_job_seeker_trainees', compact('job_seeker_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
 
-    // Method: Display only University Student: 
+    // Method: Display only University Student:
     public function ViewUnivStudentTrainees()
     {
-        // Variable to get only University Student Trainees: 
+        // Variable to get only University Student Trainees:
         $univ_student_trainees = Trainee::where('trainee_type', 'University Student')->paginate(10);
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
             ->get()->keyBy('trainee_id');
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
@@ -486,13 +488,13 @@ class AdminController extends Controller
         return view('backend.trainees.view_univ_student_trainees', compact('univ_student_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
 
-    // Method: Display Edit Trainee Page: 
+    // Method: Display Edit Trainee Page:
     public function EditTraineeInfo($id)
     {
-        // Variable to get requested trainee: 
+        // Variable to get requested trainee:
         $current_trainee = Trainee::where('id', $id)->first();
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.*')
@@ -500,7 +502,7 @@ class AdminController extends Controller
             ->orderByDesc('tamkeen_registered_courses.created_at')
             ->first();
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.*')
@@ -508,7 +510,7 @@ class AdminController extends Controller
             ->orderBy('preparatory_registered_courses.created_at', 'DESC')
             ->first();
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
+        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type')
@@ -516,18 +518,18 @@ class AdminController extends Controller
             ->orderBy('non_bahraini_registered_courses.created_at', 'DESC')
             ->first();
 
-        // Variable to get Courses: 
+        // Variable to get Courses:
         $courses = Course::orderBy('course_name', 'ASC')->get();
 
         return view('backend.trainees.edit_trainee', compact('current_trainee', 'trainee_tm', 'trainee_pre', 'trainee_non_bh', 'courses'));
     }
 
-    // Method: Update Trainee Data: 
+    // Method: Update Trainee Data:
     public function UpdateTraineeData(UpdateTraineeValidation $request, $id)
     {
-        // All validation of updating trainee data is on UpdateTraineeValidation: 
+        // All validation of updating trainee data is on UpdateTraineeValidation:
 
-        // Updating Trainee data: 
+        // Updating Trainee data:
         Trainee::where('id', $id)->update([
             'f_name' => $request->trainee_f_name,
             's_name' => $request->trainee_s_name,
@@ -568,10 +570,10 @@ class AdminController extends Controller
         return redirect()->route('view.all.trainees')->with($notification);
     }
 
-    // Method: Display Approve Trainee Page: 
+    // Method: Display Approve Trainee Page:
     public function DisplayApprovePage($id)
     {
-        // Variable to get Requested Trainee: 
+        // Variable to get Requested Trainee:
         $current_trainee = Trainee::where('id', $id)->first();
 
         $trainee_tm = DB::table('trainees')
@@ -631,7 +633,7 @@ class AdminController extends Controller
             $selectedCourse = $courses->firstWhere('id', $latestCourse->course_id)->course_name;
         }
 
-        // Variable to get latest program sponsorship by a trainer: 
+        // Variable to get latest program sponsorship by a trainer:
         $sponsorship = '';
         if ($latestCourse && $latestCourse->program_sponsorship) {
             $sponsorship = $latestCourse->program_sponsorship;
@@ -642,10 +644,10 @@ class AdminController extends Controller
         return view('backend.trainees.approve_trainee_page', compact('current_trainee', 'trainee_tm', 'trainee_pre', 'trainee_non_bh', 'selectedCourse', 'sponsorship', 'latestCourse'));
     }
 
-    // Method: Accept Trainee: 
+    // Method: Accept Trainee:
     public function UpdateApproveStatus(Request $request, $id)
     {
-        // Updating trainee approve status: 
+        // Updating trainee approve status:
         if (TamkeenRegisteredCourses::where('trainee_id', $id)->exists()) {
             $latestRecord = TamkeenRegisteredCourses::where('trainee_id', $id)
                 ->orderBy('created_at', 'desc')->first();
@@ -695,10 +697,10 @@ class AdminController extends Controller
         return redirect()->route('pending.trainees')->with($notification);
     }
 
-    // Method: Reject Trainee 
+    // Method: Reject Trainee
     public function RejectTrainee(Request $request, $id)
     {
-        // Updating trainee approve status: 
+        // Updating trainee approve status:
         if (TamkeenRegisteredCourses::where('trainee_id', $id)->exists()) {
             $latestRecord = TamkeenRegisteredCourses::where('trainee_id', $id)
                 ->orderBy('created_at', 'desc')->first();
@@ -751,10 +753,10 @@ class AdminController extends Controller
         return redirect()->route('pending.trainees')->with($notification);
     }
 
-    // Method: Read only full details of a trainee acceptance/rejection: 
+    // Method: Read only full details of a trainee acceptance/rejection:
     public function ReadTraineeDetails($id)
     {
-        // Variable to get Requested Trainee: 
+        // Variable to get Requested Trainee:
         $current_trainee = Trainee::where('id', $id)->first();
 
         $trainee_tm = DB::table('trainees')
@@ -814,7 +816,7 @@ class AdminController extends Controller
             $selectedCourse = $courses->firstWhere('id', $latestCourse->course_id)->course_name;
         }
 
-        // Variable to get latest program sponsorship by a trainer: 
+        // Variable to get latest program sponsorship by a trainer:
         $sponsorship = '';
         if ($latestCourse && $latestCourse->program_sponsorship) {
             $sponsorship = $latestCourse->program_sponsorship;
@@ -844,7 +846,7 @@ class AdminController extends Controller
         );
     }
 
-    // Method: View Pending Trainees Page: 
+    // Method: View Pending Trainees Page:
     public function ViewPendingTrainees()
     {
         // Getting pending trainees and related data
@@ -873,51 +875,111 @@ class AdminController extends Controller
         return view('backend.trainees.pending_trainees', compact('pending_trainees'));
     }
 
-    // Method: Display Full Trainee History: 
+    // Method: Display Full Trainee History:
     public function ViewTraineeHistory($id)
     {
-        // Variable to get requested trainee: 
+        // Variable to get requested trainee:
         $current_trainee = Trainee::where('id', $id)->first();
 
-        // Joining trainees, tamkeen_registered_courses, preparatory_registered_courses and non_bahraini_registered_courses entities: 
+        // Joining trainees, tamkeen_registered_courses, preparatory_registered_courses and non_bahraini_registered_courses entities:
         $all_trainingEntities = DB::table('trainees')
-        ->leftJoin('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-        ->leftJoin('preparatory_registered_courses', function ($join) {
-            $join->on('trainees.id', '=', 'preparatory_registered_courses.trainee_id')
-                ->join('courses as preparatory_courses', 'preparatory_registered_courses.course_id', '=', 'preparatory_courses.id');
-        })
-        ->leftJoin('non_bahraini_registered_courses', function ($join) {
-            $join->on('trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-                ->join('courses as non_bahraini_courses', 'non_bahraini_registered_courses.course_id', '=', 'non_bahraini_courses.id');
-        })
-        ->leftJoin('courses as tamkeen_courses', 'tamkeen_registered_courses.course_id', '=', 'tamkeen_courses.id')
-        ->select(
-            'trainees.id',
-            'tamkeen_registered_courses.approval_status as tamkeen_approval_status',
-            'tamkeen_registered_courses.program_sponsorship as tamkeen_program_sponsorship',
-            'tamkeen_registered_courses.training_service as tamkeen_training_service',
-            'tamkeen_registered_courses.trainee_type as tamkeen_trainee_type',
-            'tamkeen_registered_courses.created_at as tamkeen_creation',
-            'preparatory_registered_courses.approval_status as preparatory_approval_status',
-            'preparatory_registered_courses.program_sponsorship as preparatory_program_sponsorship',
-            'preparatory_registered_courses.training_service as preparatory_training_service',
-            'preparatory_registered_courses.trainee_type as preparatory_trainee_type',
-            'preparatory_registered_courses.created_at as preparatory_creation',
-            'non_bahraini_registered_courses.approval_status as non_bahraini_approval_status',
-            'non_bahraini_registered_courses.program_sponsorship as non_bahraini_program_sponsorship',
-            'non_bahraini_registered_courses.training_service as non_bahraini_training_service',
-            'non_bahraini_registered_courses.trainee_type as non_bahraini_trainee_type',
-            'non_bahraini_registered_courses.created_at as non_bahraini_creation',
-            'tamkeen_courses.course_name as tamkeen_course_name',
-            'preparatory_courses.course_name as preparatory_course_name',
-            'non_bahraini_courses.course_name as non_bahraini_course_name'
-        )
-        ->where('trainees.id', $id)
-        ->get();
-
-
+            ->leftJoin('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+            ->leftJoin('preparatory_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'preparatory_registered_courses.trainee_id')
+                    ->join('courses as preparatory_courses', 'preparatory_registered_courses.course_id', '=', 'preparatory_courses.id');
+            })
+            ->leftJoin('non_bahraini_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
+                    ->join('courses as non_bahraini_courses', 'non_bahraini_registered_courses.course_id', '=', 'non_bahraini_courses.id');
+            })
+            ->leftJoin('courses as tamkeen_courses', 'tamkeen_registered_courses.course_id', '=', 'tamkeen_courses.id')
+            ->select(
+                'trainees.id',
+                'tamkeen_registered_courses.approval_status as tamkeen_approval_status',
+                'tamkeen_registered_courses.program_sponsorship as tamkeen_program_sponsorship',
+                'tamkeen_registered_courses.training_service as tamkeen_training_service',
+                'tamkeen_registered_courses.trainee_type as tamkeen_trainee_type',
+                'tamkeen_registered_courses.created_at as tamkeen_creation',
+                'preparatory_registered_courses.approval_status as preparatory_approval_status',
+                'preparatory_registered_courses.program_sponsorship as preparatory_program_sponsorship',
+                'preparatory_registered_courses.training_service as preparatory_training_service',
+                'preparatory_registered_courses.trainee_type as preparatory_trainee_type',
+                'preparatory_registered_courses.created_at as preparatory_creation',
+                'non_bahraini_registered_courses.approval_status as non_bahraini_approval_status',
+                'non_bahraini_registered_courses.program_sponsorship as non_bahraini_program_sponsorship',
+                'non_bahraini_registered_courses.training_service as non_bahraini_training_service',
+                'non_bahraini_registered_courses.trainee_type as non_bahraini_trainee_type',
+                'non_bahraini_registered_courses.created_at as non_bahraini_creation',
+                'tamkeen_courses.course_name as tamkeen_course_name',
+                'preparatory_courses.course_name as preparatory_course_name',
+                'non_bahraini_courses.course_name as non_bahraini_course_name'
+            )
+            ->where('trainees.id', $id)
+            ->get();
 
         return view('backend.trainees.trainee_history', compact('current_trainee', 'all_trainingEntities'));
+    }
 
+    // Method: Download Trainee Files:
+    public function DownloadFiles($id)
+    {
+        try {
+            // Variable to get requested file:
+            $trainee = Trainee::findOrFail($id);
+
+            // find Files paths:
+            $files = [];
+
+            $files = [];
+
+            // Check and add each file to $files if it exists:
+            if (file_exists(storage_path('app/' . $trainee->cpr_file))) {
+                $files['cpr_file'] = storage_path('app/' . $trainee->cpr_file);
+            }
+            if (file_exists(storage_path('app/' . $trainee->passport_file))) {
+                $files['passport_file'] = storage_path('app/' . $trainee->passport_file);
+            }
+            if (file_exists(storage_path('app/' . $trainee->education_certificate_file))) {
+                $files['education_certificate_file'] = storage_path('app/' . $trainee->education_certificate_file);
+            }
+            if (file_exists(storage_path('app/' . $trainee->transcript_file))) {
+                $files['transcript_file'] = storage_path('app/' . $trainee->transcript_file);
+            }
+
+            // Check if health_issue_file is a file or a directory
+            $healthIssueFilePath = storage_path('app/' . $trainee->health_issue_file);
+            if (is_file($healthIssueFilePath)) {
+                $files['health_issue_file'] = $healthIssueFilePath;
+            }
+
+            // Initializing ZipArchive class:
+            $zip = new ZipArchive;
+
+            // Creating temp file in the memory:
+            $tempFile = tempnam(sys_get_temp_dir(), 'zip');
+
+            if ($zip->open($tempFile, ZipArchive::CREATE) === TRUE) {
+                foreach ($files as $key => $file) {
+                    if (file_exists($file)) {
+                        $zip->addFile($file, basename($file));
+                    }
+                }
+                // Closing Zip Archive:
+                $zip->close();
+            } else {
+                throw new Exception('Failed to create Zip file');
+            }
+
+            // Downloading files:
+            return response()->download($tempFile, $trainee->cpr . '_files.zip');
+
+        } catch (Exception $e) {
+            $notification = array(
+                'message' => 'File is not existed!',
+                'alert-type' => 'error',
+            );
+
+            return redirect()->back()->with($notification);
+        }
     }
 }

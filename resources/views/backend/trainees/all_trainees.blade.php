@@ -4,10 +4,10 @@
     <span class="count_top"><i class="fa fa-home"></i> <span class="green"> / All Trainees</span></span>
     <br>
 
-    <div class="card mt-3">
+    <div class="mt-3 card">
         <div class="card-body">
             <div class="row">
-                <table class="table table-bordered table-hover text-center">
+                <table class="table text-center table-bordered table-hover">
                     <thead>
                         <tr>
                             <th scope="col">No</th>
@@ -79,14 +79,19 @@
                                     {{ isset($trainee_non_bh[$trainee->id]) ? $trainee_non_bh[$trainee->id]->trainee_type : '' }}
                                 </td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->id) }}" title="Edit"><i
-                                            class="fa fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-success" href="{{ route('view.trainee.details', $trainee->id) }}" title="Approve"><i
+                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->id) }}"
+                                        title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-sm btn-success"
+                                        href="{{ route('view.trainee.details', $trainee->id) }}" title="Approve"><i
                                             class="fa fa-thumbs-up"></i></a>
-                                    <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}" title="View"><i
-                                            class="fa fa-eye p-1"></i></a>
-                                    <a class="btn btn-sm btn-secondary" href="{{ route('trainee.history.details', $trainee->id) }}" title="Trainee History"><i
-                                                class="fa fa-history p-1"></i></a>
+                                    <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}"
+                                        title="View"><i class="p-1 fa fa-eye"></i></a>
+                                    <a class="btn btn-sm btn-secondary"
+                                        href="{{ route('trainee.history.details', $trainee->id) }}"
+                                        title="Trainee History"><i class="p-1 fa fa-history"></i></a>
+                                    <a class="btn btn-sm btn-danger"
+                                        href="{{ route('download.trainee.files', $trainee->id) }}"
+                                        title="Download Trainee Files"><i class="p-1 fa fa-download"></i></a>
                                 </td>
                             </tr>
                         @endforeach
