@@ -70,9 +70,9 @@
                                 </td>
                                 <td>{{ $trainee->trainee_type }}</td>
                                 <td>
-                                    <a href="{{ route('edit.trainee.info', $trainee->id) }}" title="Edit"><i
+                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->id) }}" title="Edit"><i
                                             class="fa fa-edit"></i></a>
-                                    <a href="{{ route('read.trainee.details', $trainee->id) }}" title="View"><i
+                                    <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}" title="View"><i
                                             class="fa fa-eye p-1"></i></a>
                                 </td>
                             </tr>

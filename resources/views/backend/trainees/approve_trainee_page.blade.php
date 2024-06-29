@@ -383,23 +383,21 @@
                         <div class="form-check" style="margin-right: 10px;">
                             <input type="radio" name="training_service_type" class="form-check-input"
                                 id="tutorial_course" value="Tutorial Course"
-                                {{ isset($trainee_tm) && $trainee_tm->training_service === 'Tutorial Course' ? 'checked' : '' }}
+                                @if ($latestCourse && $latestCourse->training_service === 'Tutorial Course') checked @endif
                                 disabled>
                             <label for="tutorial_course" class="form-check-label">Tutorial Course</label>
                         </div>
                         <div class="form-check" style="margin-right: 10px;">
                             <input type="radio" name="training_service_type" class="form-check-input"
                                 id="preparatory_course" value="Preparatory Course"
-                                {{ isset($trainee_pre) && $trainee_pre->training_service === 'Preparatory Course' ? 'checked' : '' }}
+                                @if ($latestCourse && $latestCourse->training_service === 'Preparatory Course') checked @endif
                                 disabled>
                             <label for="preparatory_course" class="form-check-label">Preparatory Course</label>
                         </div>
                         <div class="form-check">
                             <input type="radio" name="training_service_type" class="form-check-input" id="examination"
                                 value="Examination"
-                                @if (isset($trainee_tm) && $trainee_tm->training_service === 'Examination') checked
-                                    @elseif (isset($trainee_non_bh) && $trainee_non_bh->training_service === 'Examination' ? 'checked' : '')
-                                        checked @endif
+                                @if ($latestCourse && $latestCourse->training_service === 'Examination') checked @endif
                                 disabled>
                             <label for="examination" class="form-check-label">Examination</label>
                         </div>
@@ -410,7 +408,7 @@
                 <div class="col-md-4 mt-3">
                     <label class="form-label">Selected Course<span class="text-danger"> *</span></label>
                     <input type="text" name="selected_course" class="form-control" id="selected_course"
-                        value="{{ $selectedCourse }}" readonly>
+                        value="{{ $selectedCourse ?? '' }}" readonly>
                 </div>
 
                 {{-- Program Sponsership --}}
@@ -427,31 +425,36 @@
                         <div class="col-md-12 mt-3">
                             <label for="trainee_gender" class="form-label">Reason for Rejection</label>
                             <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_1" value="No Proper Educational Qualification">
+                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_1"
+                                    value="No Proper Educational Qualification">
                                 <label class="form-check-label" for="r_1">
                                     No Proper Educational Qualification
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_2" value="No Relevant Work Experience">
+                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_2"
+                                    value="No Relevant Work Experience">
                                 <label class="form-check-label" for="r_2">
                                     No Relevant Work Experience
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_3" value="Low Level English Proficiency">
+                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_3"
+                                    value="Low Level English Proficiency">
                                 <label class="form-check-label" for="r_3">
                                     Low Level English Proficiency
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_4" value="Low Score on Pre-Assessment Test">
+                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_4"
+                                    value="Low Score on Pre-Assessment Test">
                                 <label class="form-check-label" for="r_4">
                                     Low Score on Pre-Assessment Test
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_5" value="Others">
+                                <input type="radio" name="rejection_reason" class="form-check-input" id="r_5"
+                                    value="Others">
                                 <label class="form-check-label" for="r_5">
                                     Others
                                 </label>
@@ -475,7 +478,7 @@
                     <form method="POST" action="{{ route('approve.trainee', $current_trainee->id) }}">
                         @csrf
                         <div class="col-md-12 mt-3">
-                            
+
                         </div>
                         <div class="col-md-12 mt-3 text-center">
                             <button type="submit" class="btn btn-success">Approve</button>

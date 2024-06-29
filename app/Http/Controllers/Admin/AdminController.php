@@ -574,58 +574,72 @@ class AdminController extends Controller
         // Variable to get Requested Trainee: 
         $current_trainee = Trainee::where('id', $id)->first();
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
         $trainee_tm = DB::table('trainees')
-            ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.*')
+            ->join('tamkeen_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+                    ->orderBy('tamkeen_registered_courses.created_at', 'DESC');
+            })
+            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.course_id', 'tamkeen_registered_courses.training_service', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.reason_of_rejection', 'tamkeen_registered_courses.note', 'tamkeen_registered_courses.created_at')
             ->where('trainees.id', $id)
-            ->orderByDesc('tamkeen_registered_courses.created_at')
-            ->first();
+            ->get();
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
         $trainee_pre = DB::table('trainees')
-            ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.*')
+            ->join('preparatory_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'preparatory_registered_courses.trainee_id')
+                    ->orderBy('preparatory_registered_courses.created_at', 'DESC');
+            })
+            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.course_id', 'preparatory_registered_courses.training_service', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.reason_of_rejection', 'preparatory_registered_courses.note', 'preparatory_registered_courses.created_at')
             ->where('trainees.id', $id)
-            ->orderBy('preparatory_registered_courses.created_at', 'DESC')
-            ->first();
+            ->get();
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
         $trainee_non_bh = DB::table('trainees')
-            ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.*')
+            ->join('non_bahraini_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
+                    ->orderBy('non_bahraini_registered_courses.created_at', 'DESC');
+            })
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.course_id', 'non_bahraini_registered_courses.training_service', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.reason_of_rejection', 'non_bahraini_registered_courses.note', 'non_bahraini_registered_courses.created_at')
             ->where('trainees.id', $id)
-            ->orderBy('non_bahraini_registered_courses.created_at', 'DESC')
-            ->first();
+            ->get();
 
-        // Variable to get Courses: 
+        // Variable to get Courses:
         $courses = Course::orderBy('course_name', 'ASC')->get();
 
-        // Variable to get latest selected course by a trainer : 
+        // Variable to check latest selected course:
+        $latestCourse = null;
+
+        // Variable to get latest program sponsorship by a trainee:
+        $sponsorship = '';
+
+        if ($trainee_tm->isNotEmpty()) {
+            $latestCourse = $trainee_tm->sortByDesc('created_at')->first();
+            $sponsorship = $latestCourse->program_sponsorship;
+        }
+
+        if ($trainee_pre->isNotEmpty() && $trainee_pre->sortByDesc('created_at')->first()->created_at > ($latestCourse ? $latestCourse->created_at : null)) {
+            $latestCourse = $trainee_pre->sortByDesc('created_at')->first();
+            $sponsorship = $latestCourse->program_sponsorship;
+        }
+
+        if ($trainee_non_bh->isNotEmpty() && $trainee_non_bh->sortByDesc('created_at')->first()->created_at > ($latestCourse ? $latestCourse->created_at : null)) {
+            $latestCourse = $trainee_non_bh->sortByDesc('created_at')->first();
+            $sponsorship = $latestCourse->program_sponsorship;
+        }
+
         $selectedCourse = '';
 
-        if (isset($trainee_tm) && $trainee_tm->course_id) {
-            $selectedCourse = $courses->firstWhere('id', $trainee_tm->course_id)->course_name;
-        } elseif (isset($trainee_pre) && $trainee_pre->course_id) {
-            $selectedCourse = $courses->firstWhere('id', $trainee_pre->course_id)->course_name;
-        } elseif (isset($trainee_non_bh) && $trainee_non_bh->course_id) {
-            $selectedCourse = $courses->firstWhere('id', $trainee_non_bh->course_id)->course_name;
+        if ($latestCourse && $latestCourse->course_id) {
+            $selectedCourse = $courses->firstWhere('id', $latestCourse->course_id)->course_name;
         }
 
         // Variable to get latest program sponsorship by a trainer: 
         $sponsorship = '';
-
-        if ($trainee_tm && $trainee_tm->program_sponsorship) {
-            $sponsorship = $trainee_tm->program_sponsorship;
-        } elseif ($trainee_pre && $trainee_pre->program_sponsorship) {
-            $sponsorship = $trainee_pre->program_sponsorship;
-        } elseif ($trainee_non_bh && $trainee_non_bh->program_sponsorship) {
-            $sponsorship = $trainee_non_bh->program_sponsorship;
+        if ($latestCourse && $latestCourse->program_sponsorship) {
+            $sponsorship = $latestCourse->program_sponsorship;
         }
 
-        //dd($sponsorship);
+        // dd($selectedCourse);
 
-        return view('backend.trainees.approve_trainee_page', compact('current_trainee', 'trainee_tm', 'trainee_pre', 'trainee_non_bh', 'courses', 'selectedCourse', 'sponsorship'));
+        return view('backend.trainees.approve_trainee_page', compact('current_trainee', 'trainee_tm', 'trainee_pre', 'trainee_non_bh', 'selectedCourse', 'sponsorship', 'latestCourse'));
     }
 
     // Method: Accept Trainee: 
@@ -743,60 +757,74 @@ class AdminController extends Controller
         // Variable to get Requested Trainee: 
         $current_trainee = Trainee::where('id', $id)->first();
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data: 
         $trainee_tm = DB::table('trainees')
-            ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.*')
+            ->join('tamkeen_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+                    ->orderBy('tamkeen_registered_courses.created_at', 'DESC');
+            })
+            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.course_id', 'tamkeen_registered_courses.training_service', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.reason_of_rejection', 'tamkeen_registered_courses.note', 'tamkeen_registered_courses.created_at')
             ->where('trainees.id', $id)
-            ->orderByDesc('tamkeen_registered_courses.created_at')
-            ->first();
+            ->get();
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data: 
         $trainee_pre = DB::table('trainees')
-            ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.*')
+            ->join('preparatory_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'preparatory_registered_courses.trainee_id')
+                    ->orderBy('preparatory_registered_courses.created_at', 'DESC');
+            })
+            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.course_id', 'preparatory_registered_courses.training_service', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.reason_of_rejection', 'preparatory_registered_courses.note', 'preparatory_registered_courses.created_at')
             ->where('trainees.id', $id)
-            ->orderBy('preparatory_registered_courses.created_at', 'DESC')
-            ->first();
+            ->get();
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data: 
         $trainee_non_bh = DB::table('trainees')
-            ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.*')
+            ->join('non_bahraini_registered_courses', function ($join) {
+                $join->on('trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
+                    ->orderBy('non_bahraini_registered_courses.created_at', 'DESC');
+            })
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.course_id', 'non_bahraini_registered_courses.training_service', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.reason_of_rejection', 'non_bahraini_registered_courses.note', 'non_bahraini_registered_courses.created_at')
             ->where('trainees.id', $id)
-            ->orderBy('non_bahraini_registered_courses.created_at', 'DESC')
-            ->first();
+            ->get();
 
-        // Variable to get Courses: 
+        // Variable to get Courses:
         $courses = Course::orderBy('course_name', 'ASC')->get();
 
-        // Variable to get latest selected course by a trainer : 
+        // Variable to check latest selected course:
+        $latestCourse = null;
+
+        // Variable to get latest program sponsorship by a trainee:
+        $sponsorship = '';
+
+        if ($trainee_tm->isNotEmpty()) {
+            $latestCourse = $trainee_tm->sortByDesc('created_at')->first();
+            $sponsorship = $latestCourse->program_sponsorship;
+        }
+
+        if ($trainee_pre->isNotEmpty() && $trainee_pre->sortByDesc('created_at')->first()->created_at > ($latestCourse ? $latestCourse->created_at : null)) {
+            $latestCourse = $trainee_pre->sortByDesc('created_at')->first();
+            $sponsorship = $latestCourse->program_sponsorship;
+        }
+
+        if ($trainee_non_bh->isNotEmpty() && $trainee_non_bh->sortByDesc('created_at')->first()->created_at > ($latestCourse ? $latestCourse->created_at : null)) {
+            $latestCourse = $trainee_non_bh->sortByDesc('created_at')->first();
+            $sponsorship = $latestCourse->program_sponsorship;
+        }
+
         $selectedCourse = '';
 
-        if (isset($trainee_tm) && $trainee_tm->course_id) {
-            $selectedCourse = $courses->firstWhere('id', $trainee_tm->course_id)->course_name;
-        } elseif (isset($trainee_pre) && $trainee_pre->course_id) {
-            $selectedCourse = $courses->firstWhere('id', $trainee_pre->course_id)->course_name;
-        } elseif (isset($trainee_non_bh) && $trainee_non_bh->course_id) {
-            $selectedCourse = $courses->firstWhere('id', $trainee_non_bh->course_id)->course_name;
+        if ($latestCourse && $latestCourse->course_id) {
+            $selectedCourse = $courses->firstWhere('id', $latestCourse->course_id)->course_name;
         }
 
         // Variable to get latest program sponsorship by a trainer: 
         $sponsorship = '';
-
-        if ($trainee_tm && $trainee_tm->program_sponsorship) {
-            $sponsorship = $trainee_tm->program_sponsorship;
-        } elseif ($trainee_pre && $trainee_pre->program_sponsorship) {
-            $sponsorship = $trainee_pre->program_sponsorship;
-        } elseif ($trainee_non_bh && $trainee_non_bh->program_sponsorship) {
-            $sponsorship = $trainee_non_bh->program_sponsorship;
+        if ($latestCourse && $latestCourse->program_sponsorship) {
+            $sponsorship = $latestCourse->program_sponsorship;
         }
 
-        $trainee_tm_note = isset($trainee_tm) ? $trainee_tm->note : '';
+        $trainee_tm_note = $trainee_tm->isNotEmpty() ? $trainee_tm->first()->note : '';
 
-        $trainee_pre_note = isset($trainee_pre) ? $trainee_pre->note : '';
+        $trainee_pre_note = $trainee_pre->isNotEmpty() ? $trainee_pre->first()->note : '';
 
-        $trainee_non_bh_note = isset($trainee_non_bh) ? $trainee_non_bh->note : '';
+        $trainee_non_bh_note = $trainee_non_bh->isNotEmpty() ? $trainee_non_bh->first()->note : '';
 
         return view(
             'backend.trainees.read_trainee_details',
@@ -810,7 +838,8 @@ class AdminController extends Controller
                 'sponsorship',
                 'trainee_non_bh_note',
                 'trainee_tm_note',
-                'trainee_pre_note'
+                'trainee_pre_note', 
+                'latestCourse'
             )
         );
     }

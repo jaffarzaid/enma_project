@@ -383,23 +383,21 @@
                         <div class="form-check" style="margin-right: 10px;">
                             <input type="radio" name="training_service_type" class="form-check-input"
                                 id="tutorial_course" value="Tutorial Course"
-                                {{ isset($trainee_tm) && $trainee_tm->training_service === 'Tutorial Course' ? 'checked' : '' }}
+                                @if ($latestCourse && $latestCourse->training_service === 'Tutorial Course') checked @endif
                                 disabled>
                             <label for="tutorial_course" class="form-check-label">Tutorial Course</label>
                         </div>
                         <div class="form-check" style="margin-right: 10px;">
                             <input type="radio" name="training_service_type" class="form-check-input"
                                 id="preparatory_course" value="Preparatory Course"
-                                {{ isset($trainee_pre) && $trainee_pre->training_service === 'Preparatory Course' ? 'checked' : '' }}
+                                @if ($latestCourse && $latestCourse->training_service === 'Preparatory Course') checked @endif
                                 disabled>
                             <label for="preparatory_course" class="form-check-label">Preparatory Course</label>
                         </div>
                         <div class="form-check">
                             <input type="radio" name="training_service_type" class="form-check-input" id="examination"
                                 value="Examination"
-                                @if (isset($trainee_tm) && $trainee_tm->training_service === 'Examination') checked
-                                    @elseif (isset($trainee_non_bh) && $trainee_non_bh->training_service === 'Examination' ? 'checked' : '')
-                                        checked @endif
+                                @if ($latestCourse && $latestCourse->training_service === 'Examination') checked @endif
                                 disabled>
                             <label for="examination" class="form-check-label">Examination</label>
                         </div>
@@ -410,7 +408,7 @@
                 <div class="col-md-4 mt-3">
                     <label class="form-label">Selected Course<span class="text-danger"> *</span></label>
                     <input type="text" name="selected_course" class="form-control" id="selected_course"
-                        value="{{ $selectedCourse }}" readonly>
+                        value="{{ isset($selectedCourse) ? $selectedCourse : '' }}" readonly>
                 </div>
 
                 {{-- Program Sponsership --}}
@@ -425,9 +423,12 @@
                     <label for="trainee_gender" class="form-label">Reason for Rejection</label>
                     <div class="form-check">
                         <input type="radio" name="rejection_reason" class="form-check-input" id="r_1"
-                        {{ (isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
-                        {{ (isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
-                        {{ (isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
+                        {{ (isset($trainee_tm) && $trainee_tm->isNotEmpty() && $trainee_tm->first()->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
+
+                        {{ (isset($trainee_pre) && $trainee_pre->isNotEmpty() && $trainee_pre->first()->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
+
+                        {{ (isset($trainee_non_bh) && $trainee_non_bh->isNotEmpty() && $trainee_non_bh->first()->reason_of_rejection === 'No Proper Educational Qualification') ? 'checked' : '' }}
+
                             disabled>
                         <label class="form-check-label" for="r_1">
                             No Proper Educational Qualification
@@ -435,9 +436,12 @@
                     </div>
                     <div class="form-check">
                         <input type="radio" name="rejection_reason" class="form-check-input" id="r_2"
-                        {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
-                        {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
-                        {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
+                        {{ isset($trainee_tm) && $trainee_tm->isNotEmpty() && $trainee_tm->first()->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
+
+                        {{ isset($trainee_pre) && $trainee_pre->isNotEmpty() && $trainee_pre->first()->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
+
+                        {{ isset($trainee_non_bh) && $trainee_non_bh->isNotEmpty() && $trainee_non_bh->first()->reason_of_rejection === 'No Relevant Work Experience' ? 'checked' : '' }}
+
                            disabled>
                         <label class="form-check-label" for="r_2">
                             No Relevant Work Experience
@@ -445,9 +449,12 @@
                     </div>
                     <div class="form-check">
                         <input type="radio" name="rejection_reason" class="form-check-input" id="r_3"
-                            {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'Low Level English Proficiency' ? 'checked' : '' }}
-                            {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'Low Level English Proficiency' ? 'checked' : '' }}
-                            {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'Low Level English Proficiency' ? 'checked' : '' }}
+                        {{ isset($trainee_tm) && $trainee_tm->isNotEmpty() && $trainee_tm->firstWhere('reason_of_rejection', 'Low Level English Proficiency') ? 'checked' : '' }}
+
+                        {{ isset($trainee_pre) && $trainee_pre->isNotEmpty() && $trainee_pre->firstWhere('reason_of_rejection', 'Low Level English Proficiency') ? 'checked' : '' }}
+                        
+                        {{ isset($trainee_non_bh) && $trainee_non_bh->isNotEmpty() && $trainee_non_bh->firstWhere('reason_of_rejection', 'Low Level English Proficiency') ? 'checked' : '' }}
+                        
                         disabled>
                         <label class="form-check-label" for="r_3">
                             Low Level English Proficiency
@@ -455,9 +462,12 @@
                     </div>
                     <div class="form-check">
                         <input type="radio" name="rejection_reason" class="form-check-input" id="r_4"
-                        {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'Low Score on Pre-Assessment Test' ? 'checked' : '' }}
-                        {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'Low Score on Pre-Assessment Test' ? 'checked' : '' }}
-                        {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'Low Score on Pre-Assessment Test' ? 'checked' : '' }}
+                        {{ isset($trainee_tm) && $trainee_tm->isNotEmpty() && $trainee_tm->firstWhere('reason_of_rejection', 'Low Score on Pre-Assessment Test') ? 'checked' : '' }}
+
+                        {{ isset($trainee_pre) && $trainee_pre->isNotEmpty() && $trainee_pre->firstWhere('reason_of_rejection', 'Low Score on Pre-Assessment Test') ? 'checked' : '' }}
+
+                        {{ isset($trainee_non_bh) && $trainee_non_bh->isNotEmpty() && $trainee_non_bh->firstWhere('reason_of_rejection', 'Low Score on Pre-Assessment Test') ? 'checked' : '' }}
+
                         disabled>
                         <label class="form-check-label" for="r_4">
                             Low Score on Pre-Assessment Test
@@ -465,9 +475,12 @@
                     </div>
                     <div class="form-check">
                         <input type="radio" name="rejection_reason" class="form-check-input" id="r_5"
-                        {{ isset($trainee_tm) && $trainee_tm->reason_of_rejection === 'Others' ? 'checked' : '' }}
-                        {{ isset($trainee_pre) && $trainee_pre->reason_of_rejection === 'Others' ? 'checked' : '' }}
-                        {{ isset($trainee_non_bh) && $trainee_non_bh->reason_of_rejection === 'Others' ? 'checked' : '' }}
+                        {{ isset($trainee_tm) && $trainee_tm->isNotEmpty() && $trainee_tm->contains('reason_of_rejection', 'Others') ? 'checked' : '' }}
+
+                        {{ isset($trainee_pre) && $trainee_pre->isNotEmpty() && $trainee_pre->contains('reason_of_rejection', 'Others') ? 'checked' : '' }}
+
+                        {{ isset($trainee_non_bh) && $trainee_non_bh->isNotEmpty() && $trainee_non_bh->contains('reason_of_rejection', 'Others') ? 'checked' : '' }}
+
                         disabled>
                         <label class="form-check-label" for="r_5">
                             Others
