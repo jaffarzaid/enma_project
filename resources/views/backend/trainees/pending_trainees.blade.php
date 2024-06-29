@@ -43,12 +43,18 @@
                                     {{ $trainee->trainee_type }}
                                 </td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->trainee_id) }}" title="Edit"><i
+                                    <a class="btn btn-sm btn-primary"
+                                        href="{{ route('edit.trainee.info', $trainee->trainee_id) }}" title="Edit"><i
                                             class="fa fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-success" href="{{ route('view.trainee.details', $trainee->trainee_id) }}" title="Approve"><i
+                                    <a class="btn btn-sm btn-success"
+                                        href="{{ route('view.trainee.details', $trainee->trainee_id) }}" title="Approve"><i
                                             class="fa fa-thumbs-up"></i></a>
-                                    <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->trainee_id) }}" title="View"><i
+                                    <a class="btn btn-sm btn-info"
+                                        href="{{ route('read.trainee.details', $trainee->trainee_id) }}" title="View"><i
                                             class="fa fa-eye p-1"></i></a>
+                                    <a class="btn btn-sm btn-secondary"
+                                        href="{{ route('trainee.history.details', $trainee->id) }}"
+                                        title="Trainee History"><i class="fa fa-history p-1"></i></a>
                                 </td>
                             </tr>
                         @endforeach

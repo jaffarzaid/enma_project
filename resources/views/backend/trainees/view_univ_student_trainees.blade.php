@@ -27,11 +27,13 @@
                     <tbody>
                         @foreach ($univ_student_trainees as $key => $trainee)
                             <tr>
-                                <th scope="row">{{ ($univ_student_trainees->currentPage() - 1) * $univ_student_trainees->perPage() + $key + 1 }}</th>
-                                <td>{{ $trainee->f_name .' '. $trainee->s_name .' ' . $trainee->l_name }}</td>
+                                <th scope="row">
+                                    {{ ($univ_student_trainees->currentPage() - 1) * $univ_student_trainees->perPage() + $key + 1 }}
+                                </th>
+                                <td>{{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
                                 <td>{{ $trainee->cpr }}</td>
                                 <td>{{ $trainee->nationality }}</td>
-                                <td>{{ $trainee->phone1 . ' / ' .$trainee->phone2 }}</td>
+                                <td>{{ $trainee->phone1 . ' / ' . $trainee->phone2 }}</td>
                                 <td>{{ $trainee->email }}</td>
                                 <td>{{ $trainee->qualification }}</td>
                                 <td>{{ $trainee->specialization }}</td>
@@ -70,15 +72,18 @@
                                 </td>
                                 <td>{{ $trainee->trainee_type }}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->id) }}" title="Edit"><i
-                                            class="fa fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}" title="View"><i
-                                            class="fa fa-eye p-1"></i></a>
+                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->id) }}"
+                                        title="Edit"><i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}"
+                                        title="View"><i class="fa fa-eye p-1"></i></a>
+                                    <a class="btn btn-sm btn-secondary"
+                                        href="{{ route('trainee.history.details', $trainee->id) }}"
+                                        title="Trainee History"><i class="fa fa-history p-1"></i></a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-                    
+
                 </table>
                 {{ $univ_student_trainees->links() }}
             </div>

@@ -111,6 +111,9 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
                 // Route: Display only pending registration of trainees: 
                 Route::get('/pending/trainees', [AdminController::class, 'ViewPendingTrainees'])->name('pending.trainees');
 
+                // Route: Display Trainee History Details: 
+                Route::get('/trainee-history/{id}', [AdminController:: class, 'ViewTraineeHistory'])->name('trainee.history.details');
+
                 // ============= End of Trainees Section =============
 
 

@@ -838,7 +838,7 @@ class AdminController extends Controller
                 'sponsorship',
                 'trainee_non_bh_note',
                 'trainee_tm_note',
-                'trainee_pre_note', 
+                'trainee_pre_note',
                 'latestCourse'
             )
         );
@@ -871,5 +871,53 @@ class AdminController extends Controller
 
         // Pass the pending_trainees collection to your view
         return view('backend.trainees.pending_trainees', compact('pending_trainees'));
+    }
+
+    // Method: Display Full Trainee History: 
+    public function ViewTraineeHistory($id)
+    {
+        // Variable to get requested trainee: 
+        $current_trainee = Trainee::where('id', $id)->first();
+
+        // Joining trainees, tamkeen_registered_courses, preparatory_registered_courses and non_bahraini_registered_courses entities: 
+        $all_trainingEntities = DB::table('trainees')
+        ->leftJoin('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+        ->leftJoin('preparatory_registered_courses', function ($join) {
+            $join->on('trainees.id', '=', 'preparatory_registered_courses.trainee_id')
+                ->join('courses as preparatory_courses', 'preparatory_registered_courses.course_id', '=', 'preparatory_courses.id');
+        })
+        ->leftJoin('non_bahraini_registered_courses', function ($join) {
+            $join->on('trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
+                ->join('courses as non_bahraini_courses', 'non_bahraini_registered_courses.course_id', '=', 'non_bahraini_courses.id');
+        })
+        ->leftJoin('courses as tamkeen_courses', 'tamkeen_registered_courses.course_id', '=', 'tamkeen_courses.id')
+        ->select(
+            'trainees.id',
+            'tamkeen_registered_courses.approval_status as tamkeen_approval_status',
+            'tamkeen_registered_courses.program_sponsorship as tamkeen_program_sponsorship',
+            'tamkeen_registered_courses.training_service as tamkeen_training_service',
+            'tamkeen_registered_courses.trainee_type as tamkeen_trainee_type',
+            'tamkeen_registered_courses.created_at as tamkeen_creation',
+            'preparatory_registered_courses.approval_status as preparatory_approval_status',
+            'preparatory_registered_courses.program_sponsorship as preparatory_program_sponsorship',
+            'preparatory_registered_courses.training_service as preparatory_training_service',
+            'preparatory_registered_courses.trainee_type as preparatory_trainee_type',
+            'preparatory_registered_courses.created_at as preparatory_creation',
+            'non_bahraini_registered_courses.approval_status as non_bahraini_approval_status',
+            'non_bahraini_registered_courses.program_sponsorship as non_bahraini_program_sponsorship',
+            'non_bahraini_registered_courses.training_service as non_bahraini_training_service',
+            'non_bahraini_registered_courses.trainee_type as non_bahraini_trainee_type',
+            'non_bahraini_registered_courses.created_at as non_bahraini_creation',
+            'tamkeen_courses.course_name as tamkeen_course_name',
+            'preparatory_courses.course_name as preparatory_course_name',
+            'non_bahraini_courses.course_name as non_bahraini_course_name'
+        )
+        ->where('trainees.id', $id)
+        ->get();
+
+
+
+        return view('backend.trainees.trainee_history', compact('current_trainee', 'all_trainingEntities'));
+
     }
 }
