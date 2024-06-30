@@ -76,5 +76,7 @@ class Kernel extends HttpKernel
         'check.coursesSection' => \App\Http\Middleware\CoursesSectionMiddleware::class,
         'check.childAdminSection' => \App\Http\Middleware\ChildAdminSectionMiddleware::class,
         'prevent.edit' => \App\Http\Middleware\ViewUserMiddleware::class,
+        'check.traineeSection' => \App\Http\Middleware\TraineeSectionMiddleware::class,
+        'prevent.trainee_approval' => \App\Http\Middleware\TraineeApprovalMiddleware::class,
     ];
 }

@@ -43,8 +43,8 @@
                                 </td>
                                 {{-- Action --}}
                                 <td>
-                                    <a href="{{ route('edit.course', $course->id) }}" title="Edit"><i class="fa fa-edit p-1"></i></a>
-                                    <a href="{{ route('view.course', $course->id) }}" title="View"><i class="fa fa-eye p-1"></i></a>
+                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.course', $course->id) }}" title="Edit"><i class="fa fa-edit p-1"></i></a>
+                                    <a class="btn btn-sm btn-info" href="{{ route('view.course', $course->id) }}" title="View"><i class="fa fa-eye p-1"></i></a>
                                 </td>
                             </tr>
                         @endforeach

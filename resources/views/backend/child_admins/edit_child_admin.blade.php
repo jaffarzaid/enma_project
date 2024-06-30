@@ -69,6 +69,10 @@
                             <br />
                             <input type="checkbox" name="reading_materials" {{ $curr_child_admin->reading_materials == 1 ? 'checked' : '' }} class="flat" /> Reading Materials
                             <br />
+                            <input type="checkbox" name="management_member" {{ $curr_child_admin->is_management_member == 1 ? 'checked' : '' }} class="flat" /> Management Member
+                            <br />
+                            <input type="checkbox" name="report" {{ $curr_child_admin->report == 1 ? 'checked' : '' }} class="flat" /> Report
+                            <br />
                             {{-- <input type="checkbox" name="child_admin" {{ $curr_child_admin->child_admin == 1 ? 'checked' : '' }} class="flat" /> child_admin --}}
                             <br />
                         </p>

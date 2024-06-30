@@ -130,10 +130,14 @@ class HomeController extends Controller
         $passport_file = $request->file('passport_file');
 
         // Renaming CPR: 
-        $cpr_name = hexdec(uniqid()) . '.' . $cpr_file->extension();
+        // $cpr_name = $request->cpr . '_' . 'CPR' . $cpr_file->extension();
+        $cpr_name = $request->cpr . '_CPR.' . $cpr_file->extension();
+        // $cpr_name = hexdec(uniqid()) . '.' . $cpr_file->extension();
+
 
         // Renaming Passport:
-        $passport_name = hexdec(uniqid()) . '.' . $passport_file->extension();
+        $passport_name = $request->cpr . '_Passport.' . $passport_file->extension();
+        // $passport_name = hexdec(uniqid()) . '.' . $passport_file->extension();
 
         // Storing cpr into Storage folder: 
         $cpr_file->storeAs('upload/cpr_files/', $cpr_name);
@@ -148,11 +152,13 @@ class HomeController extends Controller
         // Get Trainee Transcript: 
         $transcript_file = $request->file('edu_transcripts');
 
-        // Renaming Certificate:  
-        $certificate_name = hexdec(uniqid()) . '.' . $certificate_file->extension();
+        // Renaming Certificate:
+        $certificate_name = $request->cpr . '_Certificate.' . $certificate_file->extension();
+        // $certificate_name = hexdec(uniqid()) . '.' . $certificate_file->extension();
 
         // Renaming transcript file: 
-        $transcript_name = hexdec(uniqid()) . '.' . $transcript_file->extension();
+        $transcript_name = $request->cpr . '_Transcripts.' . $transcript_file->extension();
+        // $transcript_name = hexdec(uniqid()) . '.' . $transcript_file->extension();
 
         // Storing Certificate into Storage folder:
         $certificate_file->storeAs('upload/trainee_certificates/', $certificate_name);
@@ -167,7 +173,8 @@ class HomeController extends Controller
             $injury_file = $request->file('health_injury_disability_file');
 
             // Renaming injury file: 
-            $injury_file_name = hexdec(uniqid()) . '.' . $injury_file->extension();
+            $injury_file_name = $request->cpr . '_Injury.' . $injury_file->extension();
+            // $injury_file_name = hexdec(uniqid()) . '.' . $injury_file->extension();
 
             // Storing Files into Storage folder: 
             $injury_file->storeAs('upload/injury_files/', $injury_file_name);

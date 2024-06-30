@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -30,6 +29,8 @@ return new class extends Migration
             $table->integer('is_child_admin')->default(1);
             $table->integer('learning_support')->default(0);
             $table->integer('reading_materials')->default(0);
+            $table->integer('is_management_member')->default(0);
+            $table->integer('report')->default(0);
             $table->timestamps();
         });
     }

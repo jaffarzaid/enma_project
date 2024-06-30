@@ -35,15 +35,15 @@
                             <li><a href="{{ route('pending.trainees') }}">Pending Trainees</a></li>
                             <li><a href="{{ route('view.employee.trainees') }}">Employee Trainees</a></li>
                             <li><a href="{{ route('view.job_seeker.trainees') }}">Job Seeker Trainees</a></li>
-                            <li><a href="{{ route('view.univ_students.trainees') }}">University Student Trainees</a></li>
+                            <li><a href="{{ route('view.univ_students.trainees') }}">University Student Trainees</a>
+                            </li>
                         </ul>
                     </li>
                 @endif
 
                 {{-- Trainers --}}
                 @if (Auth::user()->list_of_trainees == 1)
-                    <li><a><i class="fa fa-mortar-board"></i> Trainers <span
-                                class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-mortar-board"></i> Trainers <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('all.trainers') }}">List of Trainers</a></li>
                             <li><a href="{{ route('add.trainer') }}">Add Trainer</a></li>
@@ -55,8 +55,8 @@
                 @if (Auth::user()->courses == 1)
                     <li><a><i class="fa fa-book"></i></i> Courses <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Tamkeen Registered Courses</a></li>
-                            <li><a href="#">Preparatory Registered Courses</a></li>
+                            <!--<li><a href="#">Tamkeen Registered Courses</a></li>-->
+                            <!-- <li><a href="#">Preparatory Registered Courses</a></li>-->
                             <li><a href="{{ route('add.course') }}">Add Course</a></li>
                             <li><a href="{{ route('view.courses') }}">All Courses</a></li>
                         </ul>
@@ -79,7 +79,8 @@
 
                 {{-- Learning Support --}}
                 @if (Auth::user()->learning_support == 1)
-                    <li><a><i class="fa fa-solid fa-chalkboard-user"></i> Learning Support <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-solid fa-chalkboard-user"></i> Learning Support <span
+                                class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="#">Test 1</a></li>
                             <li><a href="#">Test 2</a></li>
@@ -90,7 +91,19 @@
 
                 {{-- Reading Material --}}
                 @if (Auth::user()->reading_materials == 1)
-                    <li><a><i class="fa fa-solid fa-book-open-reader"></i> Reading Material <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-solid fa-book-open-reader"></i> Reading Material <span
+                                class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="#">Test 1</a></li>
+                            <li><a href="#">Test 2</a></li>
+                            <li><a href="#">Test 3</a></li>
+                        </ul>
+                    </li>
+                @endif
+
+                {{-- Report --}}
+                @if (Auth::user()->report == 1)
+                    <li><a><i class="fa fa-list-alt"></i> Report <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="#">Test 1</a></li>
                             <li><a href="#">Test 2</a></li>

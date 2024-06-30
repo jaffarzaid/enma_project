@@ -325,6 +325,8 @@ class AdminController extends Controller
             'is_viewer' => isset($request->viewer_account) ? 1 : 0,
             'learning_support' => isset($request->learning_support) ? 1 : 0,
             'reading_materials' => isset($request->reading_materials) ? 1 : 0,
+            'is_management_member' => isset($request->management_member) ? 1 : 0,
+            'report' => isset($request->report) ? 1 : 0,
             'updated_at' => Carbon::now()
         ];
 
@@ -401,6 +403,7 @@ class AdminController extends Controller
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
             ->get()->keyBy('trainee_id');
+
 
         return view('backend.trainees.all_trainees', compact('all_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
@@ -881,44 +884,87 @@ class AdminController extends Controller
         // Variable to get requested trainee:
         $current_trainee = Trainee::where('id', $id)->first();
 
-        // Joining trainees, tamkeen_registered_courses, preparatory_registered_courses and non_bahraini_registered_courses entities:
-        $all_trainingEntities = DB::table('trainees')
-            ->leftJoin('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->leftJoin('preparatory_registered_courses', function ($join) {
-                $join->on('trainees.id', '=', 'preparatory_registered_courses.trainee_id')
-                    ->join('courses as preparatory_courses', 'preparatory_registered_courses.course_id', '=', 'preparatory_courses.id');
-            })
-            ->leftJoin('non_bahraini_registered_courses', function ($join) {
-                $join->on('trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-                    ->join('courses as non_bahraini_courses', 'non_bahraini_registered_courses.course_id', '=', 'non_bahraini_courses.id');
-            })
-            ->leftJoin('courses as tamkeen_courses', 'tamkeen_registered_courses.course_id', '=', 'tamkeen_courses.id')
-            ->select(
-                'trainees.id',
-                'tamkeen_registered_courses.approval_status as tamkeen_approval_status',
-                'tamkeen_registered_courses.program_sponsorship as tamkeen_program_sponsorship',
-                'tamkeen_registered_courses.training_service as tamkeen_training_service',
-                'tamkeen_registered_courses.trainee_type as tamkeen_trainee_type',
-                'tamkeen_registered_courses.created_at as tamkeen_creation',
-                'preparatory_registered_courses.approval_status as preparatory_approval_status',
-                'preparatory_registered_courses.program_sponsorship as preparatory_program_sponsorship',
-                'preparatory_registered_courses.training_service as preparatory_training_service',
-                'preparatory_registered_courses.trainee_type as preparatory_trainee_type',
-                'preparatory_registered_courses.created_at as preparatory_creation',
-                'non_bahraini_registered_courses.approval_status as non_bahraini_approval_status',
-                'non_bahraini_registered_courses.program_sponsorship as non_bahraini_program_sponsorship',
-                'non_bahraini_registered_courses.training_service as non_bahraini_training_service',
-                'non_bahraini_registered_courses.trainee_type as non_bahraini_trainee_type',
-                'non_bahraini_registered_courses.created_at as non_bahraini_creation',
-                'tamkeen_courses.course_name as tamkeen_course_name',
-                'preparatory_courses.course_name as preparatory_course_name',
-                'non_bahraini_courses.course_name as non_bahraini_course_name'
-            )
-            ->where('trainees.id', $id)
-            ->get();
+        // Initialize variables for storing courses and row number:
+        $all_training_tmk_courses = [];
+        $all_preparatory_courses = [];
+        $all_nonBh_courses = [];
+        $rowNum = 0; // Initialize rowNum
 
-        return view('backend.trainees.trainee_history', compact('current_trainee', 'all_trainingEntities'));
+        // Condition to join trainees + tamkeen_registered_courses + courses entities: 
+        if ($current_trainee->nationality == 'Bahraini') {
+            $all_training_tmk_courses = DB::table('trainees')
+                ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
+                ->join('courses as tamkeen_courses', 'tamkeen_registered_courses.course_id', '=', 'tamkeen_courses.id')
+                ->select(
+                    'trainees.id',
+                    'tamkeen_registered_courses.trainee_type as tamkeen_trainee_type',
+                    'tamkeen_registered_courses.training_service as tamkeen_training_service',
+                    'tamkeen_registered_courses.program_sponsorship as tamkeen_program_sponsorship',
+                    'tamkeen_registered_courses.approval_status as tamkeen_approval_status',
+                    'tamkeen_registered_courses.created_at as tamkeen_creation',
+                    'tamkeen_courses.course_name as tamkeen_course_name',
+                )
+                ->where('trainees.id', $id)
+                ->get();
+
+            // Variable to get preparatory courses (joining trainees + preparatory_registered_courses + courses):
+            $all_preparatory_courses = DB::table('trainees')
+                ->join('preparatory_registered_courses', 'preparatory_registered_courses.trainee_id', '=', 'trainees.id')
+                ->join('courses as preparatory_courses', 'preparatory_registered_courses.course_id', '=', 'preparatory_courses.id')
+                ->select(
+                    'trainees.id',
+                    'preparatory_registered_courses.trainee_type as preparatory_trainee_type',
+                    'preparatory_registered_courses.training_service as preparatory_training_service',
+                    'preparatory_registered_courses.program_sponsorship as preparatory_program_sponsorship',
+                    'preparatory_registered_courses.approval_status as preparatory_approval_status',
+                    'preparatory_registered_courses.created_at as preparatory_creation',
+                    'preparatory_courses.course_name as preparatory_course_name',
+                )
+                ->where('trainees.id', $id)
+                ->get();
+        } else {
+            // Variable to get courses taken by Non-Bahrainis National (trainees + non_bahraini_registered_courses + courses): 
+            $all_nonBh_courses = DB::table('trainees')
+                ->join('non_bahraini_registered_courses', 'non_bahraini_registered_courses.trainee_id', '=', 'trainees.id')
+                ->join('courses as non_bh_courses', 'non_bahraini_registered_courses.course_id', '=', 'non_bh_courses.id')
+                ->select(
+                    'trainees.id',
+                    'non_bahraini_registered_courses.trainee_type as non_bh_trainee_type',
+                    'non_bahraini_registered_courses.training_service as non_bh_training_service',
+                    'non_bahraini_registered_courses.program_sponsorship as non_bh_program_sponsorship',
+                    'non_bahraini_registered_courses.approval_status as non_bh_approval_status',
+                    'non_bahraini_registered_courses.created_at as non_bh_creation',
+                    'non_bh_courses.course_name as non_bh_course_name',
+                )
+                ->where('trainees.id', $id)
+                ->get();
+
+            // Variable to get preparatory courses (joining trainees + preparatory_registered_courses + courses):
+            $all_preparatory_courses = DB::table('trainees')
+                ->join('preparatory_registered_courses', 'preparatory_registered_courses.trainee_id', '=', 'trainees.id')
+                ->join('courses as preparatory_courses', 'preparatory_registered_courses.course_id', '=', 'preparatory_courses.id')
+                ->select(
+                    'trainees.id',
+                    'preparatory_registered_courses.trainee_type as preparatory_trainee_type',
+                    'preparatory_registered_courses.training_service as preparatory_training_service',
+                    'preparatory_registered_courses.program_sponsorship as preparatory_program_sponsorship',
+                    'preparatory_registered_courses.approval_status as preparatory_approval_status',
+                    'preparatory_registered_courses.created_at as preparatory_creation',
+                    'preparatory_courses.course_name as preparatory_course_name',
+                )
+                ->where('trainees.id', $id)
+                ->get();
+
+            // Variable to get preparatory courses (joining trainees + preparatory_registered_courses + courses):
+        }
+
+        return view('backend.trainees.trainee_history', compact('current_trainee', 'all_training_tmk_courses', 'all_preparatory_courses', 'all_nonBh_courses', 'rowNum'));
     }
+
+
+
+
+
 
     // Method: Download Trainee Files:
     public function DownloadFiles($id)
@@ -972,7 +1018,6 @@ class AdminController extends Controller
 
             // Downloading files:
             return response()->download($tempFile, $trainee->cpr . '_files.zip');
-
         } catch (Exception $e) {
             $notification = array(
                 'message' => 'File is not existed!',

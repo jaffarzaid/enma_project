@@ -78,45 +78,48 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
 
                 // ============= Trainees Section =============
 
-                // Route: View all Trainees
-                Route::get('/all-trainees', [AdminController::class, 'ViewAllTrainees'])->name('view.all.trainees');
+                // Middleware to check if a user has access to Trainees section: 
+                Route::group(['middleware' => ['check.traineeSection', 'prevent.trainee_approval']], function () {
 
-                // Route: View All Employee Trainees only:
-                Route::get('/employed-trainees', [AdminController::class, 'ViewEmployeeTrainees'])->name('view.employee.trainees');
+                     // Route: View all Trainees
+                    Route::get('/all-trainees', [AdminController::class, 'ViewAllTrainees'])->name('view.all.trainees');
 
-                // Route: View Job Seeker Trainees only:
-                Route::get('/job-seeker-trainees', [AdminController::class, 'ViewJobSeekerTrainees'])->name('view.job_seeker.trainees');
+                    // Route: View All Employee Trainees only:
+                    Route::get('/employed-trainees', [AdminController::class, 'ViewEmployeeTrainees'])->name('view.employee.trainees');
 
-                // Route: View University Job Seeker Trainees:
-                Route::get('/university-student-trainees', [AdminController::class, 'ViewUnivStudentTrainees'])->name('view.univ_students.trainees');
+                    // Route: View Job Seeker Trainees only:
+                    Route::get('/job-seeker-trainees', [AdminController::class, 'ViewJobSeekerTrainees'])->name('view.job_seeker.trainees');
 
-                // Route: View Edit Trainee Page:
-                Route::get('/edit/trainee/{id}', [AdminController::class, 'EditTraineeInfo'])->name('edit.trainee.info');
+                    // Route: View University Job Seeker Trainees:
+                    Route::get('/university-student-trainees', [AdminController::class, 'ViewUnivStudentTrainees'])->name('view.univ_students.trainees');
 
-                // Rout: Update Trainee Data:
-                Route::post('/update/trainee/{id}', [AdminController::class, 'UpdateTraineeData'])->name('update.trainee');
+                    // Route: View Edit Trainee Page:
+                    Route::get('/edit/trainee/{id}', [AdminController::class, 'EditTraineeInfo'])->name('edit.trainee.info');
 
-                // Route: Display page to see student details and approve a trainee:
-                Route::get('/edit/trainee/approval/{id}', [AdminController::class, 'DisplayApprovePage'])->name('view.trainee.details');
+                    // Rout: Update Trainee Data:
+                    Route::post('/update/trainee/{id}', [AdminController::class, 'UpdateTraineeData'])->name('update.trainee');
 
-                // Route: Approve Trainee:
-                Route::post('/accept/trainee/{id}', [AdminController::class, 'UpdateApproveStatus'])->name('approve.trainee');
+                    // Route: Display page to see student details and approve a trainee:
+                    Route::get('/edit/trainee/approval/{id}', [AdminController::class, 'DisplayApprovePage'])->name('view.trainee.details');
 
-                // Route: Reject a Trainee:
-                Route::post('/Reject/trainee/{id}', [AdminController::class, 'RejectTrainee'])->name('reject.trainee');
+                    // Route: Approve Trainee:
+                    Route::post('/accept/trainee/{id}', [AdminController::class, 'UpdateApproveStatus'])->name('approve.trainee');
 
-                // Route: Only view Trainee details with approved status details:
-                Route::get('/view/trainee-details/{id}', [AdminController::class, 'ReadTraineeDetails'])->name('read.trainee.details');
+                    // Route: Reject a Trainee:
+                    Route::post('/Reject/trainee/{id}', [AdminController::class, 'RejectTrainee'])->name('reject.trainee');
 
-                // Route: Display only pending registration of trainees:
-                Route::get('/pending/trainees', [AdminController::class, 'ViewPendingTrainees'])->name('pending.trainees');
+                    // Route: Only view Trainee details with approved status details:
+                    Route::get('/view/trainee-details/{id}', [AdminController::class, 'ReadTraineeDetails'])->name('read.trainee.details');
 
-                // Route: Display Trainee History Details:
-                Route::get('/trainee-history/{id}', [AdminController::class, 'ViewTraineeHistory'])->name('trainee.history.details');
+                    // Route: Display only pending registration of trainees:
+                    Route::get('/pending/trainees', [AdminController::class, 'ViewPendingTrainees'])->name('pending.trainees');
 
-                // Route:: Download Trainee Files:
-                Route::get('/download/trainee-files/{id}', [AdminController::class, 'DownloadFiles'])->name('download.trainee.files');
+                    // Route: Display Trainee History Details:
+                    Route::get('/trainee-history/{id}', [AdminController::class, 'ViewTraineeHistory'])->name('trainee.history.details');
 
+                    // Route:: Download Trainee Files:
+                    Route::get('/download/trainee-files/{id}', [AdminController::class, 'DownloadFiles'])->name('download.trainee.files');
+                });
                 // ============= End of Trainees Section =============
 
 

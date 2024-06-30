@@ -39,6 +39,18 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'list_of_trainees',
+        'courses',
+        'list_of_trainers',
+        'examination',
+        'child_admin',
+        'is_viewer',
+        'status',
+        'is_child_admin',
+        'learning_support',
+        'reading_materials',
+        'is_management_member',
+        'report'
     ];
 
     /**

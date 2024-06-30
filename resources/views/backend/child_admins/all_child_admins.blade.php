@@ -24,7 +24,7 @@
                                 <td>{{ $item->email }}</td>
                                 {{-- Action --}}
                                 <td>
-                                    <a href="{{ route('edit.childAdmin', $item->id) }}" title="Edit"><i
+                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.childAdmin', $item->id) }}" title="Edit"><i
                                             class="fa fa-edit p-1"></i></a>
                                     {{-- <a href="{{ route('view.course', $item->id) }}" title="View"><i class="fa fa-eye p-1"></i></a> --}}
 
@@ -33,14 +33,14 @@
                                             style="display:inline;">
                                             @csrf
                                             <button type="submit" class="btn btn-link p-0 m-0" title="Deactivate">
-                                                <i class="fa-solid fa-power-off badge-success p-1"></i>
+                                                <i class="fa-solid fa-power-off btn btn-sm btn-success p-1"></i>
                                             </button>
                                         </form>
                                     @else
                                         <form method="POST" action="{{ route('activate.child_admin', $item->id) }}" style="display:inline;">
                                             @csrf
                                             <button type="submit" class="btn btn-link p-0 m-0" title="Activate">
-                                                <i class="fa-solid fa-power-off badge-danger p-1"></i>
+                                                <i class="fa-solid fa-power-off btn btn-sm btn-danger p-1"></i>
                                             </button>
                                         </form>
                                     @endif

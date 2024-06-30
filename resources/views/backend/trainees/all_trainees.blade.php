@@ -28,7 +28,7 @@
                             <tr>
                                 <th scope="row">
                                     {{ ($all_trainees->currentPage() - 1) * $all_trainees->perPage() + $key + 1 }}</th>
-                                <td>{{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
+                                <td class="text-left">{{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
                                 <td>{{ $trainee->cpr }}</td>
                                 <td>{{ $trainee->nationality }}</td>
                                 <td>{{ $trainee->phone1 . ' / ' . $trainee->phone2 }}</td>
@@ -79,16 +79,26 @@
                                     {{ isset($trainee_non_bh[$trainee->id]) ? $trainee_non_bh[$trainee->id]->trainee_type : '' }}
                                 </td>
                                 <td>
+                                    {{-- prove trainee page --}}
+                                    @if (Auth::user()->is_management_member == 1)
+                                        <a class="btn btn-sm btn-success"
+                                            href="{{ route('view.trainee.details', $trainee->id) }}" title="Approve"><i
+                                                class="fa fa-thumbs-up"></i></a>
+                                    @endif
+                                    {{-- Edit Trainee Details --}}
                                     <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->id) }}"
                                         title="Edit"><i class="fa fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-success"
-                                        href="{{ route('view.trainee.details', $trainee->id) }}" title="Approve"><i
-                                            class="fa fa-thumbs-up"></i></a>
+
+                                    {{-- Read Trainee Detials --}}
                                     <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}"
                                         title="View"><i class="p-1 fa fa-eye"></i></a>
+
+                                    {{-- Trainee History --}}
                                     <a class="btn btn-sm btn-secondary"
                                         href="{{ route('trainee.history.details', $trainee->id) }}"
                                         title="Trainee History"><i class="p-1 fa fa-history"></i></a>
+
+                                    {{-- Download Trainee Files --}}
                                     <a class="btn btn-sm btn-danger"
                                         href="{{ route('download.trainee.files', $trainee->id) }}"
                                         title="Download Trainee Files"><i class="p-1 fa fa-download"></i></a>

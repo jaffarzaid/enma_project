@@ -27,10 +27,12 @@
                     <tbody>
                         @foreach ($job_seeker_trainees as $key => $trainee)
                             <tr>
-                                <th scope="row">
+                                <td>
                                     {{ ($job_seeker_trainees->currentPage() - 1) * $job_seeker_trainees->perPage() + $key + 1 }}
-                                </th>
-                                <td>{{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
+                                </td>
+                                <td class="text-left">
+                                    {{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}
+                                </td>
                                 <td>{{ $trainee->cpr }}</td>
                                 <td>{{ $trainee->nationality }}</td>
                                 <td>{{ $trainee->phone1 . ' / ' . $trainee->phone2 }}</td>
@@ -79,15 +81,16 @@
                                     <a class="btn btn-sm btn-primary" href="{{ route('edit.trainer', $trainee->id) }}"
                                         title="Edit"><i class="fa fa-edit"></i></a>
                                     <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}"
-                                        title="View"><i class="fa fa-eye p-1"></i></a>
+                                        title="View"><i class="fa fa-eye"></i></a>
                                     <a class="btn btn-sm btn-secondary"
                                         href="{{ route('trainee.history.details', $trainee->id) }}"
-                                        title="Trainee History"><i class="fa fa-history p-1"></i></a>
+                                        title="Trainee History"><i class="fa fa-history"></i></a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
                 {{ $job_seeker_trainees->links() }}
             </div>
         </div>
