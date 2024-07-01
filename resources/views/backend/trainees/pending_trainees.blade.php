@@ -27,7 +27,7 @@
                         @foreach ($pending_trainees as $trainee)
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
-                                <td>{{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
+                                <td class="text-left">{{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
                                 <td>{{ $trainee->cpr }}</td>
                                 <td>{{ $trainee->nationality }}</td>
                                 <td>{{ $trainee->phone1 . ' / ' . $trainee->phone2 }}</td>

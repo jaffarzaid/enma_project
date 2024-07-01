@@ -28,7 +28,7 @@
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td>{{ $course->awarding_body }}</td>
                                 <td>{{ $course->course_code }}</td>
-                                <td>{{ $course->course_name }}</td>
+                                <td class="text-left">{{ $course->course_name }}</td>
                                 <td>{{ $course->license_code }}</td>
                                 <td>{{ $course->num_of_hours }}</td>
                                 <td>{{ $course->mol_level }}</td>

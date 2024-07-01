@@ -25,73 +25,146 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($job_seeker_trainees as $key => $trainee)
-                            <tr>
-                                <td>
-                                    {{ ($job_seeker_trainees->currentPage() - 1) * $job_seeker_trainees->perPage() + $key + 1 }}
-                                </td>
-                                <td class="text-left">
-                                    {{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}
-                                </td>
-                                <td>{{ $trainee->cpr }}</td>
-                                <td>{{ $trainee->nationality }}</td>
-                                <td>{{ $trainee->phone1 . ' / ' . $trainee->phone2 }}</td>
-                                <td>{{ $trainee->email }}</td>
-                                <td>{{ $trainee->qualification }}</td>
-                                <td>{{ $trainee->specialization }}</td>
-                                <td>
-                                    @php
-                                        $status = '';
-                                        if (
-                                            isset($trainee_tm[$trainee->id]) &&
-                                            property_exists($trainee_tm[$trainee->id], 'approval_status')
-                                        ) {
-                                            $status = $trainee_tm[$trainee->id]->approval_status;
-                                        } elseif (
-                                            isset($trainee_pre[$trainee->id]) &&
-                                            property_exists($trainee_pre[$trainee->id], 'approval_status')
-                                        ) {
-                                            $status = $trainee_pre[$trainee->id]->approval_status;
-                                        } elseif (
-                                            isset($trainee_non_bh[$trainee->id]) &&
-                                            property_exists($trainee_non_bh[$trainee->id], 'approval_status')
-                                        ) {
-                                            $status = $trainee_non_bh[$trainee->id]->approval_status;
-                                        }
-                                    @endphp
-                                    @if ($status === 'Pending')
-                                        <h6><span class="badge badge-warning">Pending</span></h6>
-                                    @elseif ($status === 'Accepted')
-                                        <h6><span class="badge badge-success">Accepted</span></h6>
-                                    @else
-                                        <h6><span class="badge badge-danger">Rejected</span></h6>
-                                    @endif
-                                </td>
-                                <td>
-                                    {{ isset($trainee_tm[$trainee->id]) ? $trainee_tm[$trainee->id]->program_sponsorship : '' }}
-                                    {{ isset($trainee_pre[$trainee->id]) ? $trainee_pre[$trainee->id]->program_sponsorship : '' }}
-                                    {{ isset($trainee_non_bh[$trainee->id]) ? $trainee_non_bh[$trainee->id]->program_sponsorship : '' }}
-                                </td>
-                                <td>
-                                    {{ isset($trainee_tm[$trainee->id]) ? $trainee_tm[$trainee->id]->trainee_type : '' }}
-                                    {{ isset($trainee_pre[$trainee->id]) ? $trainee_pre[$trainee->id]->trainee_type : '' }}
-                                    {{ isset($trainee_non_bh[$trainee->id]) ? $trainee_non_bh[$trainee->id]->trainee_type : '' }}
-                                </td>
-                                <td>
-                                    <a class="btn btn-sm btn-primary" href="{{ route('edit.trainer', $trainee->id) }}"
-                                        title="Edit"><i class="fa fa-edit"></i></a>
-                                    <a class="btn btn-sm btn-info" href="{{ route('read.trainee.details', $trainee->id) }}"
-                                        title="View"><i class="fa fa-eye"></i></a>
-                                    <a class="btn btn-sm btn-secondary"
-                                        href="{{ route('trainee.history.details', $trainee->id) }}"
-                                        title="Trainee History"><i class="fa fa-history"></i></a>
-                                </td>
-                            </tr>
+                        @foreach ($job_seeker_trainees as $trainee)
+                            @php
+                                $isJobSeeker = false;
+                                $hasOtherType = false;
+
+                                // Check if the trainee is marked as a Job Seeker in tamkeen_registered_courses
+                                if (
+                                    isset($trainee_tm[$trainee->id]) &&
+                                    $trainee_tm[$trainee->id]->trainee_type == 'Job Seeker'
+                                ) {
+                                    $isJobSeeker = true;
+                                }
+
+                                // Check if the trainee is marked as a Job Seeker in preparatory_registered_courses
+                                if (
+                                    isset($trainee_pre[$trainee->id]) &&
+                                    $trainee_pre[$trainee->id]->trainee_type == 'Job Seeker'
+                                ) {
+                                    $isJobSeeker = true;
+                                }
+
+                                // Check if the trainee is marked as a Job Seeker in non_bahraini_registered_courses
+                                if (
+                                    isset($trainee_non_bh[$trainee->id]) &&
+                                    $trainee_non_bh[$trainee->id]->trainee_type == 'Job Seeker'
+                                ) {
+                                    $isJobSeeker = true;
+                                }
+
+                                // Check if the trainee has other types in tamkeen_registered_courses
+                                if (
+                                    isset($trainee_tm[$trainee->id]) &&
+                                    $trainee_tm[$trainee->id]->trainee_type != 'Job Seeker'
+                                ) {
+                                    $hasOtherType = true;
+                                }
+
+                                // Check if the trainee has other types in preparatory_registered_courses
+                                if (
+                                    isset($trainee_pre[$trainee->id]) &&
+                                    $trainee_pre[$trainee->id]->trainee_type != 'Job Seeker'
+                                ) {
+                                    $hasOtherType = true;
+                                }
+
+                                // Check if the trainee has other types in non_bahraini_registered_courses
+                                if (
+                                    isset($trainee_non_bh[$trainee->id]) &&
+                                    $trainee_non_bh[$trainee->id]->trainee_type != 'Job Seeker'
+                                ) {
+                                    $hasOtherType = true;
+                                }
+                            @endphp
+
+                            {{-- Apply the logic similar to SQL NOT EXISTS condition --}}
+                            @if ($isJobSeeker && !$hasOtherType)
+                                <tr>
+                                    <td>{{ ++$rowNum }}</td>
+                                    <td class="text-left">
+                                        {{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
+                                    <td>{{ $trainee->cpr }}</td>
+                                    <td>{{ $trainee->nationality }}</td>
+                                    <td>{{ $trainee->phone1 . ' / ' . $trainee->phone2 }}</td>
+                                    <td>{{ $trainee->email }}</td>
+                                    <td>{{ $trainee->qualification }}</td>
+                                    <td>{{ $trainee->specialization }}</td>
+                                    <td>
+                                        @php
+                                            $status = '';
+                                            if (
+                                                isset($trainee_tm[$trainee->id]) &&
+                                                property_exists($trainee_tm[$trainee->id], 'approval_status')
+                                            ) {
+                                                $status = $trainee_tm[$trainee->id]->approval_status;
+                                            } elseif (
+                                                isset($trainee_pre[$trainee->id]) &&
+                                                property_exists($trainee_pre[$trainee->id], 'approval_status')
+                                            ) {
+                                                $status = $trainee_pre[$trainee->id]->approval_status;
+                                            } elseif (
+                                                isset($trainee_non_bh[$trainee->id]) &&
+                                                property_exists($trainee_non_bh[$trainee->id], 'approval_status')
+                                            ) {
+                                                $status = $trainee_non_bh[$trainee->id]->approval_status;
+                                            }
+                                        @endphp
+                                        @if ($status === 'Pending')
+                                            <h6><span class="badge badge-warning">Pending</span></h6>
+                                        @elseif ($status === 'Accepted')
+                                            <h6><span class="badge badge-success">Accepted</span></h6>
+                                        @else
+                                            <h6><span class="badge badge-danger">Rejected</span></h6>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @php
+                                            $latest_sponsorship = '';
+                                            if (isset($trainee_tm[$trainee->id])) {
+                                                $latest_sponsorship = $trainee_tm[$trainee->id]->program_sponsorship;
+                                            }
+                                            if (isset($trainee_pre[$trainee->id])) {
+                                                $latest_sponsorship = $trainee_pre[$trainee->id]->program_sponsorship;
+                                            }
+                                            if (isset($trainee_non_bh[$trainee->id])) {
+                                                $latest_sponsorship =
+                                                    $trainee_non_bh[$trainee->id]->program_sponsorship;
+                                            }
+                                        @endphp
+                                        {{ $latest_sponsorship }}
+                                    </td>
+                                    <td>
+                                        @php
+                                            $latest_type = '';
+                                            if (isset($trainee_tm[$trainee->id])) {
+                                                $latest_type = $trainee_tm[$trainee->id]->trainee_type;
+                                            }
+                                            if (isset($trainee_pre[$trainee->id])) {
+                                                $latest_type = $trainee_pre[$trainee->id]->trainee_type;
+                                            }
+                                            if (isset($trainee_non_bh[$trainee->id])) {
+                                                $latest_type = $trainee_non_bh[$trainee->id]->trainee_type;
+                                            }
+                                        @endphp
+                                        {{ $latest_type }}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="{{ route('edit.trainer', $trainee->id) }}"
+                                            title="Edit"><i class="fa fa-edit"></i></a>
+                                        <a class="btn btn-sm btn-info"
+                                            href="{{ route('read.trainee.details', $trainee->id) }}" title="View"><i
+                                                class="fa fa-eye"></i></a>
+                                        <a class="btn btn-sm btn-secondary"
+                                            href="{{ route('trainee.history.details', $trainee->id) }}"
+                                            title="Trainee History"><i class="fa fa-history"></i></a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
-
-                {{ $job_seeker_trainees->links() }}
             </div>
         </div>
     </div>

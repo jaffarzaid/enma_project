@@ -389,21 +389,23 @@ class AdminController extends Controller
         // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
         $trainee_tm = DB::table('trainees')
             ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
-            ->get()->keyBy('trainee_id');
+            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status', 'tamkeen_registered_courses.created_at')
+            ->get()
+            ->keyBy('trainee_id');
 
         // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
         $trainee_pre = DB::table('trainees')
             ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
             ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
-            ->get()->keyBy('trainee_id');
+            ->get()
+            ->keyBy('trainee_id');
 
         // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
         $trainee_non_bh = DB::table('trainees')
             ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
-            ->get()->keyBy('trainee_id');
-
+            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status', 'non_bahraini_registered_courses.created_at')
+            ->get()
+            ->keyBy('trainee_id');
 
         return view('backend.trainees.all_trainees', compact('all_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
     }
@@ -440,55 +442,178 @@ class AdminController extends Controller
     public function ViewJobSeekerTrainees()
     {
         // Variable to get only job seeker trainees:
-        $job_seeker_trainees = Trainee::where('trainee_type', 'Job Seeker')->paginate(10);
+        $job_seeker_trainees = Trainee::orderBy('created_at', 'DESC')->paginate(10);
 
-        // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
-        $trainee_tm = DB::table('trainees')
-            ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
-            ->get()->keyBy('trainee_id');
+        $trainee_tm = DB::table('tamkeen_registered_courses AS trc')
+            ->join('trainees AS t', 't.id', '=', 'trc.trainee_id')
+            ->where('trc.trainee_type', 'Job Seeker')
+            ->select('t.id as trainee_id', 'trc.program_sponsorship', 'trc.trainee_type', 'trc.approval_status', 'trc.created_at')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tamkeen_registered_courses AS sub_trc')
+                    ->whereRaw('sub_trc.trainee_id = trc.trainee_id')
+                    ->where('sub_trc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('preparatory_registered_courses AS prc')
+                    ->whereRaw('prc.trainee_id = trc.trainee_id')
+                    ->where('prc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('non_bahraini_registered_courses AS nbrc')
+                    ->whereRaw('nbrc.trainee_id = trc.trainee_id')
+                    ->where('nbrc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->get()
+            ->keyBy('trainee_id');
 
-        // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
-        $trainee_pre = DB::table('trainees')
-            ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
-            ->get()->keyBy('trainee_id');
+        $trainee_pre = DB::table('preparatory_registered_courses AS prc')
+            ->join('trainees AS t', 't.id', '=', 'prc.trainee_id')
+            ->where('prc.trainee_type', 'Job Seeker')
+            ->select('t.id as trainee_id', 'prc.program_sponsorship', 'prc.trainee_type', 'prc.approval_status', 'prc.created_at')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tamkeen_registered_courses AS trc')
+                    ->whereRaw('trc.trainee_id = prc.trainee_id')
+                    ->where('trc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('preparatory_registered_courses AS sub_prc')
+                    ->whereRaw('sub_prc.trainee_id = prc.trainee_id')
+                    ->where('sub_prc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('non_bahraini_registered_courses AS nbrc')
+                    ->whereRaw('nbrc.trainee_id = prc.trainee_id')
+                    ->where('nbrc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->get()
+            ->keyBy('trainee_id');
 
-        // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
-        $trainee_non_bh = DB::table('trainees')
-            ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
-            ->get()->keyBy('trainee_id');
+        $trainee_non_bh = DB::table('non_bahraini_registered_courses AS nbrc')
+            ->join('trainees AS t', 't.id', '=', 'nbrc.trainee_id')
+            ->where('nbrc.trainee_type', 'Job Seeker')
+            ->select('t.id as trainee_id', 'nbrc.program_sponsorship', 'nbrc.trainee_type', 'nbrc.approval_status', 'nbrc.created_at')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tamkeen_registered_courses AS trc')
+                    ->whereRaw('trc.trainee_id = nbrc.trainee_id')
+                    ->where('trc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('preparatory_registered_courses AS prc')
+                    ->whereRaw('prc.trainee_id = nbrc.trainee_id')
+                    ->where('prc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('non_bahraini_registered_courses AS sub_nbrc')
+                    ->whereRaw('sub_nbrc.trainee_id = nbrc.trainee_id')
+                    ->where('sub_nbrc.trainee_type', '!=', 'Job Seeker');
+            })
+            ->get()
+            ->keyBy('trainee_id');
 
+        // dd($trainee_tm);
 
-        return view('backend.trainees.view_job_seeker_trainees', compact('job_seeker_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
+        // Variable to store row number: 
+        $rowNum = 0;
+        return view('backend.trainees.view_job_seeker_trainees', compact('job_seeker_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh', 'rowNum'));
     }
 
     // Method: Display only University Student:
     public function ViewUnivStudentTrainees()
     {
         // Variable to get only University Student Trainees:
-        $univ_student_trainees = Trainee::where('trainee_type', 'University Student')->paginate(10);
+        $univ_student_trainees = Trainee::orderBy('created_at', 'DESC')->paginate(10);
 
         // Variable to join trainees entity with tamkeen_registered_courses entity to get extra data:
-        $trainee_tm = DB::table('trainees')
-            ->join('tamkeen_registered_courses', 'trainees.id', '=', 'tamkeen_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'tamkeen_registered_courses.program_sponsorship', 'tamkeen_registered_courses.trainee_type', 'tamkeen_registered_courses.approval_status')
-            ->get()->keyBy('trainee_id');
+        $trainee_tm = DB::table('tamkeen_registered_courses AS trc')
+            ->join('trainees AS t', 't.id', '=', 'trc.trainee_id')
+            ->where('trc.trainee_type', 'University Student')
+            ->select('t.id as trainee_id', 'trc.program_sponsorship', 'trc.trainee_type', 'trc.approval_status', 'trc.created_at')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tamkeen_registered_courses AS sub_trc')
+                    ->whereRaw('sub_trc.trainee_id = trc.trainee_id')
+                    ->where('sub_trc.trainee_type', '!=', 'University Student');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('preparatory_registered_courses AS prc')
+                    ->whereRaw('prc.trainee_id = trc.trainee_id')
+                    ->where('prc.trainee_type', '!=', 'University Student');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('non_bahraini_registered_courses AS nbrc')
+                    ->whereRaw('nbrc.trainee_id = trc.trainee_id')
+                    ->where('nbrc.trainee_type', '!=', 'University Student');
+            })
+            ->get()
+            ->keyBy('trainee_id');
 
         // Variable to join trainees entity with preparatory_registered_courses entity to get extra data:
-        $trainee_pre = DB::table('trainees')
-            ->join('preparatory_registered_courses', 'trainees.id', '=', 'preparatory_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'preparatory_registered_courses.program_sponsorship', 'preparatory_registered_courses.trainee_type')
-            ->get()->keyBy('trainee_id');
+        $trainee_pre = DB::table('preparatory_registered_courses AS prc')
+            ->join('trainees AS t', 't.id', '=', 'prc.trainee_id')
+            ->where('prc.trainee_type', 'University Student')
+            ->select('t.id as trainee_id', 'prc.program_sponsorship', 'prc.trainee_type', 'prc.approval_status', 'prc.created_at')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tamkeen_registered_courses AS trc')
+                    ->whereRaw('trc.trainee_id = prc.trainee_id')
+                    ->where('trc.trainee_type', '!=', 'University Student');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('preparatory_registered_courses AS sub_prc')
+                    ->whereRaw('sub_prc.trainee_id = prc.trainee_id')
+                    ->where('sub_prc.trainee_type', '!=', 'University Student');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('non_bahraini_registered_courses AS nbrc')
+                    ->whereRaw('nbrc.trainee_id = prc.trainee_id')
+                    ->where('nbrc.trainee_type', '!=', 'University Student');
+            })
+            ->get()
+            ->keyBy('trainee_id');
 
         // Variable to join trainees entity with non_bahraini_registered_courses entity to get extra data:
-        $trainee_non_bh = DB::table('trainees')
-            ->join('non_bahraini_registered_courses', 'trainees.id', '=', 'non_bahraini_registered_courses.trainee_id')
-            ->select('trainees.id as trainee_id', 'non_bahraini_registered_courses.program_sponsorship', 'non_bahraini_registered_courses.trainee_type', 'non_bahraini_registered_courses.approval_status')
-            ->get()->keyBy('trainee_id');
+        $trainee_non_bh = DB::table('non_bahraini_registered_courses AS nbrc')
+            ->join('trainees AS t', 't.id', '=', 'nbrc.trainee_id')
+            ->where('nbrc.trainee_type', 'University Student')
+            ->select('t.id as trainee_id', 'nbrc.program_sponsorship', 'nbrc.trainee_type', 'nbrc.approval_status', 'nbrc.created_at')
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('tamkeen_registered_courses AS trc')
+                    ->whereRaw('trc.trainee_id = nbrc.trainee_id')
+                    ->where('trc.trainee_type', '!=', 'University Student');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('preparatory_registered_courses AS prc')
+                    ->whereRaw('prc.trainee_id = nbrc.trainee_id')
+                    ->where('prc.trainee_type', '!=', 'University Student');
+            })
+            ->whereNotExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('non_bahraini_registered_courses AS sub_nbrc')
+                    ->whereRaw('sub_nbrc.trainee_id = nbrc.trainee_id')
+                    ->where('sub_nbrc.trainee_type', '!=', 'University Student');
+            })
+            ->get()
+            ->keyBy('trainee_id');
 
-        return view('backend.trainees.view_univ_student_trainees', compact('univ_student_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh'));
+        // Variable to store row number: 
+        $rowNum = 0;
+
+        return view('backend.trainees.view_univ_student_trainees', compact('univ_student_trainees', 'trainee_tm', 'trainee_pre', 'trainee_non_bh', 'rowNum'));
     }
 
     // Method: Display Edit Trainee Page:
@@ -888,7 +1013,9 @@ class AdminController extends Controller
         $all_training_tmk_courses = [];
         $all_preparatory_courses = [];
         $all_nonBh_courses = [];
-        $rowNum = 0; // Initialize rowNum
+
+        // Row Number: 
+        $rowNum = 0;
 
         // Condition to join trainees + tamkeen_registered_courses + courses entities: 
         if ($current_trainee->nationality == 'Bahraini') {

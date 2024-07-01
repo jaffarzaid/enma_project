@@ -26,7 +26,7 @@
                             <tr>
                                 <th scope="row">{{ $key + 1 }}</th>
                                 <td>{{ $trainer->cpr }}</td>
-                                <td>{{ $trainer->name }}</td>
+                                <td class="text-left">{{ $trainer->name }}</td>
                                 <td>{{ $trainer->license_code }}</td>
                                 <td>{{ $trainer->employment_status }}</td>
                                 <td>{{ $trainer->training_field }}</td>

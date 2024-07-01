@@ -88,10 +88,10 @@ Route::group(['middleware' => ['rate-requests', 'sanitize.input', 'http.headers'
                     Route::get('/employed-trainees', [AdminController::class, 'ViewEmployeeTrainees'])->name('view.employee.trainees');
 
                     // Route: View Job Seeker Trainees only:
-                    Route::get('/job-seeker-trainees', [AdminController::class, 'ViewJobSeekerTrainees'])->name('view.job_seeker.trainees');
+                    Route::get('/job-seeker/trainees', [AdminController::class, 'ViewJobSeekerTrainees'])->name('view.job_seeker.trainees');
 
                     // Route: View University Job Seeker Trainees:
-                    Route::get('/university-student-trainees', [AdminController::class, 'ViewUnivStudentTrainees'])->name('view.univ_students.trainees');
+                    Route::get('/university-student/trainees', [AdminController::class, 'ViewUnivStudentTrainees'])->name('view.univ_students.trainees');
 
                     // Route: View Edit Trainee Page:
                     Route::get('/edit/trainee/{id}', [AdminController::class, 'EditTraineeInfo'])->name('edit.trainee.info');

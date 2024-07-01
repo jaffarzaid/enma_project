@@ -29,7 +29,8 @@
                             <tr>
                                 <th scope="row">
                                     {{ ($emp_trainees->currentPage() - 1) * $emp_trainees->perPage() + $key + 1 }}</th>
-                                <td class="text-left">{{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
+                                <td class="text-left">
+                                    {{ $trainee->f_name . ' ' . $trainee->s_name . ' ' . $trainee->l_name }}</td>
                                 <td>{{ $trainee->cpr }}</td>
                                 <td>{{ $trainee->nationality }}</td>
                                 <td>{{ $trainee->phone1 . ' / ' . $trainee->phone2 }}</td>
@@ -65,14 +66,34 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ isset($trainee_tm[$trainee->id]) ? $trainee_tm[$trainee->id]->program_sponsorship : '' }}
-                                    {{ isset($trainee_pre[$trainee->id]) ? $trainee_pre[$trainee->id]->program_sponsorship : '' }}
-                                    {{ isset($trainee_non_bh[$trainee->id]) ? $trainee_non_bh[$trainee->id]->program_sponsorship : '' }}
+                                    @php
+                                        $latest_sponsorship = '';
+                                        if (isset($trainee_tm[$trainee->id])) {
+                                            $latest_sponsorship = $trainee_tm[$trainee->id]->program_sponsorship;
+                                        }
+                                        if (isset($trainee_pre[$trainee->id])) {
+                                            $latest_sponsorship = $trainee_pre[$trainee->id]->program_sponsorship;
+                                        }
+                                        if (isset($trainee_non_bh[$trainee->id])) {
+                                            $latest_sponsorship = $trainee_non_bh[$trainee->id]->program_sponsorship;
+                                        }
+                                    @endphp
+                                    {{ $latest_sponsorship }}
                                 </td>
                                 <td>
-                                    {{ isset($trainee_tm[$trainee->id]) ? $trainee_tm[$trainee->id]->trainee_type : '' }}
-                                    {{ isset($trainee_pre[$trainee->id]) ? $trainee_pre[$trainee->id]->trainee_type : '' }}
-                                    {{ isset($trainee_non_bh[$trainee->id]) ? $trainee_non_bh[$trainee->id]->trainee_type : '' }}
+                                    @php
+                                        $latest_type = '';
+                                        if (isset($trainee_tm[$trainee->id])) {
+                                            $latest_type = $trainee_tm[$trainee->id]->trainee_type;
+                                        }
+                                        if (isset($trainee_pre[$trainee->id])) {
+                                            $latest_type = $trainee_pre[$trainee->id]->trainee_type;
+                                        }
+                                        if (isset($trainee_non_bh[$trainee->id])) {
+                                            $latest_type = $trainee_non_bh[$trainee->id]->trainee_type;
+                                        }
+                                    @endphp
+                                    {{ $latest_type }}
                                 </td>
                                 <td>
                                     <a class="btn btn-sm btn-primary" href="{{ route('edit.trainee.info', $trainee->id) }}"
